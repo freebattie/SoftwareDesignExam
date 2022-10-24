@@ -4,6 +4,11 @@ namespace SoftwareDesignExam.Characters
 {
     internal class Enemy : Character
     {
+
+        public Enemy(int health) {
+            Health = health;
+        }
+
         public override void DoDamage(Character person)
         {
             float dmg = Weapon.Damage;

@@ -1,11 +1,14 @@
-﻿
+﻿using SoftwareDesignExam.Abstract;
 
-using SoftwareDesignExam.Abstract;
-
-namespace test.Characters
+namespace SoftwareDesignExam.Characters
 {
     public class Player : Character
     {
+        
+
+        public Player(int health) {
+            Health = health;
+        }
 
         public override void DoDamage(Character person)
         {
