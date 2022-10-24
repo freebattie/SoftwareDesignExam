@@ -5,7 +5,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace test.Interface
+namespace SoftwareDesignExam.Interface
 {
     public abstract class Item
     {

@@ -1,7 +1,7 @@
 ﻿using System.Reflection.Metadata.Ecma335;
-using test.Interface;
+using SoftwareDesignExam.Interface;
 
-namespace test.Weapons
+namespace SoftwareDesignExam.Weapons
 {
     internal class Sword : IWeapon
     {

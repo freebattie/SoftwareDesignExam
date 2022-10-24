@@ -1,4 +1,4 @@
-﻿namespace test.Interface
+﻿namespace SoftwareDesignExam.Interface
 {
     public interface IWeapon
     {

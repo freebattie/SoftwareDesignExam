@@ -1,8 +1,7 @@
-﻿using test.Characters;
-using test.Interface;
+﻿using SoftwareDesignExam.Characters;
+using SoftwareDesignExam.Interface;
 
-namespace test.Base
-{
+namespace SoftwareDesignExam.Abstract {
     public abstract class Character
     {
         public string Name { get; set; }

@@ -1,6 +1,6 @@
-﻿using test.Interface;
+﻿using SoftwareDesignExam.Interface;
 
-namespace test.Weapons
+namespace SoftwareDesignExam.Weapons
 {
     public class Axe : IWeapon
     {

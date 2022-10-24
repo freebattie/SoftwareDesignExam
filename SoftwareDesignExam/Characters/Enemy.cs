@@ -1,6 +1,6 @@
-﻿using test.Base;
+﻿using SoftwareDesignExam.Abstract;
 
-namespace test.Characters
+namespace SoftwareDesignExam.Characters
 {
     internal class Enemy : Character
     {

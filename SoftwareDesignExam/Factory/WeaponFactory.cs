@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using test.Interface;
-using test.Weapons;
+using SoftwareDesignExam.Interface;
+using SoftwareDesignExam.Weapons;
 
-namespace test.Factory
+namespace SoftwareDesignExam.Factory
 {
     public class WeaponFactory
     {
