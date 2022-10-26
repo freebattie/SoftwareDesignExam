@@ -7,7 +7,20 @@ namespace SoftwareDesignExam {     // kanskje ha med runder med forjskjellige fu
     internal class Program {
         static void Main(string[] args) {
             bool playertrun = true;
-            string[] room = { "room1", "room2" };
+            string[] room = { @"
+$$$$$$$\                                                $$$$$$$\                                                                    
+$$  __$$\                                               $$  __$$\                                                                   
+$$ |  $$ | $$$$$$\   $$$$$$\  $$\   $$\  $$$$$$\        $$ |  $$ |$$\   $$\ $$$$$$$\   $$$$$$\   $$$$$$\   $$$$$$\  $$$$$$$\        
+$$$$$$$  |$$  __$$\ $$  __$$\ $$ |  $$ |$$  __$$\       $$ |  $$ |$$ |  $$ |$$  __$$\ $$  __$$\ $$  __$$\ $$  __$$\ $$  __$$\       
+$$  __$$< $$ /  $$ |$$ /  $$ |$$ |  $$ |$$$$$$$$ |      $$ |  $$ |$$ |  $$ |$$ |  $$ |$$ /  $$ |$$$$$$$$ |$$ /  $$ |$$ |  $$ |      
+$$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |  $$ |$$   ____|      $$ |  $$ |$$ |  $$ |$$ |  $$ |$$ |  $$ |$$   ____|$$ |  $$ |$$ |  $$ |      
+$$ |  $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |\$$$$$$$\       $$$$$$$  |\$$$$$$  |$$ |  $$ |\$$$$$$$ |\$$$$$$$\ \$$$$$$  |$$ |  $$ |      
+\__|  \__| \______/  \____$$ | \______/  \_______|      \_______/  \______/ \__|  \__| \____$$ | \_______| \______/ \__|  \__|      
+                    $$\   $$ |                                                        $$\   $$ |                                    
+                    \$$$$$$  |                                                        \$$$$$$  |                                    
+                     \______/                                                          \______/                                     
+", "room2" };
+            Console.WriteLine(@"");
             int roomNr = 0;
             string []items = { "sword", "axe"};
             Character player = new Player(200);
@@ -21,7 +34,7 @@ namespace SoftwareDesignExam {     // kanskje ha med runder med forjskjellige fu
             while (true) {
                
                 if (playertrun) {
-                    Console.WriteLine($"you are in {room[roomNr]}");
+                    Console.WriteLine($"{room[roomNr]}");
                     Console.WriteLine("you see 1 enemy");
                     Console.WriteLine($"player health is: {player.Health}");
                     Console.WriteLine($"Enemy health is: {enemy.Health}");
