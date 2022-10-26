@@ -10,44 +10,40 @@ namespace SoftwareDesignExam.Characters
             Health = health;
         }
 
-        public override void DoDamage(Character person)
-        {
-
-            double weaponDmg = Weapon != null ? Weapon.Damage : 0;
-            Random gen = new Random();
-            int prob = gen.Next(100);
-            if (prob <= 20)
-                weaponDmg *= 1.5;
-            weaponDmg -= ArmorLevel;
+        public override void DoDamage(Character person) {
+            double weaponDmg = CheckForCritDamage();
             Math.Round(weaponDmg, 2);
             person.RemoveHealth(weaponDmg);
         }
 
-       
+        private double CheckForCritDamage() {
+            double weaponDmg = Weapon != null ? Weapon.Damage : 0;
+            Random gen = new Random();
+            int prob = gen.Next(100);
+            if (prob <= Crit)
+                weaponDmg *= 1.5;
+
+            return weaponDmg;
+        }
+
 
         public override double GetMaxCritChance() {
-            return 20;
+            return Crit;
         }
 
         public override double GetUsersHealth() {
-            double tmpHealth = Health;
-            tmpHealth *= (Level * 0.6f);
-
-            return tmpHealth;
-            
+            return Health;           
         }
 
         //øke liv og dmg som blir gitt av spilleren jo høyere level man er 
 
         public override double GetUsersLevel() {
-            return 2;
+            return Level;
         }
 
         public override void RemoveHealth(double damage) {
-
-          Health -= damage;
-
-
+            damage -= ArmorLevel;  
+            Health -= damage;
 
         }
     }
