@@ -1,11 +1,15 @@
-﻿using SoftwareDesignExam.Abstract;
-using SoftwareDesignExam.Characters;
-using SoftwareDesignExam.Factory;
+﻿
+using Model.Abstract;
+using Model.Characters;
+using Model.Enums;
+using Model.Factory;
 
 namespace SoftwareDesignExam {     // kanskje ha med runder med forjskjellige funkjsoner osv, evt. en abstrakt Level/Round også flere leveler osv
 
     internal class Program {
         static void Main(string[] args) {
+
+          
             bool playertrun = true;
             string[] room = { @"
 $$$$$$$\                                                $$$$$$$\                                                                    
@@ -24,11 +28,15 @@ $$ |  $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |\$$$$$$$\       $$$$$$$  |\$$$$$$  |$$ |
             int roomNr = 0;
             string []items = { "sword", "axe"};
             Character player = new Player(200);
-            player.Health = 100;
+           
+
             Character enemy = new Enemy(100);
-            enemy.Health = 100;
+            
             player.SetWeapon(WeaponFactory.GetWeapon(items[0],"Battel"+ items[0], 200));
             enemy.SetWeapon(WeaponFactory.GetWeapon(items[1],"normal" + items[1], 100));
+            player.AddItem(GearItems.HELMET);
+            player.AddItem(GearItems.SHIELD);
+            player.CalculateItemStats();
             string input = "";
             var shop = new Shop(player);
             while (true) {
