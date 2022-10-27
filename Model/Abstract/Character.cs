@@ -1,57 +1,53 @@
-﻿using Model.Characters;
-using Model.Base;
-using Model.Interface;
-using System.Collections;
-using Model.Decorator.ConcreateDecrators;
+﻿using Model.Base;
 
-using Model.Enums;
-using Model.Factory;
+using Model.Interface;
+
 
 namespace Model.Abstract {
     public abstract class Character {
-       
-        IWeapon _weapon;
+        private IWeapon _weapon;
         private double crit;
-        private double level;
+        private double level =1;
         private double health;
         private const double GAINFACTOR = 0.05;
-        List<GearItems> items = new();
-
+        
+        private double maxHealth;
         protected string? Name { get; set; }
-        public double Health { get => CalculateHealth(health); protected set => health = CalculateHealth(value); }
+       
+
+        protected Character() {
+            Name = "";
+            
+            MaxHealth = CalculateNewLevelValue(200);
+            Health = MaxHealth;
+        }
+
         protected double Level { get => level; set => level = value; }
-        protected double Crit { get => crit; set => crit = value; }
+        protected double Crit { get => CalculateNewLevelValue(crit); set => crit = value <= 100 ? value : 100; }
         protected double ArmorLevel { get; set; }
         protected int Score { get; set; }
-        //TODO: se på 
-        protected IWeapon Weapon { get => _weapon; private set => _weapon = value; }
+        protected IWeapon Weapon { get => _weapon;  set => _weapon = value; }
+       
 
-        public void AddItem(GearItems item) {
-            items.Add(item);
+        public double Health {
+            get { return health; }
+            set {
+                if (value <= MaxHealth) {
+                    health = value;
+                }
+                else {
+                    health = MaxHealth;
+                }
+            }
         }
-        public void CalculateItemStats() {
-            Item gear = new GearSlot();
-            gear = ItemFactory.GetDecoratorItem(items, gear);
-            Health += gear.GetHealth();
-            _weapon.Damage += gear.GetDamage();
-            Console.WriteLine(gear.GetDescription());
-        }
-        private double CalculateHealth(double value) {
+
+        protected double MaxHealth { get => maxHealth; set => maxHealth = value; }
+
+        protected double CalculateNewLevelValue(double value) {
             return Math.Round((Level * GAINFACTOR * value) + value, 0);
-            
+
         }
-        public void SetWeapon(IWeapon weapon) {
-            Weapon = weapon;
-        }
-        public  void DoDamage(Character person) {
-            double weaponDmg = CheckForCritDamage();
-            Math.Round(weaponDmg, 2);
-            person.RemoveHealth(weaponDmg);
-        }
-        public  void RemoveHealth(double weaponDmg) {
-            Health -= weaponDmg;
-        }
-        private double CheckForCritDamage() {
+        protected double CheckForCritDamage() {
             double weaponDmg = Weapon != null ? Weapon.Damage : 0;
             Random gen = new Random();
             int prob = gen.Next(100);
@@ -60,6 +56,19 @@ namespace Model.Abstract {
 
             return weaponDmg;
         }
+
+        public void SetWeapon(IWeapon weapon) {
+            Weapon = weapon;
+
+        }
+        public abstract void Attack(Character person);
+
+
+        public abstract void RemoveHealth(double weaponDmg);
+        public abstract void IncreaseHealth(double health);
+        public abstract double GetHealth();
+        public abstract void AddLevel();
+        public abstract void AddCrit();
 
     }
 }

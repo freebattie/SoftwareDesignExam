@@ -1,6 +1,7 @@
 ﻿
 using Model.Abstract;
-using Model.Characters;
+using Model.Base;
+using Model.Decorator;
 using Model.Enums;
 using Model.Factory;
 
@@ -9,7 +10,7 @@ namespace SoftwareDesignExam {     // kanskje ha med runder med forjskjellige fu
     internal class Program {
         static void Main(string[] args) {
 
-          
+
             bool playertrun = true;
             string[] room = { @"
 $$$$$$$\                                                $$$$$$$\                                                                    
@@ -26,46 +27,55 @@ $$ |  $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |\$$$$$$$\       $$$$$$$  |\$$$$$$  |$$ |
 ", "room2" };
             Console.WriteLine(@"");
             int roomNr = 0;
-            string []items = { "sword", "axe"};
-            Character player = new Player(200);
-           
-
-            Character enemy = new Enemy(100);
-            
-            player.SetWeapon(WeaponFactory.GetWeapon(items[0],"Battel"+ items[0], 200));
-            enemy.SetWeapon(WeaponFactory.GetWeapon(items[1],"normal" + items[1], 100));
-            player.AddItem(GearItems.HELMET);
-            player.AddItem(GearItems.SHIELD);
-            player.CalculateItemStats();
+            string[] weapons = { "sword", "axe" };
+            Character player2 = CreateStaringPlayer(weapons);
+            Character player3 = CreateEnemy1(weapons);
             string input = "";
-            var shop = new Shop(player);
+
             while (true) {
-               
+
                 if (playertrun) {
-                    Console.WriteLine($"{room[roomNr]}");
+
                     Console.WriteLine("you see 1 enemy");
-                    Console.WriteLine($"player health is: {player.Health}");
-                    Console.WriteLine($"Enemy health is: {enemy.Health}");
+                    Console.WriteLine($"player health is: {player2.GetHealth()}");
+                    Console.WriteLine($"Enemy health is: {player3.GetHealth()}");
                     Console.WriteLine("1 to attack or 2 to go to shop");
                     input = Console.ReadLine();
                     if (input == "1") {
-                        player.DoDamage(enemy);
+                        // player.DoDamage(enemy);
+                        player2.Attack(player3);
                         playertrun = false;
 
                     }
                     else if (input == "2") {
-                        shop.Menu();
-                        
+
+
                     }
                 }
                 else {
-                    enemy.DoDamage(player);
+
                     playertrun = true;
                 }
-                
+
 
 
             }
+        }
+
+        private static Character CreateEnemy1(string[] weapons) {
+            Character player3 = new Level1Player();
+            player3.SetWeapon(WeaponFactory.GetWeapon(weapons[1], "normal" + weapons[1], 100));
+            player3 = new RabbitsFoot(player3);
+            return player3;
+        }
+
+        private static Character CreateStaringPlayer(string[] weapons) {
+            Character player = new Level1Player();
+
+            player.SetWeapon(WeaponFactory.GetWeapon(weapons[0], "Battel" + weapons[0], 200));
+            List<Item> items = new List<Item> { Item.RABBITSFOOT, Item.WOODENSHIELD };
+            Character player2 = ItemDecoratorFactory.GetItems(items, player);
+            return player2;
         }
     }
 }
