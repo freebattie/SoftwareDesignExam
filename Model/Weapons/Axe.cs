@@ -1,11 +1,11 @@
-﻿using SoftwareDesignExam.Interface;
+﻿using Model.Interface;
 
-namespace SoftwareDesignExam.Weapons
+namespace Model.Interface
 {
     public class Axe : IWeapon
     {
 
-        float _damage;
+        double _damage;
         private string _name;
 
         public Axe(float dmg, string name)
@@ -17,6 +17,8 @@ namespace SoftwareDesignExam.Weapons
 
         public string Name { get { return _name; } }
 
-        float IWeapon.Damage { get { return _damage; } set { _damage = value; } }
+
+
+        double IWeapon.Damage { get { return _damage; } set { _damage = value; } }
     }
 }

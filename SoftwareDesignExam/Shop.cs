@@ -1,6 +1,6 @@
-﻿using SoftwareDesignExam.Abstract;
-using SoftwareDesignExam.Factory;
-using SoftwareDesignExam.Interface;
+﻿using Model.Abstract;
+using Model.Factory;
+using Model.Interface;
 
 namespace SoftwareDesignExam {
     public class Shop {

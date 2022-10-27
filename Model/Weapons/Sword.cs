@@ -1,13 +1,13 @@
 ﻿using System.Reflection.Metadata.Ecma335;
-using SoftwareDesignExam.Interface;
+using Model.Interface;
 
-namespace SoftwareDesignExam.Weapons
+namespace Model.Weapons
 {
-    internal class Sword : IWeapon
+    public class Sword : IWeapon
     {
 
         private string _name;
-        private float _damage;
+        private double _damage;
         
         public Sword(int damage, string name)
         {
@@ -19,6 +19,8 @@ namespace SoftwareDesignExam.Weapons
 
         public string Name { get { return _name; } }
 
-        float IWeapon.Damage { get { return _damage; } set { _damage = value; } }
+        public double Damage { get { return _damage; } set { _damage = value; } }
+
+     
     }
 }
