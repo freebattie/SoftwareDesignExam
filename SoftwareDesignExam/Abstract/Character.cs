@@ -7,6 +7,8 @@ namespace SoftwareDesignExam.Abstract {
 
         private const double multiplayer = 0.05;
 
+        private string test = "";
+
         public double Health { get => health; set => health = CalculateHealth(value); }
 
         private double CalculateHealth(double value) {
