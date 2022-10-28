@@ -12,8 +12,11 @@ namespace Model.Factory {
             foreach (var item in items) {
                 switch (item) {
 
-                    case Item.WIKINGHELMET:
+                    case Item.WOODENSHIELD:
                     original = new WoodenShiled(original);
+                    break;
+                    case Item.IRONSHILED:
+                    original = new IronShield(original);
                     break;
                     case Item.RABBITSFOOT:
                     original = new RabbitsFoot(original);

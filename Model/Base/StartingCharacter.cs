@@ -47,23 +47,10 @@ namespace Model.Base
             return value;
         }
 
-        public override double GetHealth() {
-            return Health;
-        }
-
-        public override void IncreaseHealth(double health)
-        {
-            Health += health;
-        }
-
-        public override void RemoveHealth(double weaponDmg)
-        {
-            Health -= weaponDmg;
-        }
-
-        public override double GetLevel() {
-            return Level;
-        }
+        public override double GetHealth() => Health;
+        public override void IncreaseHealth(double health) => Health += health;
+        public override void RemoveHealth(double weaponDmg) => Health -= weaponDmg;
+        public override double GetLevel() => Level;
 
         public override string GetDescription() {
             return $"{Name} is level {Level}\n" +
@@ -100,13 +87,12 @@ namespace Model.Base
             ActiveItems?.Remove(item);
         }
 
-        public override Dictionary<GearSpot,Item> GetActiveItems() {
-            if (ActiveItems != null) {
-                return ActiveItems;
-
+        public override List<Item> GetActiveItems() {
+            var list = new List<Item>();
+            foreach (var item in ActiveItems.Values) {
+                list.Add(item);
             }
-            else
-                return new Dictionary<GearSpot,Item>();
+            return list;
         }
 
         public override Dictionary<GearSpot,Item> GetInventoryItems() {
@@ -116,6 +102,17 @@ namespace Model.Base
             else
                 return new Dictionary<GearSpot,Item>();
                 
+        }
+
+        public override void MoveFromInvetoryToActiveItem(GearSpot spot) {
+            var item = GetInventoryItem(spot);
+            RemoveItemFromInventory(spot);
+            AddItemToActiveItems(spot, item);
+          
+        }
+
+        public override Item GetInventoryItem(GearSpot spot) {
+            throw new NotImplementedException();
         }
     }
 }

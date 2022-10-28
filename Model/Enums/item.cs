@@ -2,6 +2,8 @@
 
     public enum Item {
         RABBITSFOOT,
-        WIKINGHELMET
+        WIKINGHELMET,
+        WOODENSHIELD,
+        IRONSHILED
     }
 }

@@ -58,8 +58,10 @@ namespace Model.Abstract {
         public abstract void RemoveItemFromInventory(GearSpot spot);
         public abstract void AddItemToActiveItems(GearSpot spot,Item  item);
         public abstract void RemoveItemFromActiveItems(GearSpot spot);
-        public abstract Dictionary<GearSpot,Item> GetActiveItems();
+        public abstract List<Item> GetActiveItems();
+        public abstract void MoveFromInvetoryToActiveItem(GearSpot spot);
         public abstract Dictionary<GearSpot,Item> GetInventoryItems();
+        public abstract Item GetInventoryItem(GearSpot spot);
 
     }
 }

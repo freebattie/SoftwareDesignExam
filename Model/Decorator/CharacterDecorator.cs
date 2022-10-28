@@ -75,21 +75,21 @@ namespace Model.Decorator {
             original.RemoveItemFromActiveItems(item);
         }
 
-        public override Dictionary<GearSpot,Item> GetActiveItems() {
-            if (ActiveItems != null) {
-                return ActiveItems;
-            }
-            else
-                return new Dictionary<GearSpot, Item>();
+        public override List<Item> GetActiveItems() {
+            return original.GetActiveItems();
         }
 
         public override Dictionary<GearSpot, Item> GetInventoryItems() {
             //TODO: Sjå på denne
-            if (Invetory != null && Invetory.Items != null) {
-                return Invetory.Items;
-            }
-            else
-                return new Dictionary<GearSpot, Item>();
+           return original.GetInventoryItems();
+        }
+
+        public override void MoveFromInvetoryToActiveItem(GearSpot spot) {
+            original.MoveFromInvetoryToActiveItem(spot);
+        }
+
+        public override Item GetInventoryItem(GearSpot spot) {
+            return original.GetInventoryItem(spot);
         }
     }
 }
