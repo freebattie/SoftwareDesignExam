@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+
+using Model.Base;
 using Model.Interface;
-using Model.Weapons;
 
 namespace Model.Factory
 {
+    //TODO: fix null return value
+    //TODO: create abstract factory
     public class WeaponFactory
     {
 
