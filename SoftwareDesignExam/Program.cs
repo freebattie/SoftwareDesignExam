@@ -1,13 +1,14 @@
 ﻿
+
 using Model.Abstract;
 using Model.Base;
-using Model.Decorator;
 using Model.Enums;
 using Model.Factory;
+using Model.Interface;
 
 namespace SoftwareDesignExam {     // kanskje ha med runder med forjskjellige funkjsoner osv, evt. en abstrakt Level/Round også flere leveler osv
 
-    internal class Program {
+    internal partial class Program {
         static void Main(string[] args) {
 
 
@@ -27,9 +28,12 @@ $$ |  $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |\$$$$$$$\       $$$$$$$  |\$$$$$$  |$$ |
 ", "room2" };
             Console.WriteLine(@"");
             int roomNr = 0;
-            string[] weapons = { "sword", "axe" };
-            Character player2 = CreateStaringPlayer(weapons);
-            Character player3 = CreateEnemy1(weapons);
+            var test = new Dictionary<GearSpot, Item>();
+            test.Add(GearSpot.TRINCKET, Item.RABBITSFOOT);
+            Character player = new StartingCharacter("Bjarte", StartingWeapon(), test);
+            Character orc = new StartingCharacter("Orc", StartingWeapon(), test);
+
+            player.AddItemToActiveItems(GearSpot.HELMET, Item.RABBITSFOOT);
             string input = "";
 
             while (true) {
@@ -37,15 +41,13 @@ $$ |  $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |\$$$$$$$\       $$$$$$$  |\$$$$$$  |$$ |
                 if (playertrun) {
 
                     Console.WriteLine("you see 1 enemy");
-                    Console.WriteLine($"player health is: {player2.GetHealth()}");
-                    Console.WriteLine($"Enemy health is: {player3.GetHealth()}");
+                    Console.WriteLine($"player health is: {player.GetHealth()}");
+                    Console.WriteLine($"Enemy health is: {orc.GetHealth()}");
                     Console.WriteLine("1 to attack or 2 to go to shop");
                     input = Console.ReadLine();
                     if (input == "1") {
-                        // player.DoDamage(enemy);
-                        player2.Attack(player3);
-                        playertrun = false;
-
+                        player.Attack(orc);
+                       
                     }
                     else if (input == "2") {
 
@@ -62,20 +64,11 @@ $$ |  $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |\$$$$$$$\       $$$$$$$  |\$$$$$$  |$$ |
             }
         }
 
-        private static Character CreateEnemy1(string[] weapons) {
-            Character player3 = new Level1Player();
-            player3.SetWeapon(WeaponFactory.GetWeapon(weapons[1], "normal" + weapons[1], 100));
-            player3 = new RabbitsFoot(player3);
-            return player3;
-        }
-
-        private static Character CreateStaringPlayer(string[] weapons) {
-            Character player = new Level1Player();
-
-            player.SetWeapon(WeaponFactory.GetWeapon(weapons[0], "Battel" + weapons[0], 200));
-            List<Item> items = new List<Item> { Item.RABBITSFOOT, Item.WOODENSHIELD };
-            Character player2 = ItemDecoratorFactory.GetItems(items, player);
-            return player2;
+        private static IWeapon StartingWeapon() {
+            string[] weapons = { "sword", "axe" };
+            Random random = new Random();
+            int index = random.Next(0, weapons.Length);
+            return WeaponFactory.GetWeapon(weapons[index], "Battel" + weapons[index], 100);
         }
     }
 }

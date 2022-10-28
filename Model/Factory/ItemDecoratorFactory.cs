@@ -12,7 +12,7 @@ namespace Model.Factory {
             foreach (var item in items) {
                 switch (item) {
 
-                    case Item.WOODENSHIELD:
+                    case Item.WIKINGHELMET:
                     original = new WoodenShiled(original);
                     break;
                     case Item.RABBITSFOOT:

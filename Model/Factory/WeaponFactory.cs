@@ -5,6 +5,8 @@ using Model.Interface;
 
 namespace Model.Factory
 {
+    //TODO: fix null return value
+    //TODO: create abstract factory
     public class WeaponFactory
     {
 

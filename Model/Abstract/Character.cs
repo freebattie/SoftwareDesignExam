@@ -1,35 +1,32 @@
 ﻿using Model.Base;
-
+using Model.Enums;
+using Model.Factory;
 using Model.Interface;
 
 
 namespace Model.Abstract {
+
+    //TODO: Pizza
     public abstract class Character {
-        private IWeapon _weapon;
+       
+        private IWeapon? _weapon;
+        public Invetory? Invetory { get;protected set; }
+        public Dictionary<GearSpot,Item>? ActiveItems { get; set; }
+        private string? dsecription;
+        protected string? Dsecription { get => dsecription; set => dsecription = value; }
+        protected string? Name { get; set; }
         private double crit;
         private double level =1;
         private double health;
         private const double GAINFACTOR = 0.05;
-        
         private double maxHealth;
-        protected string? Name { get; set; }
-       
-
-        protected Character() {
-            Name = "";
-            
-            MaxHealth = CalculateNewLevelValue(200);
-            Health = MaxHealth;
-        }
-
+        protected double MaxHealth { get => maxHealth; set => maxHealth = value; }
         protected double Level { get => level; set => level = value; }
         protected double Crit { get => CalculateNewLevelValue(crit); set => crit = value <= 100 ? value : 100; }
         protected double ArmorLevel { get; set; }
         protected int Score { get; set; }
-        protected IWeapon Weapon { get => _weapon;  set => _weapon = value; }
-       
-
-        public double Health {
+        protected IWeapon? Weapon { get => _weapon; set => _weapon = value; }
+        protected double Health {
             get { return health; }
             set {
                 if (value <= MaxHealth) {
@@ -41,34 +38,28 @@ namespace Model.Abstract {
             }
         }
 
-        protected double MaxHealth { get => maxHealth; set => maxHealth = value; }
-
         protected double CalculateNewLevelValue(double value) {
             return Math.Round((Level * GAINFACTOR * value) + value, 0);
 
         }
-        protected double CheckForCritDamage() {
-            double weaponDmg = Weapon != null ? Weapon.Damage : 0;
-            Random gen = new Random();
-            int prob = gen.Next(100);
-            if (prob <= Crit)
-                weaponDmg *= 1.5;
-
-            return weaponDmg;
-        }
-
-        public void SetWeapon(IWeapon weapon) {
-            Weapon = weapon;
-
-        }
+        
+        public abstract double CheckForCritDamage(double dmg);
+        public abstract void SetWeapon(IWeapon weapon);
         public abstract void Attack(Character person);
-
-
         public abstract void RemoveHealth(double weaponDmg);
         public abstract void IncreaseHealth(double health);
         public abstract double GetHealth();
-        public abstract void AddLevel();
+        public abstract void SetLevel(int level);
+        public abstract double GetLevel();
         public abstract void AddCrit();
+        public abstract int GetDamageInRange(int min, int max);
+        public abstract string GetDescription();
+        public abstract void AddItemToInventory(GearSpot spot, Item item);
+        public abstract void RemoveItemFromInventory(GearSpot spot);
+        public abstract void AddItemToActiveItems(GearSpot spot,Item  item);
+        public abstract void RemoveItemFromActiveItems(GearSpot spot);
+        public abstract Dictionary<GearSpot,Item> GetActiveItems();
+        public abstract Dictionary<GearSpot,Item> GetInventoryItems();
 
     }
 }

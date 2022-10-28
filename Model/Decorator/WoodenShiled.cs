@@ -3,6 +3,7 @@
 namespace Model.Decorator
 {
     internal class WoodenShiled : CharacterDecorator {
+        //TODO: HAM,PEPPERONI ETC
         public WoodenShiled(Character original) : base(original) {
         }
 

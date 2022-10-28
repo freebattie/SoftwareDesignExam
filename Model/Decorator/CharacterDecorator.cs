@@ -1,4 +1,6 @@
 ﻿using Model.Abstract;
+using Model.Enums;
+using Model.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Model.Decorator {
+
+    //TODO: PizzaDecorator
     public class CharacterDecorator : Character {
         private readonly Character original;
 
@@ -15,17 +19,24 @@ namespace Model.Decorator {
         public override void AddCrit() {
             original.AddCrit();
         }
-
-        public override void AddLevel() {
-            original.AddLevel();
-        }
-
         public override void Attack(Character person) {
             original.Attack(person);
         }
 
+        public override int GetDamageInRange(int min, int max) {
+           return original.GetDamageInRange(min, max);
+        }
+
+        public override string GetDescription() {
+            return original.GetDescription();
+        }
+
         public override double GetHealth() {
             return original.GetHealth();
+        }
+
+        public override double GetLevel() {
+            return original.GetLevel();
         }
 
         public override void IncreaseHealth(double health) {
@@ -34,6 +45,51 @@ namespace Model.Decorator {
 
         public override void RemoveHealth(double weaponDmg) {
             original.RemoveHealth(weaponDmg);
+        }
+
+        public override void SetLevel(int level) {
+            original.SetLevel(level);
+        }
+
+        public override void SetWeapon(IWeapon weapon) {
+           original.SetWeapon(weapon);
+        }
+
+        public override double CheckForCritDamage(double dmg) {
+            return original.CheckForCritDamage(dmg);
+        }
+
+        public override void AddItemToInventory(GearSpot spot, Item item) {
+            original.AddItemToInventory(spot,item);
+        }
+
+        public override void RemoveItemFromInventory(GearSpot item) {
+            original.RemoveItemFromInventory(item);
+        }
+
+        public override void AddItemToActiveItems(GearSpot spot, Item item) {
+           original.AddItemToActiveItems(spot,item);
+        }
+
+        public override void RemoveItemFromActiveItems(GearSpot item) {
+            original.RemoveItemFromActiveItems(item);
+        }
+
+        public override Dictionary<GearSpot,Item> GetActiveItems() {
+            if (ActiveItems != null) {
+                return ActiveItems;
+            }
+            else
+                return new Dictionary<GearSpot, Item>();
+        }
+
+        public override Dictionary<GearSpot, Item> GetInventoryItems() {
+            //TODO: Sjå på denne
+            if (Invetory != null && Invetory.Items != null) {
+                return Invetory.Items;
+            }
+            else
+                return new Dictionary<GearSpot, Item>();
         }
     }
 }
