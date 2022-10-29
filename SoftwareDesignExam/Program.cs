@@ -5,6 +5,8 @@ using Model.Base;
 using Model.Enums;
 using Model.Factory;
 using Model.Interface;
+using Persistence;
+using Persistence.Db;
 
 namespace SoftwareDesignExam {     // kanskje ha med runder med forjskjellige funkjsoner osv, evt. en abstrakt Level/Round også flere leveler osv
 
@@ -26,6 +28,7 @@ $$ |  $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |\$$$$$$$\       $$$$$$$  |\$$$$$$  |$$ |
                     \$$$$$$  |                                                        \$$$$$$  |                                    
                      \______/                                                          \______/                                     
 ", "room2" };
+            Console.WriteLine(room[0]);
             Console.WriteLine(@"");
             int roomNr = 0;
             var test = new Dictionary<GearSpot, Item>();

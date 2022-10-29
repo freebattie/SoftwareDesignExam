@@ -6,6 +6,17 @@ public class User
     private int level;
     private int topscore;
 
+    public User()
+    {
+    }
+
+    public User(string name, int level, int topscore)
+    {
+        this.name = name;
+        this.level = level;
+        this.topscore = topscore;
+    }
+
     public string Name
     {
         get => name;
