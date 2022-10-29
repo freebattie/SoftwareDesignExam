@@ -1,37 +1,37 @@
-﻿namespace Persistence;
+﻿namespace Persistence.Db;
 
 public class User
 {
-    private string name;
-    private int level;
-    private int topscore;
+    private string? _name;
+    private int _level;
+    private int _topscore;
 
     public User()
     {
     }
 
-    public User(string name, int level, int topscore)
+    public User(string? name, int level, int topscore)
     {
-        this.name = name;
-        this.level = level;
-        this.topscore = topscore;
+        this._name = name;
+        this._level = level;
+        this._topscore = topscore;
     }
 
-    public string Name
+    public string? Name
     {
-        get => name;
-        set => name = value ?? throw new ArgumentNullException(nameof(value));
+        get => _name;
+        set => _name = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     public int Level
     {
-        get => level;
-        set => level = value;
+        get => _level;
+        set => _level = value;
     }
 
     public int Topscore
     {
-        get => topscore;
-        set => topscore = value;
+        get => _topscore;
+        set => _topscore = value;
     }
 }

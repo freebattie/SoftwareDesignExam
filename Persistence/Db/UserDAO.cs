@@ -35,7 +35,7 @@ namespace Persistence.Db
             command.ExecuteNonQuery();
         }
 
-        public User GetUser()
+        public User GetUser(string? name)
         {
             User user = new();
             using SqliteConnection connection = new("Data Source = gameDb.db");
@@ -44,7 +44,9 @@ namespace Persistence.Db
             command.CommandText = @"
             SELECT name, level, topscore
             FROM game 
+            WHERE name = $name
         ";
+            command.Parameters.AddWithValue("$name", name);
             using SqliteDataReader reader = command.ExecuteReader();
             if (reader.Read())
             {

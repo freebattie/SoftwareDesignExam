@@ -5,16 +5,20 @@ using Model.Base;
 using Model.Enums;
 using Model.Factory;
 using Model.Interface;
-using Persistence;
 using Persistence.Db;
 
 namespace SoftwareDesignExam {     // kanskje ha med runder med forjskjellige funkjsoner osv, evt. en abstrakt Level/Round også flere leveler osv
 
-    internal partial class Program {
+    internal partial class Program
+    {
+        private static UserMenu _userMenu = new();
         static void Main(string[] args) {
+            _userMenu.StartMenu();
+        }
 
-
-            bool playertrun = true;
+        public void StartGame(User user)
+        {
+             bool playertrun = true;
             string[] room = { @"
 $$$$$$$\                                                $$$$$$$\                                                                    
 $$  __$$\                                               $$  __$$\                                                                   
@@ -30,6 +34,11 @@ $$ |  $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |\$$$$$$$\       $$$$$$$  |\$$$$$$  |$$ |
 ", "room2" };
             Console.WriteLine(room[0]);
             Console.WriteLine(@"");
+            
+            Console.WriteLine($"Welcome {user.Name}!");
+            Console.WriteLine($"Level: {user.Level}");
+            Console.WriteLine($"High score: {user.Topscore}\n");
+            
             int roomNr = 0;
             var test = new Dictionary<GearSpot, Item>();
             test.Add(GearSpot.TRINCKET, Item.RABBITSFOOT);
@@ -61,12 +70,8 @@ $$ |  $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |\$$$$$$$\       $$$$$$$  |\$$$$$$  |$$ |
 
                     playertrun = true;
                 }
-
-
-
             }
         }
-
         private static IWeapon StartingWeapon() {
             string[] weapons = { "sword", "axe" };
             Random random = new Random();
