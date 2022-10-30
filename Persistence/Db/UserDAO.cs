@@ -11,7 +11,7 @@ namespace Persistence.Db
             connection.Open();
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-            CREATE TABLE game (
+            CREATE TABLE IF NOT EXISTS game (
                 name TEXT PRIMARY KEY NOT NULL,
                 level INTEGER,
                 topscore INT 
