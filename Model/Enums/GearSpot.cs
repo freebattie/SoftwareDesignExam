@@ -2,11 +2,11 @@
    
         public enum GearSpot {
             NONE,
-            HELMET,
-            TRINCKET,
-            SHIELD,
-            GLOVES,
-            SHOES
+            HELMET = 1,
+            TRINCKET = 2,
+            SHIELD =3,
+            GLOVES =4,
+            SHOES =5
 
         }
     }

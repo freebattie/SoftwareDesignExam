@@ -4,7 +4,7 @@
     {
         //TODO: not smart
         public double Damage { get; set; }
-        string Name { get; }
+        public string Name { get; set; }
 
 
 
