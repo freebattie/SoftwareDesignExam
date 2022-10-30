@@ -5,7 +5,7 @@ using Model.Interface;
 
 namespace Persistence.Db
 {
-    public class UserDAO : IUserDAO
+    public class UserDao : IUserDAO
     {
         public void AddUser(User user)
         {
