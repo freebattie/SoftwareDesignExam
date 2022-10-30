@@ -1,32 +1,19 @@
 ﻿using Microsoft.Data.Sqlite;
+using Model.Base;
+using Model.Interface;
 
 
 namespace Persistence.Db
 {
-    public class UserDAO
+    public class UserDAO : IUserDAO
     {
-        public void SchemaAndTableMaker()
-        {
-            using SqliteConnection connection = new("Data Source = gameDb.db");
-            connection.Open();
-            SqliteCommand command = connection.CreateCommand();
-            command.CommandText = @"
-            CREATE TABLE IF NOT EXISTS game (
-                name TEXT PRIMARY KEY NOT NULL,
-                level INTEGER,
-                topscore INT 
-            );            
-        ";
-            command.ExecuteNonQuery();
-        }
-
         public void AddUser(User user)
         {
             using SqliteConnection connection = new("Data Source = gameDb.db");
             connection.Open();
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-            INSERT INTO game (name, level, topscore)
+            INSERT INTO users (name, level, topscore)
             VALUES ($name, $level, $topscore);
         ";
             command.Parameters.AddWithValue("$name", user.Name);
@@ -34,7 +21,7 @@ namespace Persistence.Db
             command.Parameters.AddWithValue("$topscore", user.Topscore);
             command.ExecuteNonQuery();
         }
-
+        
         public User GetUser(string? name)
         {
             User user = new();
@@ -43,7 +30,7 @@ namespace Persistence.Db
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
             SELECT name, level, topscore
-            FROM game 
+            FROM users 
             WHERE name = $name
         ";
             command.Parameters.AddWithValue("$name", name);
@@ -56,6 +43,12 @@ namespace Persistence.Db
             }
 
             return user;
+        }
+        
+        
+        public List<User> GetAllUsers()
+        {
+            throw new NotImplementedException();
         }
 
         public void DeleteUser()

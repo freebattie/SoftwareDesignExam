@@ -20,11 +20,6 @@ namespace SoftwareDesignExam
         private static UserMenu _userMenu = new();
         static void Main(string[] args)
         {
-
-            UserDAO userDao = new();
-            userDao.SchemaAndTableMaker();
-            
-
             // setting up shop items
             List<string> ListOfAllItems = GetNameOFAllItemsInGame();
             List<ShopItem> shopItems = CreateAllShopItems();
