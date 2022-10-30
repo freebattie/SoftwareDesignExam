@@ -5,7 +5,7 @@ namespace SoftwareDesignExam;
 public class UserMenu
 {
     private User _user = new();
-    private UserDAO _userDao = new();
+    private UserDao _userDao = new();
     
     public void StartMenu()
     {
