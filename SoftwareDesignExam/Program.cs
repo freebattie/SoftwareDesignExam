@@ -18,10 +18,12 @@ namespace SoftwareDesignExam
     internal partial class Program
     {
         private static UserMenu _userMenu = new();
-        static void Main(string[] args) {
-           
-        
+        static void Main(string[] args)
+        {
 
+            UserDAO userDao = new();
+            userDao.SchemaAndTableMaker();
+            
 
             // setting up shop items
             List<string> ListOfAllItems = GetNameOFAllItemsInGame();
