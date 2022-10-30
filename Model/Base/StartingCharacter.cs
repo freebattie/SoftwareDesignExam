@@ -53,7 +53,8 @@ namespace Model.Base
         public override double GetLevel() => Level;
 
         public override string GetDescription() {
-            return $"{Name} is level {Level}\n" +
+            return  $"{Name} is level {Level}\n" +
+                    $"Health: {Health}" +
                     $"He is equipt with items: {Dsecription}";
         }
 
@@ -113,6 +114,10 @@ namespace Model.Base
 
         public override Item GetInventoryItem(GearSpot spot) {
             throw new NotImplementedException();
+        }
+
+        public override string GetName() {
+            return Name;
         }
     }
 }

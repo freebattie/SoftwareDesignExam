@@ -35,17 +35,7 @@ namespace Model.Base.ConcreateDecorators {
 
         public override void Attack(Character person)
         {
-            int level = (int)GetLevel();
-            if (!isUsed)
-            {
-                SetLevel(1000);
-                isUsed = true;
-                var items = GetActiveItems();
-                items.Remove(Item.RABBITSFOOT);
-            }
             base.Attack(person);
-
-            SetLevel(level);
             Console.WriteLine(GetLevel());
 
         }
