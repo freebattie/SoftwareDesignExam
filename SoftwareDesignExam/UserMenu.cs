@@ -6,7 +6,6 @@ public class UserMenu
 {
     private User _user = new();
     private UserDAO _userDao = new();
-    private Program _program = new();
     
     public void StartMenu()
     {
@@ -27,13 +26,13 @@ public class UserMenu
                     _user.Topscore = 0;
                     
                     _userDao.AddUser(_user);
-                    _program.StartGame(_user);
+                   
                     break;
                 case 's':
                     Console.WriteLine("\nPlease enter your user name");
                     var userInput = Console.ReadLine();
                     _user = _userDao.GetUser(userInput);
-                    _program.StartGame(_user);
+                   
                     break;
             }
         }
