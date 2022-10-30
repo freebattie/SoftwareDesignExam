@@ -19,73 +19,14 @@ namespace SoftwareDesignExam
     internal partial class Program
     {
         private static UserMenu _userMenu = new();
-        static void Main(string[] args)
-        {
-            // setting up shop items
-            List<string> ListOfAllItems = GetNameOFAllItemsInGame();
-            List<ShopItem> shopItems = CreateAllShopItems();
-           // PrintAllItemsInGame(shopItems);
 
-            //setting up all shop weapons
-            List<IWeapon> weapons = new();
-            List<string> allWeapons = LoadNameOfAllWeapons();
-
-            CreateRandomNamedWeapons(weapons, allWeapons);
-
-            //PrintAllWeaponsInGame(weapons);
-
-            Dictionary<GearSpot, ShopItem> invetory = new();
-            CreateInventory(shopItems, invetory);
+        static void Main(string[] args) {
 
 
-            bool playertrun = true;
+            Game game = new();
+            game.Update();
 
 
-            //Ikke i bruk akkurat no
-
-            var test = new Dictionary<GearSpot, Item>();
-            test.Add(GearSpot.TRINCKET, Item.RABBITSFOOT);
-
-
-            Character player = new StartingCharacter("Bjarte", StartingWeapon(), test);
-            Character orc = new StartingCharacter("Orc", StartingWeapon(), test);
-            //(player.AddItemToInventory(GearSpot.TRINCKET, Item.RABBITSFOOT);
-
-            player = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), player);
-            orc = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), orc);
-            List<Character> enemyList = new();
-            enemyList.Add(orc);
-            enemyList.Add(orc);
-            string input = "";
-
-            while (true) {
-
-                if (playertrun) {
-
-                    ///Console.WriteLine("you see 1 enemy");
-                    //Console.WriteLine($"player health is: {player.GetHealth()}");
-                    //Console.WriteLine($"Enemy health is: {orc.GetHealth()}");
-                    //Console.WriteLine("1 to attack");
-                    //Console.WriteLine(player.GetDescription());
-                    AttackMenuView attackMenu = new(player, enemyList);
-                    
-                    attackMenu.AttackMenu();
-
-                    input = Console.ReadLine();
-                    if (input == "1") {
-
-                        player.Attack(orc);
-                        orc.Attack(player);
-
-                    }
-                    else if (input == "2") {
-
-
-                    }
-                }
-                else
-                    playertrun = true;
-            }
         }
 
         private static void CreateRandomNamedWeapons(List<IWeapon> weapons, List<string> allWeapons) {
