@@ -19,8 +19,8 @@ namespace SoftwareDesignExam
     {
         private static UserMenu _userMenu = new();
         static void Main(string[] args) {
-            _userMenu.StartMenu();
-        }
+           
+        
 
 
             // setting up shop items
