@@ -8,13 +8,20 @@ using Model.Decorator;
 using Model.Enums;
 using Model.Factory;
 using Model.Interface;
+
 using System.Reflection;
+using Persistence.Db;
 
 namespace SoftwareDesignExam
 {     // kanskje ha med runder med forjskjellige funkjsoner osv, evt. en abstrakt Level/Round også flere leveler osv
 
-    internal partial class Program {
+    internal partial class Program
+    {
+        private static UserMenu _userMenu = new();
         static void Main(string[] args) {
+            _userMenu.StartMenu();
+        }
+
 
             // setting up shop items
             List<string> ListOfAllItems = GetNameOFAllItemsInGame();
@@ -37,6 +44,7 @@ namespace SoftwareDesignExam
 
 
             //Ikke i bruk akkurat no
+
             var test = new Dictionary<GearSpot, Item>();
             test.Add(GearSpot.TRINCKET, Item.RABBITSFOOT);
 
@@ -133,6 +141,7 @@ namespace SoftwareDesignExam
                         AllItems.Add(item.Name);
                     }
                 }
+
             }
             return AllItems;
         }
@@ -203,6 +212,7 @@ namespace SoftwareDesignExam
                         AllItems.Add(item.Name);
                     }
                 }
+
             }
             return AllItems;
         }
@@ -210,7 +220,6 @@ namespace SoftwareDesignExam
         private static GearSpot GetGearLocation(Item item) {
             return (GearSpot)(int)item;
         }
-
         private static IWeapon StartingWeapon() {
             string[] weapons = { "sword", "axe" };
             Random random = new Random();
