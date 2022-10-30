@@ -15,12 +15,16 @@ using System.Reflection;
 namespace SoftwareDesignExam {
     internal class Game {
 
-        private Menu menu = Menu.ATTACK;
+        private Menu menu = Menu.LOGIN;
+        
         private int enemyIndex;
-        private Character player;
+        private string input;
+        private Character player = new StartingCharacter();
         private AttackMenuView attackMenu;
+        private List<Character> enemyList;
 
         public Game() {
+            
             List<string> ListOfAllItems = GetNameOFAllItemsInGame();
             List<ShopItem> shopItems = CreateAllShopItems();
             // PrintAllItemsInGame(shopItems);
@@ -33,9 +37,9 @@ namespace SoftwareDesignExam {
 
             var test = new Dictionary<GearSpot, Item>();
             test.Add(GearSpot.TRINCKET, Item.RABBITSFOOT);
-            player = new StartingCharacter("Bjarte", StartingWeapon(), test);
+            player.SetWeapon(StartingWeapon());
 
-           
+
 
             Dictionary<GearSpot, ShopItem> invetory = new();
             CreateInventory(shopItems, invetory);
@@ -43,10 +47,10 @@ namespace SoftwareDesignExam {
 
             player = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), player);
             orc = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), orc);
-            List<Character> enemyList = new();
+            enemyList = new List<Character>();
             enemyList.Add(orc);
             enemyList.Add(orc);
-            attackMenu =  new AttackMenuView(player, enemyList);
+           
             
 
         }
@@ -62,7 +66,7 @@ namespace SoftwareDesignExam {
                         break;
                     }
                 case Menu.LOGIN: {
-                        Console.WriteLine("TEST");
+                        Console.WriteLine("Write username :");
                         break;
                     }
 
@@ -76,7 +80,7 @@ namespace SoftwareDesignExam {
                         break;
                     }
                 case Menu.LOGIN: {
-                        enemyIndex = int.Parse(Reader.ReadInt());
+                        input = Reader.ReadString();
                         break;
                     }
 
@@ -84,6 +88,9 @@ namespace SoftwareDesignExam {
             }
         }
 
+        /// <summary>
+        /// for Database hantering og spill relaterte opprasjoner
+        /// </summary>
         public void HandelGameMecnaics() {
             switch (menu) {
                 case Menu.ATTACK: {
@@ -94,7 +101,14 @@ namespace SoftwareDesignExam {
                         break;
                     }
                 case Menu.LOGIN: {
-                        Console.WriteLine("TEST");
+                            
+                        //legg til if finnes eller ikke
+                        player = new StartingCharacter("Name Nae", StartingWeapon(), new Dictionary<GearSpot, Item>());
+                        player.SetLevel(0); //set player level
+                        attackMenu = new AttackMenuView(player, enemyList);
+                        menu = Menu.ATTACK;
+
+                        
                         break;
                     }
 
