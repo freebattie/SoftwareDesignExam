@@ -91,5 +91,9 @@ namespace Model.Decorator {
         public override Item GetInventoryItem(GearSpot spot) {
             return original.GetInventoryItem(spot);
         }
+
+        public override string GetName() {
+           return original.GetName();
+        }
     }
 }

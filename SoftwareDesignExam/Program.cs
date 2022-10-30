@@ -11,6 +11,7 @@ using Model.Interface;
 
 using System.Reflection;
 using Persistence.Db;
+using Presentation.Views;
 
 namespace SoftwareDesignExam
 {     // kanskje ha med runder med forjskjellige funkjsoner osv, evt. en abstrakt Level/Round også flere leveler osv
@@ -26,7 +27,7 @@ namespace SoftwareDesignExam
             // setting up shop items
             List<string> ListOfAllItems = GetNameOFAllItemsInGame();
             List<ShopItem> shopItems = CreateAllShopItems();
-            PrintAllItemsInGame(shopItems);
+           // PrintAllItemsInGame(shopItems);
 
             //setting up all shop weapons
             List<IWeapon> weapons = new();
@@ -34,7 +35,7 @@ namespace SoftwareDesignExam
 
             CreateRandomNamedWeapons(weapons, allWeapons);
 
-            PrintAllWeaponsInGame(weapons);
+            //PrintAllWeaponsInGame(weapons);
 
             Dictionary<GearSpot, ShopItem> invetory = new();
             CreateInventory(shopItems, invetory);
@@ -55,21 +56,29 @@ namespace SoftwareDesignExam
 
             player = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), player);
             orc = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), orc);
+            List<Character> enemyList = new();
+            enemyList.Add(orc);
+            enemyList.Add(orc);
             string input = "";
 
             while (true) {
 
                 if (playertrun) {
 
-                    Console.WriteLine("you see 1 enemy");
-                    Console.WriteLine($"player health is: {player.GetHealth()}");
-                    Console.WriteLine($"Enemy health is: {orc.GetHealth()}");
-                    Console.WriteLine("1 to attack");
-                    Console.WriteLine(player.GetDescription());
+                    ///Console.WriteLine("you see 1 enemy");
+                    //Console.WriteLine($"player health is: {player.GetHealth()}");
+                    //Console.WriteLine($"Enemy health is: {orc.GetHealth()}");
+                    //Console.WriteLine("1 to attack");
+                    //Console.WriteLine(player.GetDescription());
+                    AttackMenuView attackMenu = new(player, enemyList);
+                    
+                    attackMenu.AttackMenu();
+
                     input = Console.ReadLine();
                     if (input == "1") {
-                        orc.GetDescription();
+
                         player.Attack(orc);
+                        orc.Attack(player);
 
                     }
                     else if (input == "2") {

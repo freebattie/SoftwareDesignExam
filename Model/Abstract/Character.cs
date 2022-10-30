@@ -2,7 +2,7 @@
 using Model.Enums;
 
 using Model.Interface;
-
+using System.Reflection.Emit;
 
 namespace Model.Abstract {
 
@@ -14,7 +14,7 @@ namespace Model.Abstract {
         public Dictionary<GearSpot,Item>? ActiveItems { get; set; }
         private string? dsecription;
         protected string? Dsecription { get => dsecription; set => dsecription = value; }
-        protected string? Name { get; set; }
+        public string? Name { get; set; }
         private double crit;
         private double level =1;
         private double health;
@@ -62,6 +62,7 @@ namespace Model.Abstract {
         public abstract void MoveFromInvetoryToActiveItem(GearSpot spot);
         public abstract Dictionary<GearSpot,Item> GetInventoryItems();
         public abstract Item GetInventoryItem(GearSpot spot);
+        public abstract string GetName();
 
     }
 }
