@@ -18,11 +18,8 @@ namespace SoftwareDesignExam
     internal partial class Program
     {
         private static UserMenu _userMenu = new();
-        static void Main(string[] args) {
-           
-        
-
-
+        static void Main(string[] args)
+        {
             // setting up shop items
             List<string> ListOfAllItems = GetNameOFAllItemsInGame();
             List<ShopItem> shopItems = CreateAllShopItems();
