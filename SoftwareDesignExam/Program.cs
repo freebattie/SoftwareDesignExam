@@ -1,16 +1,24 @@
 ﻿
+
 using Model.Abstract;
-using Model.Characters;
+using Model.Base;
 using Model.Enums;
 using Model.Factory;
+using Model.Interface;
+using Persistence.Db;
 
 namespace SoftwareDesignExam {     // kanskje ha med runder med forjskjellige funkjsoner osv, evt. en abstrakt Level/Round også flere leveler osv
 
-    internal class Program {
+    internal partial class Program
+    {
+        private static UserMenu _userMenu = new();
         static void Main(string[] args) {
+            _userMenu.StartMenu();
+        }
 
-          
-            bool playertrun = true;
+        public void StartGame(User user)
+        {
+             bool playertrun = true;
             string[] room = { @"
 $$$$$$$\                                                $$$$$$$\                                                                    
 $$  __$$\                                               $$  __$$\                                                                   
@@ -24,48 +32,51 @@ $$ |  $$ |\$$$$$$  |\$$$$$$$ |\$$$$$$  |\$$$$$$$\       $$$$$$$  |\$$$$$$  |$$ |
                     \$$$$$$  |                                                        \$$$$$$  |                                    
                      \______/                                                          \______/                                     
 ", "room2" };
+            Console.WriteLine(room[0]);
             Console.WriteLine(@"");
-            int roomNr = 0;
-            string []items = { "sword", "axe"};
-            Character player = new Player(200);
-           
-
-            Character enemy = new Enemy(100);
             
-            player.SetWeapon(WeaponFactory.GetWeapon(items[0],"Battel"+ items[0], 200));
-            enemy.SetWeapon(WeaponFactory.GetWeapon(items[1],"normal" + items[1], 100));
-            player.AddItem(GearItems.HELMET);
-            player.AddItem(GearItems.SHIELD);
-            player.CalculateItemStats();
+            Console.WriteLine($"Welcome {user.Name}!");
+            Console.WriteLine($"Level: {user.Level}");
+            Console.WriteLine($"High score: {user.Topscore}\n");
+            
+            int roomNr = 0;
+            var test = new Dictionary<GearSpot, Item>();
+            test.Add(GearSpot.TRINCKET, Item.RABBITSFOOT);
+            Character player = new StartingCharacter("Bjarte", StartingWeapon(), test);
+            Character orc = new StartingCharacter("Orc", StartingWeapon(), test);
+
+            player.AddItemToActiveItems(GearSpot.HELMET, Item.RABBITSFOOT);
             string input = "";
-            var shop = new Shop(player);
+
             while (true) {
-               
+
                 if (playertrun) {
-                    Console.WriteLine($"{room[roomNr]}");
+
                     Console.WriteLine("you see 1 enemy");
-                    Console.WriteLine($"player health is: {player.Health}");
-                    Console.WriteLine($"Enemy health is: {enemy.Health}");
+                    Console.WriteLine($"player health is: {player.GetHealth()}");
+                    Console.WriteLine($"Enemy health is: {orc.GetHealth()}");
                     Console.WriteLine("1 to attack or 2 to go to shop");
                     input = Console.ReadLine();
                     if (input == "1") {
-                        player.DoDamage(enemy);
-                        playertrun = false;
-
+                        player.Attack(orc);
+                       
                     }
                     else if (input == "2") {
-                        shop.Menu();
-                        
+
+
                     }
                 }
                 else {
-                    enemy.DoDamage(player);
+
                     playertrun = true;
                 }
-                
-
-
             }
+        }
+        private static IWeapon StartingWeapon() {
+            string[] weapons = { "sword", "axe" };
+            Random random = new Random();
+            int index = random.Next(0, weapons.Length);
+            return WeaponFactory.GetWeapon(weapons[index], "Battel" + weapons[index], 100);
         }
     }
 }

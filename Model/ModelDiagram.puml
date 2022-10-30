@@ -1,0 +1,74 @@
+﻿@startuml
+namespace Model.Abstract{
+abstract class  "Character" {
+ GearItems : List<GearItems>
+  _item : Item
+ }
+ abstract class  "Item"
+}
+
+nameSpace Model.Characters{
+ class Enemy {
+  _gearItems : GearItems
+ }
+ class Player {
+  _gearItems : GearItems
+ }
+}
+
+Model.Abstract.Character <|-- Model.Characters.Enemy
+Model.Abstract.Character <|-- Model.Characters.Player
+
+
+namespace Model.Base{
+ class GearSlot {}
+}
+
+namespace Model.Decorator{
+ class ItemDecorator {
+  _item : Item
+ }
+ namespace ConcreateDecorators{
+  class WikingHelmet {}
+  class WikingShield {}
+ }
+
+}
+
+Model.Abstract.Item <|-- Model.Base.GearSlot
+Model.Abstract.Item <|-- Model.Decorator.ItemDecorator
+Model.Decorator.ItemDecorator *-- Model.Abstract.Item
+Model.Decorator.ItemDecorator <|-- Model.Decorator.ConcreateDecorators.WikingHelmet
+Model.Decorator.ItemDecorator <|-- Model.Decorator.ConcreateDecorators.WikingShield 
+
+namespace Model.Enums{
+ enum GearItems {
+   HELMET,
+   SHOES,
+   SHIELD,
+   CHAIN
+ }
+}
+
+namespace Model.Factory{
+ class ItemFactory {}
+ class WeaponFactory {}
+}
+
+Model.Decorator.ConcreateDecorators.WikingHelmet <|.. Model.Factory.ItemFactory
+Model.Decorator.ConcreateDecorators.WikingShield <|.. Model.Factory.ItemFactory
+
+namespace Model.Interface{
+ interface IWeapon
+}
+
+namespace Model.Weapons{
+ class Axe {}
+ class Sword {}
+}
+
+Model.Interface.IWeapon <|-- Model.Weapons.Axe
+Model.Interface.IWeapon <|-- Model.WeaponsSword
+Model.Weapons.Axe <|.. Model.Factory.WeaponFactory
+Model.Weapons.Sword <|.. Model.Factory.WeaponFactory
+@enduml

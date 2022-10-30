@@ -1,65 +1,67 @@
-﻿using Model.Characters;
-using Model.Base;
-using Model.Interface;
-using System.Collections;
-using Model.Decorator.ConcreateDecrators;
-
+﻿using Model.Base;
 using Model.Enums;
 using Model.Factory;
+using Model.Interface;
+
 
 namespace Model.Abstract {
+
+    //TODO: Pizza
     public abstract class Character {
        
-        IWeapon _weapon;
+        private IWeapon? _weapon;
+        public Invetory? Invetory { get;protected set; }
+        public Dictionary<GearSpot,Item>? ActiveItems { get; set; }
+        private string? dsecription;
+        protected string? Dsecription { get => dsecription; set => dsecription = value; }
+        protected string? Name { get; set; }
         private double crit;
-        private double level;
+        private double level =1;
         private double health;
         private const double GAINFACTOR = 0.05;
-        List<GearItems> items = new();
-
-        protected string? Name { get; set; }
-        public double Health { get => CalculateHealth(health); protected set => health = CalculateHealth(value); }
+        private double maxHealth;
+        protected double MaxHealth { get => maxHealth; set => maxHealth = value; }
         protected double Level { get => level; set => level = value; }
-        protected double Crit { get => crit; set => crit = value; }
+        protected double Crit { get => CalculateNewLevelValue(crit); set => crit = value <= 100 ? value : 100; }
         protected double ArmorLevel { get; set; }
         protected int Score { get; set; }
-        //TODO: se på 
-        protected IWeapon Weapon { get => _weapon; private set => _weapon = value; }
+        protected IWeapon? Weapon { get => _weapon; set => _weapon = value; }
+        protected double Health {
+            get { return health; }
+            set {
+                if (value <= MaxHealth) {
+                    health = value;
+                }
+                else {
+                    health = MaxHealth;
+                }
+            }
+        }
 
-        public void AddItem(GearItems item) {
-            items.Add(item);
-        }
-        public void CalculateItemStats() {
-            Item gear = new GearSlot();
-            gear = ItemFactory.GetDecoratorItem(items, gear);
-            Health += gear.GetHealth();
-            _weapon.Damage += gear.GetDamage();
-            Console.WriteLine(gear.GetDescription());
-        }
-        private double CalculateHealth(double value) {
+        protected double CalculateNewLevelValue(double value) {
             return Math.Round((Level * GAINFACTOR * value) + value, 0);
-            
-        }
-        public void SetWeapon(IWeapon weapon) {
-            Weapon = weapon;
-        }
-        public  void DoDamage(Character person) {
-            double weaponDmg = CheckForCritDamage();
-            Math.Round(weaponDmg, 2);
-            person.RemoveHealth(weaponDmg);
-        }
-        public  void RemoveHealth(double weaponDmg) {
-            Health -= weaponDmg;
-        }
-        private double CheckForCritDamage() {
-            double weaponDmg = Weapon != null ? Weapon.Damage : 0;
-            Random gen = new Random();
-            int prob = gen.Next(100);
-            if (prob <= Crit)
-                weaponDmg *= 1.5;
 
-            return weaponDmg;
         }
+        
+        public abstract double CheckForCritDamage(double dmg);
+        public abstract void SetWeapon(IWeapon weapon);
+        public abstract void Attack(Character person);
+        public abstract void RemoveHealth(double weaponDmg);
+        public abstract void IncreaseHealth(double health);
+        public abstract double GetHealth();
+        public abstract void SetLevel(int level);
+        public abstract double GetLevel();
+        public abstract void AddCrit();
+        public abstract int GetDamageInRange(int min, int max);
+        public abstract string GetDescription();
+        public abstract void AddItemToInventory(GearSpot spot, Item item);
+        public abstract void RemoveItemFromInventory(GearSpot spot);
+        public abstract void AddItemToActiveItems(GearSpot spot,Item  item);
+        public abstract void RemoveItemFromActiveItems(GearSpot spot);
+        public abstract List<Item> GetActiveItems();
+        public abstract void MoveFromInvetoryToActiveItem(GearSpot spot);
+        public abstract Dictionary<GearSpot,Item> GetInventoryItems();
+        public abstract Item GetInventoryItem(GearSpot spot);
 
     }
 }

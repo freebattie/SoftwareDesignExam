@@ -1,6 +1,6 @@
 ﻿using Model.Interface;
 
-namespace Model.Interface
+namespace Model.Base
 {
     public class Axe : IWeapon
     {
