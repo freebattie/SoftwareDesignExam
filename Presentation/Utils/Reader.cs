@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +8,28 @@ using System.Threading.Tasks;
 namespace Presentation.Utils {
     public static class Reader {
 
-        public static string ReadInt() { 
+        /// <summary>
+        /// validates that the input is a number between 1 and length of the list max 9
+        /// we use generics method here since list can be Characters, Items, IWeapons etc
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <returns></returns>
+        public static string ReadInt<T>(List<T> list) { 
 
             string input = Console.ReadLine();
-            if (Char.IsDigit(input.ToCharArray()[0]) && input.Length == 1)
+            
+            if (Char.IsDigit(input.ToCharArray()[0]) && input.Length == 1 
+                && int.Parse(input.ToCharArray()[0].ToString()) <= list.Count 
+                && int.Parse(input.ToCharArray()[0].ToString()) != 0)
+                return input;
+            else
+                return "";
+        }
+        public static string ReadInt() {
+
+            string input = Console.ReadLine();
+            if (Char.IsDigit(input.ToCharArray()[0]) && input.Length == 1 )
                 return input;
             else
                 return "";

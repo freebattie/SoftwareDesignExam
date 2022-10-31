@@ -7,6 +7,7 @@ using Model.Decorator;
 using Model.Enums;
 using Model.Factory;
 using Model.Interface;
+using Presentation;
 using Presentation.Utils;
 using Presentation.Views;
 using System.Net.Mail;
@@ -17,11 +18,14 @@ namespace SoftwareDesignExam {
 
         private Menu menu = Menu.LOGIN;
         
-        private int enemyIndex;
+        
         private string input;
         private Character player = new StartingCharacter();
         private AttackMenuView attackMenu;
         private List<Character> enemyList;
+        private IUI ui;
+        private Character target;
+        private Dictionary<GearSpot, ShopItem> invetory;
 
         public Game() {
             
@@ -41,51 +45,53 @@ namespace SoftwareDesignExam {
 
 
 
-            Dictionary<GearSpot, ShopItem> invetory = new();
+            invetory = new();
             CreateInventory(shopItems, invetory);
             Character orc = new StartingCharacter("Orc", StartingWeapon(), test);
 
-            player = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), player);
+           
             orc = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), orc);
             enemyList = new List<Character>();
             enemyList.Add(orc);
             enemyList.Add(orc);
            
-            
+             ui = new UI(player, enemyList);
 
         }
 
         public void Draw() {
-       
-            bool playertrun = true;           
-            string input = "";
-
-            switch (menu) {
-                case Menu.ATTACK: {
-                        attackMenu.Draw();
-                        break;
-                    }
-                case Menu.LOGIN: {
-                        Console.WriteLine("Write username :");
-                        break;
-                    }
-
-            }
-
+            ui.Draw(menu);
         }
         public void HandelInput() {
             switch (menu) {
                 case Menu.ATTACK: {
-                        enemyIndex = int.Parse(Reader.ReadInt());
+                        SelectEnemyTarget();
+                        EquiptSelectedItems();
+                        AttackSelectedTarget();
                         break;
                     }
                 case Menu.LOGIN: {
-                        input = Reader.ReadString();
+                        input = ui.ReadStringInput();
                         break;
                     }
 
 
             }
+        }
+
+        private void EquiptSelectedItems() {
+            player = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), player);
+        }
+
+        private void AttackSelectedTarget() {
+            throw new NotImplementedException();
+        }
+
+        private void SelectEnemyTarget() {
+            var index = int.Parse(ui.ReadIntInput<Character>(enemyList))-1;
+            target = enemyList[index];
+            
+
         }
 
         /// <summary>
@@ -95,9 +101,7 @@ namespace SoftwareDesignExam {
             switch (menu) {
                 case Menu.ATTACK: {
 
-                        if (enemyIndex == 1) {
-                            menu = Menu.LOGIN;
-                        }
+                      
                         break;
                     }
                 case Menu.LOGIN: {
