@@ -1,14 +1,9 @@
 ﻿using Model.Abstract;
 using Presentation.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+using Model.Interface;
 
 namespace Presentation.Views {
-    public class AttackMenuView {
+    public class AttackMenuView : IView{
         private readonly Character player;
         private readonly List<Character> enemies;
 

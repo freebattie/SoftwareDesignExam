@@ -8,7 +8,7 @@ namespace Model.Base
     public class StartingCharacter : Character
     {
         public StartingCharacter() { }
-        public StartingCharacter(string name,IWeapon weapon,Dictionary<GearSpot,Item> items)
+        public StartingCharacter(string? name,IWeapon weapon,Dictionary<GearSpot,Item> items)
         {
             Name = name;
             Weapon = weapon;
