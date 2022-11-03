@@ -21,8 +21,8 @@ namespace SoftwareDesignExam
         private static UserMenu _userMenu = new();
 
         static void Main(string[] args) {
-
-
+            //TableMaker.UsersSchemaAndTableMaker();
+           
             Game game = new();
             game.Update();
 

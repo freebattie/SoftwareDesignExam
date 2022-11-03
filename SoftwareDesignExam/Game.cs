@@ -7,6 +7,7 @@ using Model.Decorator;
 using Model.Enums;
 using Model.Factory;
 using Model.Interface;
+using Persistence.Db;
 using Presentation.Utils;
 using Presentation.Views;
 using System.Net.Mail;
@@ -101,10 +102,14 @@ namespace SoftwareDesignExam {
                         break;
                     }
                 case Menu.LOGIN: {
-                            
+                            IUserDAO userDAO = new UserDAO(); 
                         //legg til if finnes eller ikke
                         player = new StartingCharacter("Name Nae", StartingWeapon(), new Dictionary<GearSpot, Item>());
+
                         player.SetLevel(0); //set player level
+                        User user = userDAO.GetUser(input);
+                        player.Name = user.Name;
+                        player.SetLevel(user.Level);
                         attackMenu = new AttackMenuView(player, enemyList);
                         menu = Menu.ATTACK;
 
