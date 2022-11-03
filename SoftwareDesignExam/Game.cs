@@ -1,4 +1,7 @@
-﻿using Model.Abstract;
+﻿
+
+using System.Reflection;
+using Model.Abstract;
 using Model.Base;
 using Model.Base.ConcreateDecorators;
 using Model.Base.Weapons;
@@ -6,16 +9,9 @@ using Model.Decorator;
 using Model.Enums;
 using Model.Factory;
 using Model.Interface;
-
 using Persistence.Db;
-
 using Presentation;
-
-using Presentation.Utils;
 using Presentation.Views;
-using System.Net.Mail;
-using System.Reflection;
-using Persistence.Db;
 
 namespace SoftwareDesignExam
 {
@@ -123,7 +119,7 @@ namespace SoftwareDesignExam
                     }
 
                 case Menu.LOGIN: {
-                            IUserDAO userDAO = new UserDAO(); 
+                            IUserDAO userDAO = new UserDao(); 
                         //legg til if finnes eller ikke
                         player = new StartingCharacter("Name Nae", StartingWeapon(), new Dictionary<GearSpot, Item>());
 
@@ -139,8 +135,7 @@ namespace SoftwareDesignExam
                     break;
                 }
             }
-        }
-
+        
         public void Update()
         {
             while (true)
