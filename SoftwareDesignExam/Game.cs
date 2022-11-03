@@ -82,6 +82,7 @@ namespace SoftwareDesignExam
             {
                 case Menu.ATTACK:
                 {
+                    input = ui.ReadIntInput();
                     SelectEnemyTarget();
                     EquiptSelectedItems();
                     AttackSelectedTarget();
@@ -102,13 +103,15 @@ namespace SoftwareDesignExam
 
         private void AttackSelectedTarget()
         {
-            throw new NotImplementedException();
+            var index = int.Parse(input) - 1;
+
+            target = enemyList[index];
         }
 
         private void SelectEnemyTarget()
         {
-            //  var index = int.Parse(ui.ReadIntInput<Character>(enemyList)) - 1;
-            var index = 0;
+            var index = int.Parse(input) - 1;
+
             target = enemyList[index];
         }
 
@@ -121,6 +124,7 @@ namespace SoftwareDesignExam
             {
                 case Menu.ATTACK:
                 {
+                    player.Attack(target);
                     break;
                 }
 
