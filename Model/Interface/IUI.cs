@@ -1,4 +1,5 @@
-﻿using Model.Enums;
+﻿using Model.Abstract;
+using Model.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace Model.Interface {
         string ReadIntInput<T>(List<T> list);
         string ReadIntInput();
         string ReadStringInput();
+        void SetPlayer(Character player, List<Character> enimies);
     }
 }

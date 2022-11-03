@@ -15,6 +15,7 @@ namespace Model.Abstract {
         private string? dsecription;
         protected string? Dsecription { get => dsecription; set => dsecription = value; }
         public string? Name { get; set; }
+        public int Topscore { get; set; }
         private double crit;
         private double level =1;
         private double health;
