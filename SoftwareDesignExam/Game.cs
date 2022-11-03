@@ -62,9 +62,13 @@ namespace SoftwareDesignExam
 
 
             orc = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), orc);
+            Character orc2 = new StartingCharacter(enemyUser, StartingWeapon(), test);
+
+
+            orc2 = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), orc2);
             enemyList = new List<Character>();
             enemyList.Add(orc);
-            enemyList.Add(orc);
+            enemyList.Add(orc2);
 
 
             ui = new UI(player, enemyList);
@@ -82,6 +86,7 @@ namespace SoftwareDesignExam
             {
                 case Menu.ATTACK:
                 {
+                    input = ui.ReadIntInput();
                     SelectEnemyTarget();
                     EquiptSelectedItems();
                     AttackSelectedTarget();
@@ -102,13 +107,15 @@ namespace SoftwareDesignExam
 
         private void AttackSelectedTarget()
         {
-            throw new NotImplementedException();
+            var index = int.Parse(input) - 1;
+
+            target = enemyList[index];
         }
 
         private void SelectEnemyTarget()
         {
-            //  var index = int.Parse(ui.ReadIntInput<Character>(enemyList)) - 1;
-            var index = 0;
+            var index = int.Parse(input) - 1;
+
             target = enemyList[index];
         }
 
@@ -121,6 +128,7 @@ namespace SoftwareDesignExam
             {
                 case Menu.ATTACK:
                 {
+                    player.Attack(target);
                     break;
                 }
 
