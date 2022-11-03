@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Reflection.Metadata;
 using Model.Abstract;
 using Model.Base;
 using Model.Base.ConcreateDecorators;
@@ -15,7 +16,7 @@ namespace SoftwareDesignExam
 {
     internal class Game
     {
-        private Menu menu = Menu.LOGIN;
+        private Menu menu = Menu.GAMEOVER;
 
         private int enemyIndex;
 
@@ -31,6 +32,7 @@ namespace SoftwareDesignExam
         private IUI ui;
         private Character target;
         private Dictionary<GearSpot, ShopItem> invetory;
+        private bool gameIsRunning = true;
 
 
         public Game()
@@ -97,6 +99,11 @@ namespace SoftwareDesignExam
                     input = ui.ReadStringInput();
                     break;
                 }
+                case Menu.GAMEOVER:
+                {
+                    input = ui.ReadStringInput();
+                    break;
+                }
             }
         }
 
@@ -131,6 +138,19 @@ namespace SoftwareDesignExam
                     player.Attack(target);
                     break;
                 }
+                case Menu.GAMEOVER:
+                {
+                    if (input == "1")
+                    {
+                        menu = Menu.LOGIN;
+                    }
+                    else if (input == "2")
+                    {
+                        gameIsRunning = false;
+                    }
+
+                    break;
+                }
 
                 case Menu.LOGIN:
                 {
@@ -147,7 +167,7 @@ namespace SoftwareDesignExam
 
         public void Update()
         {
-            while (true)
+            while (gameIsRunning)
             {
                 Draw();
                 HandelInput();
