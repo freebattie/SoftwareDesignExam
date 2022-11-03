@@ -6,7 +6,11 @@ using Model.Decorator;
 using Model.Enums;
 using Model.Factory;
 using Model.Interface;
+
+using Persistence.Db;
+
 using Presentation;
+
 using Presentation.Utils;
 using Presentation.Views;
 using System.Net.Mail;
@@ -117,12 +121,17 @@ namespace SoftwareDesignExam
                         break;
 
                     }
-                    else
-                    {
-                        _user = new User(input, 1, 0);
-                        _userDao.AddUser(_user);
-                        player = new StartingCharacter(_user.Name, StartingWeapon(), new Dictionary<GearSpot, Item>());
-                        player.SetLevel(_user.Level); //set player level
+
+                case Menu.LOGIN: {
+                            IUserDAO userDAO = new UserDAO(); 
+                        //legg til if finnes eller ikke
+                        player = new StartingCharacter("Name Nae", StartingWeapon(), new Dictionary<GearSpot, Item>());
+
+                        player.SetLevel(0); //set player level
+                        User user = userDAO.GetUser(input);
+                        player.Name = user.Name;
+                        player.SetLevel(user.Level);
+
                         attackMenu = new AttackMenuView(player, enemyList);
                         menu = Menu.ATTACK;
                     }

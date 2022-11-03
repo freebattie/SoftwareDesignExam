@@ -1,11 +1,11 @@
 ﻿using Microsoft.Data.Sqlite;
-using Model.Base;
+
 using Model.Interface;
 
 
 namespace Persistence.Db
 {
-    public class UserDao : IUserDAO
+    public class UserDAO : IUserDAO
     {
         public void AddUser(User user)
         {
