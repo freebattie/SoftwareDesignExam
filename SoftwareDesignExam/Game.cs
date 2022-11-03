@@ -1,5 +1,4 @@
-﻿
-using Model.Abstract;
+﻿using Model.Abstract;
 using Model.Base;
 using Model.Base.ConcreateDecorators;
 using Model.Base.Weapons;
@@ -11,20 +10,25 @@ using Presentation.Utils;
 using Presentation.Views;
 using System.Net.Mail;
 using System.Reflection;
+using Persistence.Db;
 
-namespace SoftwareDesignExam {
-    internal class Game {
-
+namespace SoftwareDesignExam
+{
+    internal class Game
+    {
         private Menu menu = Menu.LOGIN;
-        
+
         private int enemyIndex;
         private string input;
         private Character player = new StartingCharacter();
         private AttackMenuView attackMenu;
         private List<Character> enemyList;
+        public User _user = new();
+        public UserDao _userDao = new();
 
-        public Game() {
-            
+
+        public Game()
+        {
             List<string> ListOfAllItems = GetNameOFAllItemsInGame();
             List<ShopItem> shopItems = CreateAllShopItems();
             // PrintAllItemsInGame(shopItems);
@@ -40,7 +44,6 @@ namespace SoftwareDesignExam {
             player.SetWeapon(StartingWeapon());
 
 
-
             Dictionary<GearSpot, ShopItem> invetory = new();
             CreateInventory(shopItems, invetory);
             Character orc = new StartingCharacter("Orc", StartingWeapon(), test);
@@ -50,74 +53,90 @@ namespace SoftwareDesignExam {
             enemyList = new List<Character>();
             enemyList.Add(orc);
             enemyList.Add(orc);
-           
-            
-
         }
 
-        public void Draw() {
-       
-            bool playertrun = true;           
+        public void Draw()
+        {
+            bool playertrun = true;
             string input = "";
 
-            switch (menu) {
-                case Menu.ATTACK: {
-                        attackMenu.Draw();
-                        break;
-                    }
-                case Menu.LOGIN: {
-                        Console.WriteLine("Write username :");
-                        break;
-                    }
-
+            switch (menu)
+            {
+                case Menu.ATTACK:
+                {
+                    attackMenu.Draw();
+                    break;
+                }
+                case Menu.LOGIN:
+                {
+                    Console.WriteLine("Write username :");
+                    break;
+                }
             }
-
         }
-        public void HandelInput() {
-            switch (menu) {
-                case Menu.ATTACK: {
-                        enemyIndex = int.Parse(Reader.ReadInt());
-                        break;
-                    }
-                case Menu.LOGIN: {
-                        input = Reader.ReadString();
-                        break;
-                    }
 
-
+        public void HandelInput()
+        {
+            switch (menu)
+            {
+                case Menu.ATTACK:
+                {
+                    enemyIndex = int.Parse(Reader.ReadInt());
+                    break;
+                }
+                case Menu.LOGIN:
+                {
+                    input = Reader.ReadString();
+                    break;
+                }
             }
         }
 
         /// <summary>
         /// for Database hantering og spill relaterte opprasjoner
         /// </summary>
-        public void HandelGameMecnaics() {
-            switch (menu) {
-                case Menu.ATTACK: {
-
-                        if (enemyIndex == 1) {
-                            menu = Menu.LOGIN;
-                        }
-                        break;
+        public void HandelGameMecnaics()
+        {
+            switch (menu)
+            {
+                case Menu.ATTACK:
+                {
+                    if (enemyIndex == 1)
+                    {
+                        menu = Menu.LOGIN;
                     }
-                case Menu.LOGIN: {
-                            
-                        //legg til if finnes eller ikke
-                        player = new StartingCharacter("Name Nae", StartingWeapon(), new Dictionary<GearSpot, Item>());
-                        player.SetLevel(0); //set player level
+
+                    break;
+                }
+                case Menu.LOGIN:
+                {
+                    _user = _userDao.GetUser(input);
+                    if (input == _user.Name)
+                    {
+                        player = new StartingCharacter(_user.Name, StartingWeapon(), new Dictionary<GearSpot, Item>());
+                        player.SetLevel(_user.Level); //set player level
                         attackMenu = new AttackMenuView(player, enemyList);
                         menu = Menu.ATTACK;
-
-                        
-                        break;
+                    }
+                    else
+                    {
+                        _user = new User(input, 1, 0);
+                        _userDao.AddUser(_user);
+                        player = new StartingCharacter(_user.Name, StartingWeapon(), new Dictionary<GearSpot, Item>());
+                        player.SetLevel(_user.Level); //set player level
+                        attackMenu = new AttackMenuView(player, enemyList);
+                        menu = Menu.ATTACK;
                     }
 
+                    break;
+                }
             }
         }
 
-        public void Update() {
-
-            while (true) {
+        public void Update()
+        {
+            while (true)
+            {
                 Draw();
                 HandelInput();
                 HandelGameMecnaics();
@@ -125,19 +144,23 @@ namespace SoftwareDesignExam {
         }
 
 
-        private static void CreateRandomNamedWeapons(List<IWeapon> weapons, List<string> allWeapons) {
+        private static void CreateRandomNamedWeapons(List<IWeapon> weapons, List<string> allWeapons)
+        {
             string[] names = new[] { "Battel ", "Fire ", "War ", "Destruction " };
             Random random = new Random();
 
-            foreach (var weapon in allWeapons) {
+            foreach (var weapon in allWeapons)
+            {
                 var index = random.Next(0, names.Length);
                 weapons.Add(WeaponFactory.GetWeapon(weapon, names[index] + weapon, 200));
             }
         }
 
-        private static void PrintAllWeaponsInGame(List<IWeapon> weapons) {
+        private static void PrintAllWeaponsInGame(List<IWeapon> weapons)
+        {
             Console.WriteLine("PRINT ALL WEAPONS IN GAME");
-            foreach (var item in weapons) {
+            foreach (var item in weapons)
+            {
                 Console.WriteLine(item);
                 Console.WriteLine();
             }
@@ -145,9 +168,11 @@ namespace SoftwareDesignExam {
             Console.WriteLine("DONE!!!");
         }
 
-        private static void PrintAllItemsInGame(List<ShopItem> shopItems) {
+        private static void PrintAllItemsInGame(List<ShopItem> shopItems)
+        {
             Console.WriteLine("PRINT ALL ITEMS IN GAME");
-            foreach (var item in shopItems) {
+            foreach (var item in shopItems)
+            {
                 Console.WriteLine(item);
                 Console.WriteLine();
             }
@@ -155,8 +180,10 @@ namespace SoftwareDesignExam {
             Console.WriteLine("DONE!!!");
         }
 
-        private static void CreateInventory(List<ShopItem> shopItems, Dictionary<GearSpot, ShopItem> invetory) {
-            foreach (var item in shopItems) {
+        private static void CreateInventory(List<ShopItem> shopItems, Dictionary<GearSpot, ShopItem> invetory)
+        {
+            foreach (var item in shopItems)
+            {
                 if (!invetory.ContainsKey(item.GearSpot))
                     invetory.Add(item.GearSpot, item);
                 else
@@ -169,23 +196,27 @@ namespace SoftwareDesignExam {
         /// then we loop all types in the assambly and look for types that has IWeapon interface attached 
         /// </summary>
         /// <returns>List of weapon names </returns>
-        private static List<string> LoadNameOfAllWeapons() {
+        private static List<string> LoadNameOfAllWeapons()
+        {
             List<string> AllItems = new();
             Assembly? assembly = Assembly.GetExecutingAssembly();
-            foreach (Assembly currentassembly in AppDomain.CurrentDomain.GetAssemblies()) {
-
+            foreach (Assembly currentassembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
                 if (currentassembly.FullName.Contains("Model"))
                     assembly = currentassembly;
-
             }
-            foreach (var item in assembly.GetTypes()) {
-                if (item.GetInterface(typeof(IWeapon).ToString()) != null) {
-                    if (item.Name != typeof(NoWeapon).Name) {
+
+            foreach (var item in assembly.GetTypes())
+            {
+                if (item.GetInterface(typeof(IWeapon).ToString()) != null)
+                {
+                    if (item.Name != typeof(NoWeapon).Name)
+                    {
                         AllItems.Add(item.Name);
                     }
                 }
-
             }
+
             return AllItems;
         }
 
@@ -199,10 +230,12 @@ namespace SoftwareDesignExam {
         /// <param name="ListOfAllItems"></param>
         /// <param name="shopItems"></param>
         /// <exception cref="ArgumentException"></exception>
-        private static void InitItems(out List<string> ListOfAllItems, out List<ShopItem> shopItems) {
+        private static void InitItems(out List<string> ListOfAllItems, out List<ShopItem> shopItems)
+        {
             ListOfAllItems = GetNameOFAllItemsInGame();
             shopItems = CreateAllShopItems();
-            if (ListOfAllItems.Count != shopItems.Count) {
+            if (ListOfAllItems.Count != shopItems.Count)
+            {
                 throw new ArgumentException($"{ListOfAllItems.Count - shopItems.Count} Missing items in Shopitems");
             }
         }
@@ -212,7 +245,8 @@ namespace SoftwareDesignExam {
         /// Sets up the items in the shop
         /// </summary>
         /// <returns>List of all items in game</returns>
-        private static List<ShopItem> CreateAllShopItems() {
+        private static List<ShopItem> CreateAllShopItems()
+        {
             List<ShopItem> shopItems = new();
 
 
@@ -224,7 +258,8 @@ namespace SoftwareDesignExam {
             return shopItems;
         }
 
-        private static ShopItem CreateNewItem(string name, int level, GearSpot spot, int price) {
+        private static ShopItem CreateNewItem(string name, int level, GearSpot spot, int price)
+        {
             ShopItem shopItem = new();
             shopItem.Name = name;
             shopItem.ItemLevel = level;
@@ -240,35 +275,41 @@ namespace SoftwareDesignExam {
         /// then looks for childeren of CharacterDecorator 
         /// </summary>
         /// <returns>List of all items in Model dll</returns>
-        private static List<string> GetNameOFAllItemsInGame() {
+        private static List<string> GetNameOFAllItemsInGame()
+        {
             List<string> AllItems = new();
             Assembly? assembly = Assembly.GetExecutingAssembly();
-            foreach (Assembly currentassembly in AppDomain.CurrentDomain.GetAssemblies()) {
-
+            foreach (Assembly currentassembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
                 if (currentassembly.FullName.Contains("Model"))
                     assembly = currentassembly;
-
             }
-            foreach (var item in assembly.GetTypes()) {
-                if (item.IsSubclassOf(typeof(CharacterDecorator)) && !item.IsAbstract) {
-                    if (item.Name != typeof(NoItem).Name) {
+
+            foreach (var item in assembly.GetTypes())
+            {
+                if (item.IsSubclassOf(typeof(CharacterDecorator)) && !item.IsAbstract)
+                {
+                    if (item.Name != typeof(NoItem).Name)
+                    {
                         AllItems.Add(item.Name);
                     }
                 }
-
             }
+
             return AllItems;
         }
 
-        private static GearSpot GetGearLocation(Item item) {
+        private static GearSpot GetGearLocation(Item item)
+        {
             return (GearSpot)(int)item;
         }
-        private static IWeapon StartingWeapon() {
+
+        private static IWeapon StartingWeapon()
+        {
             string[] weapons = { "sword", "axe" };
             Random random = new Random();
             int index = random.Next(0, weapons.Length);
             return WeaponFactory.GetWeapon(weapons[index], "Battel" + weapons[index], 100);
         }
-
     }
 }
