@@ -62,9 +62,13 @@ namespace SoftwareDesignExam
 
 
             orc = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), orc);
+            Character orc2 = new StartingCharacter(enemyUser, StartingWeapon(), test);
+
+
+            orc2 = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), orc2);
             enemyList = new List<Character>();
             enemyList.Add(orc);
-            enemyList.Add(orc);
+            enemyList.Add(orc2);
 
 
             ui = new UI(player, enemyList);
