@@ -2,15 +2,18 @@
 using Model.Abstract;
 using Model.Enums;
 using Model.Interface;
+using Persistence.Db;
 
 namespace Model.Base
 {
     public class StartingCharacter : Character
     {
         public StartingCharacter() { }
-        public StartingCharacter(string? name,IWeapon weapon,Dictionary<GearSpot,Item> items)
+        public StartingCharacter(User user,IWeapon weapon,Dictionary<GearSpot,Item> items)
         {
-            Name = name;
+            Name = user.Name;
+            Level = user.Level;
+            Topscore = user.Topscore;
             Weapon = weapon;
             MaxHealth = CalculateNewLevelValue(200);
             Health = MaxHealth;

@@ -1,6 +1,4 @@
-﻿
-
-using System.Reflection;
+﻿using System.Reflection;
 using Model.Abstract;
 using Model.Base;
 using Model.Base.ConcreateDecorators;
@@ -52,90 +50,91 @@ namespace SoftwareDesignExam
             player.SetWeapon(StartingWeapon());
 
 
-
-
             invetory = new();
 
             CreateInventory(shopItems, invetory);
-            Character orc = new StartingCharacter("Orc", StartingWeapon(), test);
+            User enemyUser = new User();
+            enemyUser.Name = "orc";
+            enemyUser.Level = 1;
+            enemyUser.Topscore = 0;
+            
+            Character orc = new StartingCharacter(enemyUser, StartingWeapon(), test);
 
-           
+
             orc = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), orc);
             enemyList = new List<Character>();
             enemyList.Add(orc);
             enemyList.Add(orc);
 
-           
-             ui = new UI(player, enemyList);
 
+            ui = new UI(player, enemyList);
         }
 
-        public void Draw() {
+        public void Draw()
+        {
             ui.Draw(menu);
         }
-        public void HandelInput() {
-            switch (menu) {
-                case Menu.ATTACK: {
-                        SelectEnemyTarget();
-                        EquiptSelectedItems();
-                        AttackSelectedTarget();
-                        break;
-                    }
-                case Menu.LOGIN: {
-                        input = ui.ReadStringInput();
-                        break;
-                    }
 
-
+        public void HandelInput()
+        {
+            switch (menu)
+            {
+                case Menu.ATTACK:
+                {
+                    SelectEnemyTarget();
+                    EquiptSelectedItems();
+                    AttackSelectedTarget();
+                    break;
+                }
+                case Menu.LOGIN:
+                {
+                    input = ui.ReadStringInput();
+                    break;
+                }
             }
         }
 
-        private void EquiptSelectedItems() {
+        private void EquiptSelectedItems()
+        {
             player = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), player);
         }
 
-        private void AttackSelectedTarget() {
+        private void AttackSelectedTarget()
+        {
             throw new NotImplementedException();
         }
 
-        private void SelectEnemyTarget() {
-            var index = int.Parse(ui.ReadIntInput<Character>(enemyList))-1;
+        private void SelectEnemyTarget()
+        {
+            var index = int.Parse(ui.ReadIntInput<Character>(enemyList)) - 1;
             target = enemyList[index];
-            
-
         }
 
         /// <summary>
         /// for Database hantering og spill relaterte opprasjoner
         /// </summary>
-
-        public void HandelGameMecnaics() {
-            switch (menu) {
-                case Menu.ATTACK: {
-
-                      
-                        break;
-
-                    }
-
-                case Menu.LOGIN: {
-                            IUserDAO userDAO = new UserDao(); 
-                        //legg til if finnes eller ikke
-                        player = new StartingCharacter("Name Nae", StartingWeapon(), new Dictionary<GearSpot, Item>());
-
-                        player.SetLevel(0); //set player level
-                        User user = userDAO.GetUser(input);
-                        player.Name = user.Name;
-                        player.SetLevel(user.Level);
-
-                        attackMenu = new AttackMenuView(player, enemyList);
-                        menu = Menu.ATTACK;
-                    }
-
+        public void HandelGameMecnaics()
+        {
+            switch (menu)
+            {
+                case Menu.ATTACK:
+                {
                     break;
                 }
+
+                case Menu.LOGIN:
+                {
+                    IUserDAO userDAO = new UserDao();
+                    User user = userDAO.GetUser(input);
+                    player = new StartingCharacter(user, StartingWeapon(), new Dictionary<GearSpot, Item>());
+                    attackMenu = new AttackMenuView(player, enemyList);
+                    menu = Menu.ATTACK;
+                }
+
+                    break;
             }
-        
+        }
+
         public void Update()
         {
             while (true)

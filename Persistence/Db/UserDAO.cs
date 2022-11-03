@@ -25,6 +25,8 @@ namespace Persistence.Db
         public User GetUser(string? name)
         {
             User user = new();
+            user.Level = 1;
+            user.Topscore = 0;
             using SqliteConnection connection = new("Data Source = gameDb.db");
             connection.Open();
             SqliteCommand command = connection.CreateCommand();
@@ -41,7 +43,11 @@ namespace Persistence.Db
                 user.Level = reader.GetInt32(1);
                 user.Topscore = reader.GetInt32(2);
             }
-
+            else
+            {
+                user.Name = name;
+                AddUser(user);
+            }
             return user;
         }
         
