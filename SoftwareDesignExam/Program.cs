@@ -23,7 +23,7 @@ namespace SoftwareDesignExam
 
         static void Main(string[] args) {
 
-           // TableMaker.UsersSchemaAndTableMaker();
+           //TableMaker.UsersSchemaAndTableMaker();
            
 
             Game game = new();

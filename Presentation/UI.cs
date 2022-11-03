@@ -32,5 +32,9 @@ namespace Presentation {
         public string ReadStringInput() {
             return Reader.ReadString();
         }
+
+        public void SetPlayer(Character player,List<Character> enemies) {
+            _menu[Menu.ATTACK]= new AttackMenuView(player, enemies);
+        }
     }
 }

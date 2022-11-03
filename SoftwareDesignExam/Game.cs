@@ -68,6 +68,7 @@ namespace SoftwareDesignExam
 
 
             ui = new UI(player, enemyList);
+            
         }
 
         public void Draw()
@@ -106,7 +107,8 @@ namespace SoftwareDesignExam
 
         private void SelectEnemyTarget()
         {
-            var index = int.Parse(ui.ReadIntInput<Character>(enemyList)) - 1;
+            //  var index = int.Parse(ui.ReadIntInput<Character>(enemyList)) - 1;
+            var index = 0;
             target = enemyList[index];
         }
 
@@ -127,7 +129,7 @@ namespace SoftwareDesignExam
                     IUserDAO userDAO = new UserDao();
                     User user = userDAO.GetUser(input);
                     player = new StartingCharacter(user, StartingWeapon(), new Dictionary<GearSpot, Item>());
-                    attackMenu = new AttackMenuView(player, enemyList);
+                    ui.SetPlayer(player, enemyList);
                     menu = Menu.ATTACK;
                 }
 
