@@ -13,13 +13,19 @@ namespace Presentation {
     public class UI: IUI {
         Dictionary<Menu,IView> _allMenuViews;
         public UI(Character player, List<Character> enemies) {
+
+
+            User dummyPlayer = new();
+            dummyPlayer.Name = "Sigmund";
+            dummyPlayer.Level = 12;
             _allMenuViews = new Dictionary<Menu,IView>();
             _allMenuViews.Add(Menu.ATTACK, new AttackMenuView(player,enemies));
             _allMenuViews.Add(Menu.LOGIN, new LoginMenuView());
-             User dummyPlayer = new();
-             dummyPlayer.Name = "Sigmund";
-             dummyPlayer.Level = 12;
             _allMenuViews.Add(Menu.GAMEOVER, new GameOverView(dummyPlayer));
+            _allMenuViews.Add(Menu.MAINMENU, new MainMenuView(dummyPlayer));
+            _allMenuViews.Add(Menu.ERROR, new ErrorView());
+
+           
         }
         public void Draw(Menu menu) {
             _allMenuViews[menu].Draw();

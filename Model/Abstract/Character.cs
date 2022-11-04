@@ -40,7 +40,6 @@ namespace Model.Abstract {
 
         protected double CalculateNewLevelValue(double value) {
             return Math.Round((Level * GAINFACTOR * value) + value, 0);
-
         }
         
         public abstract double CheckForCritDamage(double dmg);
