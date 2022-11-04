@@ -16,7 +16,7 @@ namespace SoftwareDesignExam
 {
     internal class Game
     {
-        private Menu menu = Menu.GAMEOVER;
+        private Menu menu = Menu.MAINMENU;
 
         private int enemyIndex;
 
@@ -104,6 +104,12 @@ namespace SoftwareDesignExam
                     input = ui.ReadStringInput();
                     break;
                 }
+
+                case Menu.MAINMENU:
+                {
+                    input = ui.ReadStringInput();
+                    break;
+                }
             }
         }
 
@@ -140,15 +146,14 @@ namespace SoftwareDesignExam
                 }
                 case Menu.GAMEOVER:
                 {
-                    if (input == "1")
-                    {
-                        menu = Menu.LOGIN;
-                    }
-                    else if (input == "2")
-                    {
-                        gameIsRunning = false;
-                    }
+                    handleGameOverInput();
+                    break;
+                }
+                case Menu.MAINMENU:
 
+                {
+                    handleGameOverInput();
+                    handleHighScoreInput();
                     break;
                 }
 
@@ -165,6 +170,30 @@ namespace SoftwareDesignExam
             }
         }
 
+        private void handleHighScoreInput()
+        {
+            if (input == "3")
+            {
+                Console.Clear();
+                Console.WriteLine("here is the topsore");
+                Console.ReadLine();
+            }
+          
+        }
+
+
+        private void handleGameOverInput()
+        {
+            if (input == "1")
+            {
+                menu = Menu.LOGIN;
+                
+            }
+            if (input == "2")
+            {
+                gameIsRunning = false;
+            }
+        }
         public void Update()
         {
             while (gameIsRunning)
