@@ -27,10 +27,14 @@ public class GameOverView : IView
 ";
     public void GameOverMenu() {
         Writer.PrintLine(asciGraphic);
+        Writer.PrintLine("----------------------------");
         Writer.PrintLine("----------GAME RESULT-------");
-        Writer.PrintLine($"PLAYER LEVEL  {user.Level}");
-        Writer.PrintLine("PRESS 1 TO RESTART");
-        Writer.PrintLine("PRESS 2 TO QUIT");
+        Writer.PrintLine($"PLAYER LEVEL  {user.Level} ");
+        Writer.PrintLine("----------------------------");
+        Writer.PrintLine("PRESS 1 TO RESTART          ");
+        Writer.PrintLine("----------------------------");
+        Writer.PrintLine("PRESS 2 TO QUIT             ");
+        Writer.PrintLine("----------------------------");
     }
     public void Draw() {
         GameOverMenu();

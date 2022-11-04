@@ -5,7 +5,6 @@
         LOGIN,
         SHOP,
         GAMEOVER,
-
-
+        MAINMENU,
     }
 }
