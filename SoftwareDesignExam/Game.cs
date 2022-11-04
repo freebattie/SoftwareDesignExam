@@ -16,7 +16,10 @@ namespace SoftwareDesignExam
 {
     internal class Game
     {
+
+        private Menu lastMenu;
         private Menu menu = Menu.MAINMENU;
+
 
         private int enemyIndex;
 
@@ -88,15 +91,33 @@ namespace SoftwareDesignExam
             {
                 case Menu.ATTACK:
                 {
+                    lastMenu = menu;
                     input = ui.ReadIntInput();
-                    SelectEnemyTarget();
-                    EquiptSelectedItems();
-                    AttackSelectedTarget();
+                    if (input == "1" || input == "2")
+                    {
+                        SelectEnemyTarget();
+                        EquiptSelectedItems();
+                        AttackSelectedTarget();
+                    }
+                    else
+                    {
+                        menu = Menu.ERROR;
+                    }
                     break;
                 }
                 case Menu.LOGIN:
                 {
+                    lastMenu = menu;
                     input = ui.ReadStringInput();
+                    if (input.Length == 0 )
+                    {
+                        menu = Menu.ERROR;
+                    }
+                    break;
+                }
+                case Menu.ERROR:
+                {
+                    input = ui.ReadIntInput();
                     break;
                 }
                 case Menu.GAMEOVER:
@@ -144,6 +165,7 @@ namespace SoftwareDesignExam
                     player.Attack(target);
                     break;
                 }
+
                 case Menu.GAMEOVER:
                 {
                     handleGameOverInput();
@@ -164,9 +186,24 @@ namespace SoftwareDesignExam
                     player = new StartingCharacter(user, StartingWeapon(), new Dictionary<GearSpot, Item>());
                     ui.SetPlayer(player, enemyList);
                     menu = Menu.ATTACK;
-                }
-
                     break;
+                }
+                case Menu.ERROR:
+                {
+                    if (input == "1" )
+                    {
+                        menu = lastMenu;
+                    }else if(input == "2")
+                    {
+                        //menu = Menu.GAMEOVER
+                    }else if (input.Length < 0)
+                    {
+                        //Fungerer ikke akkurat nå
+                        menu = Menu.ERROR;
+                    }
+                    break;
+                }
+                 
             }
         }
 

@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace Presentation.Utils {
     static class Writer {
-
-
         private static ConsoleColor backgroundColor;
         private static ConsoleColor foregroundColor;
 
 
         static Writer() {
             ResetColors();
-
         }
         public static void ResetScreen() {
             Console.Clear();
