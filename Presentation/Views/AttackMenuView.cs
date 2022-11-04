@@ -4,16 +4,20 @@ using Model.Interface;
 
 namespace Presentation.Views {
     public class AttackMenuView : IView{
-        private readonly Character player;
-        private readonly List<Character> enemies;
+        private  Character player;
+        private  List<Character> enemies;
 
         public AttackMenuView(Character player,List<Character> enemies) {
-            this.player = player;
-            this.enemies = enemies;
+           
+        }
+
+        public void AddModels<T, K>(T model, List<K> items = null) {
+            player = model as Character;
+            enemies = items<Character>;
         }
 
         public void AttackMenu() {
-            //Writer.ResetScreen();
+            Writer.ResetScreen();
             Writer.Print($"you see ");
             Writer.Print($"{enemies.Count}",ConsoleColor.DarkRed);
             Writer.Print($" enemys");
@@ -34,6 +38,7 @@ namespace Presentation.Views {
         }
 
         public void Draw() {
+            
             AttackMenu();
 
         }

@@ -17,11 +17,24 @@ namespace SoftwareDesignExam
     {
         private Menu menu = Menu.LOGIN;
 
-        private int enemyIndex;
+        //ITEMS
+        private List<Character> playerInvetory = new(); 
+        private List<Character> AllItems = new();
+        private List<Character> ShopItems = new();
+
+        //WEAPONS
+        private List<IWeapon> allWeapons = new();
+        private List<IWeapon> shopWeapons = new();
+
+
+
+
+
+
+
 
         private string input;
         private Character player = new StartingCharacter();
-        private AttackMenuView attackMenu;
         private List<Character> enemyList;
 
         public User _user = new();
@@ -82,42 +95,11 @@ namespace SoftwareDesignExam
 
         public void HandelInput()
         {
-            switch (menu)
-            {
-                case Menu.ATTACK:
-                {
-                    input = ui.ReadIntInput();
-                    SelectEnemyTarget();
-                    EquiptSelectedItems();
-                    AttackSelectedTarget();
-                    break;
-                }
-                case Menu.LOGIN:
-                {
-                    input = ui.ReadStringInput();
-                    break;
-                }
-            }
+            input = ui.HandelPlayerInput(menu);
+           
         }
 
-        private void EquiptSelectedItems()
-        {
-            player = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), player);
-        }
-
-        private void AttackSelectedTarget()
-        {
-            var index = int.Parse(input) - 1;
-
-            target = enemyList[index];
-        }
-
-        private void SelectEnemyTarget()
-        {
-            var index = int.Parse(input) - 1;
-
-            target = enemyList[index];
-        }
+       
 
         /// <summary>
         /// for Database hantering og spill relaterte opprasjoner
@@ -128,7 +110,11 @@ namespace SoftwareDesignExam
             {
                 case Menu.ATTACK:
                 {
+                    SelectEnemyTarget();
+                    EquiptSelectedItems();
+                    AttackSelectedTarget();
                     player.Attack(target);
+
                     break;
                 }
 
@@ -154,7 +140,21 @@ namespace SoftwareDesignExam
                 HandelGameMecnaics();
             }
         }
+        private void EquiptSelectedItems() {
+            player = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), player);
+        }
 
+        private void AttackSelectedTarget() {
+            var index = int.Parse(input) - 1;
+
+            target = enemyList[index];
+        }
+
+        private void SelectEnemyTarget() {
+            var index = int.Parse(input) - 1;
+
+            target = enemyList[index];
+        }
 
         private static void CreateRandomNamedWeapons(List<IWeapon> weapons, List<string> allWeapons)
         {

@@ -3,6 +3,7 @@
 using Model.Abstract;
 using Model.Enums;
 using Model.Interface;
+using Persistence.Db;
 using Presentation.Utils;
 using Presentation.Views;
 using System.Collections.Generic;
@@ -11,30 +12,47 @@ namespace Presentation {
     public class UI: IUI {
         Dictionary<Menu,IView> _menu;
 
-        
+        // legg til nye vies her
         public UI(Character player, List<Character> enemies) {
             _menu = new Dictionary<Menu,IView>();
+
             _menu.Add(Menu.ATTACK, new AttackMenuView(player,enemies));
+
             _menu.Add(Menu.LOGIN, new LoginMenuView());
+           
         }
         public void Draw(Menu menu) {
             _menu[menu].Draw();
         }
 
+        public string HandelPlayerInput(Menu menu) {
+            string value = "";
+            switch (menu) {
+                case Menu.ATTACK: {
+                        value = Reader.ReadIntAsString();
+
+                        break;
+                    }
+                case Menu.LOGIN: {
+                        value = Reader.ReadString();
+                        break;
+                    }
+
+            }
+            return null;
+        }
+
         public string ReadIntInput<T>(List<T> list) {
-           return Reader.ReadInt(list);
+           return Reader.ReadIntAsString(list);
         }
 
-        public string ReadIntInput() {
-            return Reader.ReadInt();
+        public void SetActiveModels(User user, Character player,
+                                    List<Character> enemies,
+                                    List<Character> playerItemsInventory) {
+            _menu[Menu.ATTACK] = new AttackMenuView(player, enemies);
+            _menu[Menu.] = new AttackMenuView(player, enemies);
         }
 
-        public string ReadStringInput() {
-            return Reader.ReadString();
-        }
-
-        public void SetPlayer(Character player,List<Character> enemies) {
-            _menu[Menu.ATTACK]= new AttackMenuView(player, enemies);
-        }
+        
     }
 }

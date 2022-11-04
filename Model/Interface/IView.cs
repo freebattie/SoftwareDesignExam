@@ -7,5 +7,6 @@ using System.Threading.Tasks;
 namespace Model.Interface {
     public interface IView {
         void Draw();
+       
     }
 }
