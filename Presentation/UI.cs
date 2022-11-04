@@ -46,6 +46,10 @@ namespace Presentation {
            return Reader.ReadIntAsString(list);
         }
 
+        public void SetActiveModels(User user, Character player, List<Character> enimies) {
+            throw new NotImplementedException();
+        }
+
         public void SetPlayer(Character player,List<Character> enemies) {
             _allMenuViews[Menu.ATTACK]= new AttackMenuView(player, enemies);
         }
