@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Reflection.Metadata;
 using Model.Abstract;
 using Model.Base;
 using Model.Base.ConcreateDecorators;
@@ -15,8 +16,10 @@ namespace SoftwareDesignExam
 {
     internal class Game
     {
-        private Menu menu = Menu.LOGIN;
+
         private Menu lastMenu;
+        private Menu menu = Menu.MAINMENU;
+
 
         private int enemyIndex;
 
@@ -32,6 +35,7 @@ namespace SoftwareDesignExam
         private IUI ui;
         private Character target;
         private Dictionary<GearSpot, ShopItem> invetory;
+        private bool gameIsRunning = true;
 
 
         public Game()
@@ -116,6 +120,17 @@ namespace SoftwareDesignExam
                     input = ui.ReadIntInput();
                     break;
                 }
+                case Menu.GAMEOVER:
+                {
+                    input = ui.ReadStringInput();
+                    break;
+                }
+
+                case Menu.MAINMENU:
+                {
+                    input = ui.ReadStringInput();
+                    break;
+                }
             }
         }
 
@@ -150,6 +165,20 @@ namespace SoftwareDesignExam
                     player.Attack(target);
                     break;
                 }
+
+                case Menu.GAMEOVER:
+                {
+                    handleGameOverInput();
+                    break;
+                }
+                case Menu.MAINMENU:
+
+                {
+                    handleGameOverInput();
+                    handleHighScoreInput();
+                    break;
+                }
+
                 case Menu.LOGIN:
                 {
                     IUserDAO userDAO = new UserDao();
@@ -178,9 +207,33 @@ namespace SoftwareDesignExam
             }
         }
 
+        private void handleHighScoreInput()
+        {
+            if (input == "3")
+            {
+                Console.Clear();
+                Console.WriteLine("here is the topsore");
+                Console.ReadLine();
+            }
+          
+        }
+
+
+        private void handleGameOverInput()
+        {
+            if (input == "1")
+            {
+                menu = Menu.LOGIN;
+                
+            }
+            if (input == "2")
+            {
+                gameIsRunning = false;
+            }
+        }
         public void Update()
         {
-            while (true)
+            while (gameIsRunning)
             {
                 Draw();
                 HandelInput();
