@@ -4,9 +4,9 @@ namespace Persistence.Db;
 
 public class TableMaker
 {
-    public static async void UsersSchemaAndTableMaker()
-    {
-       await using SqliteConnection connection = new("Data Source = gameDb.db");
+    public static void UsersSchemaAndTableMaker()
+    { 
+        using SqliteConnection connection = new("Data Source = gameDb.db");
         connection.Open();
         SqliteCommand command = connection.CreateCommand();
         command.CommandText = @"
@@ -19,7 +19,7 @@ public class TableMaker
         command.ExecuteNonQuery();
     }
 
-    public void WeaponsSchemaAndTableMaker()
+    public static void WeaponsSchemaAndTableMaker()
     {
         using SqliteConnection connection = new("Data Source = gameDb.db");
         connection.Open();
@@ -35,7 +35,7 @@ public class TableMaker
         command.ExecuteNonQuery();
     }
 
-    public void ItemsSchemaAndTableMaker()
+    public static void ItemsSchemaAndTableMaker()
     {
         using SqliteConnection connection = new("Data Source = gameDb.db");
         connection.Open();
