@@ -4,7 +4,6 @@
         ATTACK,
         LOGIN,
         SHOP,
-
-
+        ERROR
     }
 }

@@ -16,6 +16,7 @@ namespace Presentation {
             _menu = new Dictionary<Menu,IView>();
             _menu.Add(Menu.ATTACK, new AttackMenuView(player,enemies));
             _menu.Add(Menu.LOGIN, new LoginMenuView());
+            _menu.Add(Menu.ERROR, new ErrorView());
         }
         public void Draw(Menu menu) {
             _menu[menu].Draw();
