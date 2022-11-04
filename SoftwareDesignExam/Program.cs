@@ -21,9 +21,11 @@ namespace SoftwareDesignExam
         private static UserMenu _userMenu = new();
         private static TableMaker _dbTableMaker = new TableMaker();
 
+
         static void Main(string[] args)
         {
             //TableMaker.UsersSchemaAndTableMaker();
+
            
 
            Game game = new();
