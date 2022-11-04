@@ -1,5 +1,4 @@
 ﻿using Microsoft.Data.Sqlite;
-
 using Model.Interface;
 
 
@@ -21,7 +20,7 @@ namespace Persistence.Db
             command.Parameters.AddWithValue("$topscore", user.Topscore);
             command.ExecuteNonQuery();
         }
-        
+
         public User GetUser(string? name)
         {
             User user = new();
@@ -48,13 +47,50 @@ namespace Persistence.Db
                 user.Name = name;
                 AddUser(user);
             }
+
             return user;
         }
-        
+
+        public static void UpdateUser(User user, string newName)
+        {
+            using SqliteConnection connection = new("Data Source = gameDb.db");
+            connection.Open();
+            SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+            UPDATE users SET name = $name, level = $level, topscore = $topscore  
+                         WHERE name = $newName;
+            VALUES ($name, $level, $topscore, $newName);
+        ";
+            command.Parameters.AddWithValue("$name", user.Name);
+            command.Parameters.AddWithValue("$level", user.Level);
+            command.Parameters.AddWithValue("$topscore", user.Topscore);
+            command.Parameters.AddWithValue("$newName", newName);
+            command.ExecuteNonQuery();
+        }
         
         public List<User> GetAllUsers()
         {
-            throw new NotImplementedException();
+            List<User> usersList = new();
+
+            using SqliteConnection connection = new("Data Source = gameDb.db");
+            connection.Open();
+            SqliteCommand command = connection.CreateCommand();
+            command.CommandText = @"
+                 SELECT * from users
+             ";
+            using SqliteDataReader reader = command.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    User user = new();
+                    user.Name = reader.GetString(0);
+                    user.Level = reader.GetInt32(1);
+                    user.Topscore = reader.GetInt32(2);
+                }
+            }
+
+            return usersList;
         }
 
         public void DeleteUser()

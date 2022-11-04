@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Reflection.Metadata;
 using Model.Abstract;
 using Model.Base;
 using Model.Base.ConcreateDecorators;
@@ -15,7 +16,7 @@ namespace SoftwareDesignExam
 {
     internal class Game
     {
-        private Menu menu = Menu.LOGIN;
+        private Menu menu = Menu.GAMEOVER;
 
         //ITEMS
         private List<Character> playerInvetory = new(); 
@@ -44,6 +45,7 @@ namespace SoftwareDesignExam
         private IUI ui;
         private Character target;
         private Dictionary<GearSpot, ShopItem> invetory;
+        private bool gameIsRunning = true;
 
 
         public Game()
@@ -95,8 +97,39 @@ namespace SoftwareDesignExam
 
         public void HandelInput()
         {
-            input = ui.HandelPlayerInput(menu);
-           
+            switch (menu)
+            {
+                case Menu.ATTACK:
+                {
+                    input = ui.ReadIntInput();
+                    SelectEnemyTarget();
+                    EquiptSelectedItems();
+                    AttackSelectedTarget();
+                    break;
+                }
+                case Menu.LOGIN:
+                {
+                    input = ui.ReadStringInput();
+                    break;
+                }
+                case Menu.GAMEOVER:
+                {
+                    input = ui.ReadStringInput();
+                    break;
+                }
+            }
+        }
+
+        private void EquiptSelectedItems()
+        {
+            player = ItemDecoratorFactory.GetItems(invetory.Values.ToList(), player);
+        }
+
+        private void AttackSelectedTarget()
+        {
+            var index = int.Parse(input) - 1;
+
+            target = enemyList[index];
         }
 
        
@@ -117,6 +150,19 @@ namespace SoftwareDesignExam
 
                     break;
                 }
+                case Menu.GAMEOVER:
+                {
+                    if (input == "1")
+                    {
+                        menu = Menu.LOGIN;
+                    }
+                    else if (input == "2")
+                    {
+                        gameIsRunning = false;
+                    }
+
+                    break;
+                }
 
                 case Menu.LOGIN:
                 {
@@ -133,7 +179,7 @@ namespace SoftwareDesignExam
 
         public void Update()
         {
-            while (true)
+            while (gameIsRunning)
             {
                 Draw();
                 HandelInput();
