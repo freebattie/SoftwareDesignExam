@@ -18,7 +18,7 @@ namespace Model.Base
             MaxHealth = CalculateNewLevelValue(200);
             Health = MaxHealth;
             Dsecription = weapon.Name;
-            Invetory = new Invetory(items);
+           
             ActiveItems = new Dictionary<GearSpot, Item>();
         }
         public override void AddCrit()
@@ -56,9 +56,7 @@ namespace Model.Base
         public override double GetLevel() => Level;
 
         public override string GetDescription() {
-            return  $"{Name} is level {Level}\n" +
-                    $"Health: {Health}" +
-                    $"He is equipt with items: {Dsecription}";
+            return "";
         }
 
         public override void SetWeapon(IWeapon weapon) {
@@ -75,13 +73,7 @@ namespace Model.Base
             return dmg;
         }
 
-        public override void AddItemToInventory(GearSpot spot,Item item) {
-            Invetory.AddItem(spot, item);
-        }
-
-        public override void RemoveItemFromInventory(GearSpot spot) {
-            Invetory?.RemoveItem(spot);
-        }
+       
 
         public override void AddItemToActiveItems(GearSpot spot, Item item) {
             ActiveItems?.Add(spot,item);
@@ -95,29 +87,12 @@ namespace Model.Base
             var list = new List<Item>();
             foreach (var item in ActiveItems.Values) {
                 list.Add(item);
+                item.
             }
             return list;
         }
 
-        public override Dictionary<GearSpot,Item> GetInventoryItems() {
-
-            if (Invetory != null && Invetory.Items != null)
-                return Invetory.Items;
-            else
-                return new Dictionary<GearSpot,Item>();
-                
-        }
-
-        public override void MoveFromInvetoryToActiveItem(GearSpot spot) {
-            var item = GetInventoryItem(spot);
-            RemoveItemFromInventory(spot);
-            AddItemToActiveItems(spot, item);
-          
-        }
-
-        public override Item GetInventoryItem(GearSpot spot) {
-            throw new NotImplementedException();
-        }
+      
 
         public override string GetName() {
             return Name;
