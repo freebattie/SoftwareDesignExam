@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model.Enums;
+﻿using Model.Base.Enums;
 
-namespace Model.Base
+namespace Model.Base.Shop
+
 {
     public class ShopItem
     {
@@ -13,14 +9,17 @@ namespace Model.Base
         public int Price { get; set; }
         public int ItemLevel { get; set; }
         public GearSpot GearSpot { get; set; }
+        public string Description { get; set; }
         public ShopItem() {
 
         }
-        public ShopItem(string name, int price, int itemLevel, GearSpot gearSpot) {
+        public ShopItem(string name, int price, int itemLevel, GearSpot gearSpot, string description) {
             Name = name;
             Price = price;
             ItemLevel = itemLevel;
             GearSpot = gearSpot;
+            Description = description;
+            
         }
 
         public override string? ToString() {

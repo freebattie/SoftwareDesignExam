@@ -1,14 +1,12 @@
 ﻿
-using Model.Abstract;
-using Model.Base;
-using Model.Base.ConcreateDecorators;
-using Model.Base.Weapons;
+using Model.Base.Shop;
 using Model.Decorator;
-using Model.Enums;
-using Model.Interface;
+using Model.Decorator.Abstract;
+using Model.Decorator.Items;
 using System.Reflection;
 
-namespace Model.Factory {
+namespace Model.Factory
+{
     public static class ItemDecoratorFactory {
 
         private static Dictionary<string, Type> decoratorItems = new();
@@ -34,12 +32,23 @@ namespace Model.Factory {
 
             return original;
         }
+        public static Character GetItem(string item, Character original) {
+
+
+            Type decoratorItem = decoratorItems[item.ToLower()];
+            if (decoratorItem == null) return new NoItem(original);
+            original = Activator.CreateInstance(decoratorItem, original) as CharacterDecorator;
+
+
+
+            return original;
+        }
 
         public static void LoadInAllItemsFromAssambly() {
             Assembly assembly = Assembly.GetExecutingAssembly();
             foreach (Assembly currentassembly in AppDomain.CurrentDomain.GetAssemblies()) {
 
-                if (currentassembly.FullName.Contains("Model"))
+                if (currentassembly.FullName.Contains("Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"))
                     assembly = currentassembly;
 
             }
@@ -52,6 +61,24 @@ namespace Model.Factory {
                     }
                 }
             }
+        }
+        public static List<string> GetNameOFAllItemsInGame() {
+            List<string> AllItems = new();
+            Assembly? assembly = Assembly.GetExecutingAssembly();
+            foreach (Assembly currentassembly in AppDomain.CurrentDomain.GetAssemblies()) {
+                if (currentassembly.FullName.Contains("Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"))
+                    assembly = currentassembly;
+            }
+
+            foreach (var item in assembly.GetTypes()) {
+                if (item.IsSubclassOf(typeof(CharacterDecorator)) && !item.IsAbstract) {
+                    if (item.Name != typeof(NoItem).Name) {
+                        AllItems.Add(item.Name);
+                    }
+                }
+            }
+
+            return AllItems;
         }
     }
 }

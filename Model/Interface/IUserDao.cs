@@ -1,6 +1,6 @@
 using Model.Base;
-using Model.Enums;
-using Persistence.Db;
+using Model.Base.Player;
+
 
 namespace Model.Interface;
 

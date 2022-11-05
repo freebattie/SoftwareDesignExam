@@ -16,7 +16,7 @@ public class ErrorView : IView
 ";
     public void Draw()
     {
-        Writer.ResetScreen();
+        Writer.ClearScreen();
         
         Writer.PrintLine(errorHeader);
         Writer.PrintLine("");

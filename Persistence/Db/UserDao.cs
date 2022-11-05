@@ -1,24 +1,23 @@
-﻿using Microsoft.Data.Sqlite;
+﻿
+using Microsoft.Data.Sqlite;
+using Model.Base.Player;
 using Model.Interface;
-
 
 namespace Persistence.Db
 {
-    public class UserDao : IUserDao
-    {
+    public class UserDao : IUserDAO {
         public void AddUser(User user)
         {
             using SqliteConnection connection = new("Data Source = gameDb.db");
             connection.Open();
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-            INSERT INTO users (name, level, topscore, currentscore)
-            VALUES ($name, $level, $topscore, $currentscore);
+            INSERT INTO users (name, level, topscore)
+            VALUES ($name, $level, $topscore);
         ";
             command.Parameters.AddWithValue("$name", user.Name);
             command.Parameters.AddWithValue("$level", user.Level);
             command.Parameters.AddWithValue("$topscore", user.Topscore);
-            command.Parameters.AddWithValue("$currentscore", user.Currentscore);
             command.ExecuteNonQuery();
         }
 
@@ -31,7 +30,7 @@ namespace Persistence.Db
             connection.Open();
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-            SELECT name, level, topscore, currentscore
+            SELECT name, level, topscore
             FROM users 
             WHERE name = $name
         ";
@@ -42,7 +41,6 @@ namespace Persistence.Db
                 user.Name = reader.GetString(0);
                 user.Level = reader.GetInt32(1);
                 user.Topscore = reader.GetInt32(2);
-                user.Currentscore = reader.GetInt32(3);
             }
             else
             {
@@ -53,25 +51,23 @@ namespace Persistence.Db
             return user;
         }
 
-        public void UpdateUser(User user, string newName)
+        public static void UpdateUser(User user, string newName)
         {
             using SqliteConnection connection = new("Data Source = gameDb.db");
             connection.Open();
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-            UPDATE users SET name = $name, level = $level, topscore = $topscore, currentscore = $currentscore 
+            UPDATE users SET name = $name, level = $level, topscore = $topscore  
                          WHERE name = $newName;
-            VALUES ($name, $level, $topscore, $newName, $currentscore);
+            VALUES ($name, $level, $topscore, $newName);
         ";
             command.Parameters.AddWithValue("$name", user.Name);
             command.Parameters.AddWithValue("$level", user.Level);
             command.Parameters.AddWithValue("$topscore", user.Topscore);
-            command.Parameters.AddWithValue("$currentscore", user.Currentscore);
             command.Parameters.AddWithValue("$newName", newName);
             command.ExecuteNonQuery();
-            
         }
-
+        
         public List<User> GetAllUsers()
         {
             List<User> usersList = new();
@@ -91,16 +87,14 @@ namespace Persistence.Db
                     user.Name = reader.GetString(0);
                     user.Level = reader.GetInt32(1);
                     user.Topscore = reader.GetInt32(2);
-                    user.Currentscore = reader.GetInt32(3);
                 }
             }
 
             return usersList;
         }
-
+        //TODO: Fjern
         public void DeleteUser()
         {
-            
         }
     }
 }

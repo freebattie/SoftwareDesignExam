@@ -1,11 +1,4 @@
-﻿using Model.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Presentation.Utils {
+﻿namespace Presentation.Utils {
     public static class Reader {
 
         /// <summary>
@@ -15,7 +8,7 @@ namespace Presentation.Utils {
         /// <typeparam name="T"></typeparam>
         /// <param name="list"></param>
         /// <returns></returns>
-        public static string ReadInt<T>(List<T> list) { 
+        public static string ReadIntAsString<T>(List<T> list) { 
 
             string input = Console.ReadLine();
             
@@ -24,19 +17,23 @@ namespace Presentation.Utils {
                 && int.Parse(input.ToCharArray()[0].ToString()) != 0)
                 return input;
             else
-                return "";
+                return "ERROR";
         }
-        public static string ReadInt() {
+        public static string ReadIntAsString() {
 
             string input = Console.ReadLine();
-            if (Char.IsDigit(input.ToCharArray()[0]) && input.Length == 1 )
+            if (input.Length == 0)
+                return "ERROR";
+           else if (Char.IsDigit(input.ToCharArray()[0]) && input.Length == 1 )
                 return input;
             else
-                return "";
+                return "ERROR";
         }
         public static string ReadString() {
 
             string input = Console.ReadLine();
+            if (input.Length == 0)
+                return "ERROR";
             return input;
         }
 

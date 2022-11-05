@@ -1,17 +1,13 @@
-﻿using Model.Abstract;
-using Model.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Model.Base.Enums;
+using Model.Base.Player;
+using Model.Decorator.Abstract;
 
-namespace Model.Interface {
+namespace Model.Interface
+{
     public interface IUI {
         void Draw(Menu menu);
         string ReadIntInput<T>(List<T> list);
-        string ReadIntInput();
-        string ReadStringInput();
-        void SetPlayer(Character player, List<Character> enimies);
+        void SetActiveModels(PlayerHandler player, List<Character> enimies);
+        string HandelPlayerInput(Menu menu);
     }
 }
