@@ -1,10 +1,11 @@
-﻿using Model.Abstract;
-using Model.Enums;
+﻿
+
+using Model.Base.Player;
+using Model.Decorator.Abstract;
 using Model.Interface;
-using Persistence.Db;
 
-
-namespace Model.Decorator {
+namespace Model.Decorator
+{
 
     //TODO: PizzaDecorator
     public class CharacterDecorator : Character {
@@ -61,6 +62,14 @@ namespace Model.Decorator {
 
         public override void SetUser(User user) {
             original.SetUser(user);
+        }
+
+        public override IWeapon GetWeapon() {
+           return  original.GetWeapon();
+        }
+
+        public override double GetMaxHealth() {
+            return original.GetMaxHealth();
         }
     }
 }

@@ -1,7 +1,4 @@
 ﻿
-
-
-using Model.Base.ConcreateDecorators;
 using Model.Base.Weapons;
 using Model.Interface;
 using System.Reflection;
@@ -23,7 +20,7 @@ namespace Model.Factory
         /// <summary>
         /// WeaponName er key verdi for å finne rett type IWeapon i Dictionary 
         /// itemDescription i lag med weaponName blir navne på våpenet døme : Golden axe
-        /// dmg: hvor mye skade wåpenet gjør 
+        /// dmg: hvor mye skade våpenet gjør 
         /// </summary>
         /// <param name="weaponName"></param>
         /// <param name="itemDescription"></param>
@@ -50,7 +47,7 @@ namespace Model.Factory
             Assembly? assembly = Assembly.GetExecutingAssembly();
             foreach (Assembly currentassembly in AppDomain.CurrentDomain.GetAssemblies()) {
 
-                if (currentassembly.FullName.Contains("Model"))
+                if (currentassembly.FullName.Contains("Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"))
                     assembly = currentassembly;
 
             }
@@ -62,6 +59,12 @@ namespace Model.Factory
                 }
             }
         }
+        /// <summary>
+        /// henter et tilfeldig våpen og bygger det ved hjelp av
+        /// arrayene itemDescription og damageRange
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
         public static IWeapon GenerateRandomWeapon(int level) {
             var weaponNames = LoadNameOfAllWeapons();
             var weapons = new List<IWeapon>();
@@ -69,14 +72,19 @@ namespace Model.Factory
             var descriptionIndex = random.Next(itemDescription.Length);
             var weaponNameIndex = random.Next(weaponNames.Count);
             var dmg = damageRange[level];
-            return GetWeapon(weaponNames[weaponNameIndex], weaponNames[descriptionIndex], dmg);
+            return GetWeapon(weaponNames[weaponNameIndex], itemDescription[descriptionIndex], dmg);
 
         }
+        /// <summary>
+        /// gjør det samme som LoadInWeapons men lagrer kun navne på klassene i en liste slik vi kan 
+        /// få ut alle Keys til LoadInWeapons
+        /// </summary>
+        /// <returns>Liste av streng med navn på alle våpen i spillet</returns>
         public static List<string> LoadNameOfAllWeapons() {
             List<string> AllItems = new();
             Assembly? assembly = Assembly.GetExecutingAssembly();
             foreach (Assembly currentassembly in AppDomain.CurrentDomain.GetAssemblies()) {
-                if (currentassembly.FullName.Contains("Model"))
+                if (currentassembly.FullName.Contains("Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"))
                     assembly = currentassembly;
             }
 

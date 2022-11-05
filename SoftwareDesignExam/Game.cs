@@ -1,12 +1,16 @@
 ﻿
-using Model.Abstract;
-using Model.Base;
-using Model.Enums;
+
+using Model.Base.Enemies;
+using Model.Base.Enums;
+using Model.Base.Player;
+using Model.Base.Shop;
+using Model.Decorator.Abstract;
 using Model.Interface;
 using Persistence.Db;
 using Presentation;
 
-namespace SoftwareDesignExam {
+namespace SoftwareDesignExam
+{
     public class Game {
         private string input;
         private PlayerHandler playerHandler;
@@ -16,15 +20,14 @@ namespace SoftwareDesignExam {
         private IUI ui;
 
         private List<Character> enemyList;
-        private List<ShopItem> shopItems;
-
+       
         private Menu lastMenu;
         private Menu menu = Menu.LOGIN;
 
         public Game() {
-            playerHandler = new Model.Base.PlayerHandler();
+            playerHandler = new PlayerHandler();
             enemyList = new List<Character>();
-            ui = new UI(playerHandler.GetPlayer(), enemyList);
+            ui = new UI();
         }
 
         public void Update() {
@@ -36,32 +39,43 @@ namespace SoftwareDesignExam {
         }
 
         public void Draw() {
+            ui.SetActiveModels(playerHandler, enemyList);
             ui.Draw(menu);
         }
 
         public void HandelInput() {
             input = ui.HandelPlayerInput(menu);
+            if (input == "ERROR") {
+                lastMenu = menu;
+                menu = Menu.ERROR;
+                input = "";
+            }
         }
 
         /// <summary>
         /// for Database hantering og spill relaterte opprasjoner
         /// </summary>
         public void HandelGameMecknaics() {
+            
             switch (menu) {
                 case Menu.ATTACK: {
+                        lastMenu = menu;
                         HandelAttackMeckanics();
                         break;
                     }
                 case Menu.GAMEOVER: {
+                        lastMenu = menu;
                         handleGameOverMeckanics();
                         break;
                     }
                 case Menu.MAINMENU: {
+                        lastMenu = menu;
                         handelMainMenuMeckanics();
                         break;
                     }
 
                 case Menu.LOGIN: {
+                        lastMenu = menu;
                         HandelLoginMeckanics();
                         break;
                     }
@@ -70,7 +84,26 @@ namespace SoftwareDesignExam {
                         break;
                     }
                 case Menu.NEXTROOM: {
+                        lastMenu = menu;
+                        break;
+                    }
+                case Menu.INVETORY: {
+                        lastMenu = menu;
+                        if (int.Parse(input) <= playerHandler.GetInventory().Count) {
+                            var items = playerHandler.GetInventory();
 
+                            var item = items[int.Parse(input) - 1];
+                            playerHandler.removeItem(item);
+                            playerHandler.SetActiveGearItem(item.GearSpot, item);
+                            break;
+                        }
+                        else if(int.Parse(input) == playerHandler.GetInventory().Count+1) {
+                            playerHandler.EquiptAllActiveItems();
+                            menu = Menu.ATTACK;
+                            break;
+                        }
+                        else
+                            menu = Menu.ERROR;
                         break;
                     }
 
@@ -92,27 +125,31 @@ namespace SoftwareDesignExam {
                 menu = lastMenu;
             }
             else if (input == "2") {
-                //menu = Menu.GAMEOVER
+                gameIsRunning = false;
             }
-            else if (input.Length < 0) {
-                //Fungerer ikke akkurat nå
-                menu = Menu.ERROR;
-            }
+           
         }
 
         private void HandelSettingActivePlayer() {
             IUserDAO userDAO = new UserDao();
             playerHandler.SetUser(userDAO.GetUser(input));
+            enemyList = EnemySpawner.SpawnEnemies(3, 2);
+            //ui.SetActiveModels(playerHandler, enemyList);
 
         }
 
         private void HandelAttackMeckanics() {
-            if (enemyList.Count > 1) {
+            // se om du har valgt å angripe en fiende eller gå til inventory
+            
+            if (enemyList.Count >= 1 && int.Parse(input) <= enemyList.Count) {
                 AttackSelectedTarget();
                 HandelEnemiesTurn();
             }
+            else if(int.Parse(input) == enemyList.Count + 1) {
+                menu = Menu.INVETORY;
+            }
             else
-                menu = Menu.NEXTROOM;
+                menu = Menu.ERROR;
         }
 
         private void AttackSelectedTarget() {
@@ -121,8 +158,16 @@ namespace SoftwareDesignExam {
             playerHandler.Attack();
         }
         private void HandelEnemiesTurn() {
+            List<Character> remove = new();
             foreach (var enemy in enemyList) {
-                enemy.Attack(playerHandler.GetPlayer());
+                if (enemy.GetHealth() <= 0) {
+                    remove.Add(enemy);
+                }else
+                    enemy.Attack(playerHandler.GetPlayer());
+
+            }
+            foreach (var enemy in remove) { 
+                enemyList.Remove(enemy);
             }
         }
 
@@ -143,27 +188,9 @@ namespace SoftwareDesignExam {
                 gameIsRunning = false;
             }
         }
-        private static List<ShopItem> CreateAllShopItems() {
-            List<ShopItem> shopItems = new();
+     
 
-
-            shopItems.Add(CreateNewItem("rabbitsfoot", 1, GearSpot.TRINCKET, 100));
-            shopItems.Add(CreateNewItem("ironshield", 2, GearSpot.SHIELD, 200));
-            shopItems.Add(CreateNewItem("woodenshield", 2, GearSpot.SHIELD, 100));
-
-
-            return shopItems;
-        }
-
-        private static ShopItem CreateNewItem(string name, int level, GearSpot spot, int price) {
-            ShopItem shopItem = new();
-            shopItem.Name = name;
-            shopItem.ItemLevel = level;
-            shopItem.GearSpot = spot;
-            shopItem.Price = price;
-
-            return shopItem;
-        }
+       
 
     }
 }

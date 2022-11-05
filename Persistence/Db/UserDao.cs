@@ -1,11 +1,11 @@
-﻿using Microsoft.Data.Sqlite;
+﻿
+using Microsoft.Data.Sqlite;
+using Model.Base.Player;
 using Model.Interface;
-
 
 namespace Persistence.Db
 {
-    public class UserDao : IUserDAO
-    {
+    public class UserDao : IUserDAO {
         public void AddUser(User user)
         {
             using SqliteConnection connection = new("Data Source = gameDb.db");
@@ -92,7 +92,7 @@ namespace Persistence.Db
 
             return usersList;
         }
-
+        //TODO: Fjern
         public void DeleteUser()
         {
         }

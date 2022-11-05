@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Model.Enums;
+﻿using Model.Base.Enums;
 
-namespace Model.Base
+namespace Model.Base.Shop
+
 {
     public class ShopItem
     {

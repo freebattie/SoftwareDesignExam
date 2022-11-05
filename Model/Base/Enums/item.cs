@@ -1,4 +1,4 @@
-﻿namespace Model.Enums {     // kanskje ha med runder med forjskjellige funkjsoner osv, evt. en abstrakt Level/Round også flere leveler osv
+﻿namespace Model.Base.Enums {     // kanskje ha med runder med forjskjellige funkjsoner osv, evt. en abstrakt Level/Round også flere leveler osv
 
 
     /// <summary>

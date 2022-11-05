@@ -1,5 +1,5 @@
-using Model.Base;
-using Model.Enums;
+using Model.Base.Shop;
+
 
 namespace Model.Interface;
 

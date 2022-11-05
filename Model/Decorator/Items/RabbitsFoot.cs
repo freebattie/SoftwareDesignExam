@@ -1,13 +1,6 @@
-﻿using Model.Abstract;
-using Model.Decorator;
-using Model.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Model.Decorator.Abstract;
 
-namespace Model.Base.ConcreateDecorators {
+namespace Model.Decorator.Items {
     //TODO: HAM,PEPPERONI ETC
     public class RabbitsFoot : CharacterDecorator
     {
@@ -20,9 +13,6 @@ namespace Model.Base.ConcreateDecorators {
         {
 
         }
-
-
-
         public override void RemoveHealth(double weaponDmg)
         {
             if (GetHealth() - weaponDmg <= 0 && !isUsed)
@@ -42,7 +32,7 @@ namespace Model.Base.ConcreateDecorators {
 
         public override string GetDescription()
         {
-            return base.GetDescription() + ", RabbitsFoot status:" + (isUsed ? " used": " not used");
+            return base.GetDescription() + "\n# RabbitsFoot status:" + (isUsed ? " used": " not used");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Model.Enums {
+﻿namespace Model.Base.Enums {
 
     public enum Menu {
         ATTACK,
@@ -8,5 +8,6 @@
         GAMEOVER,
         MAINMENU,
         NEXTROOM,
+        INVETORY,
     }
 }

@@ -1,30 +1,29 @@
 ﻿
 
-using Model.Abstract;
-using Model.Enums;
+using Model.Base.Enums;
+using Model.Base.Player;
+using Model.Decorator.Abstract;
+using Model.Decorator.Original;
 using Model.Interface;
 using Presentation.Utils;
 using Presentation.Views;
-using System.Collections.Generic;
-using Persistence.Db;
 
 namespace Presentation {
     public class UI: IUI {
-        Dictionary<Menu,IView> _allMenuViews;
-        public UI(Character player ,List<Character> enemies) {
+        private Dictionary<Menu,IView> _allMenuViews;
+       
+        
+        public UI() {
 
-
-            User dummyPlayer = new();
-            dummyPlayer.Name = "Sigmund";
-            dummyPlayer.Level = 12;
-            _allMenuViews = new Dictionary<Menu,IView>();
-            _allMenuViews.Add(Menu.ATTACK, new AttackMenuView(player, enemies));
+            _allMenuViews = new Dictionary<Menu, IView>();
+            _allMenuViews.Add(Menu.ATTACK, new AttackMenuView(new StartingCharacter(),new List<Character>()));
             _allMenuViews.Add(Menu.LOGIN, new LoginMenuView());
-            _allMenuViews.Add(Menu.GAMEOVER, new GameOverView(dummyPlayer));
-            _allMenuViews.Add(Menu.MAINMENU, new MainMenuView(dummyPlayer));
+            _allMenuViews.Add(Menu.GAMEOVER, new GameOverView(new User()));
+            _allMenuViews.Add(Menu.MAINMENU, new MainMenuView(new User()));
             _allMenuViews.Add(Menu.ERROR, new ErrorView());
+            _allMenuViews.Add(Menu.INVETORY, new InventoryView());
 
-           
+
         }
         public void Draw(Menu menu) {
             _allMenuViews[menu].Draw();
@@ -33,28 +32,18 @@ namespace Presentation {
         public string HandelPlayerInput(Menu menu) {
             string value = "";
             switch (menu) {
+                case Menu.MAINMENU: 
+                case Menu.ERROR:
+                case Menu.GAMEOVER:
+                case Menu.INVETORY: 
                 case Menu.ATTACK: {
                         return value = Reader.ReadIntAsString();
-
-                        break;
                     }
                 case Menu.LOGIN: {
                          return value = Reader.ReadString();
-                        break;
                     }
-                case Menu.MAINMENU: {
-                       return  value = Reader.ReadString();
-                        break;
-                    }
-                case Menu.ERROR: {
-                       return  value = Reader.ReadString();
-                        break;
-                    }
-                case Menu.GAMEOVER: {
-                        return value = Reader.ReadString();
-                        break;
-                    }
-
+                
+                
             }
             return null;
         }
@@ -63,8 +52,14 @@ namespace Presentation {
            return Reader.ReadIntAsString(list);
         }
 
-        public void SetActiveModels(User user, Character player, List<Character> enimies) {
-            throw new NotImplementedException();
+        public void SetActiveModels(PlayerHandler playerhandler, List<Character> enemies) {
+           
+            _allMenuViews[Menu.ATTACK] = new AttackMenuView(playerhandler.GetPlayer(), enemies);
+            _allMenuViews[Menu.LOGIN] = new LoginMenuView();
+            _allMenuViews[Menu.GAMEOVER] = new GameOverView(playerhandler.GetUser());
+            _allMenuViews[Menu.MAINMENU] = new MainMenuView(playerhandler.GetUser());
+            _allMenuViews[Menu.ERROR] = new ErrorView();
+            _allMenuViews[Menu.INVETORY] = new InventoryView(playerhandler.GetInventory(),playerhandler.GetActiveItems());
         }
 
         public void SetPlayer(Character player,List<Character> enemies) {

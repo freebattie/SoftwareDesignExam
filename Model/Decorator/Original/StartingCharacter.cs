@@ -1,17 +1,17 @@
 ﻿
-using Model.Abstract;
-using Model.Enums;
-using Model.Interface;
-using Persistence.Db;
 
-namespace Model.Base
+using Model.Base.Player;
+using Model.Decorator.Abstract;
+using Model.Interface;
+
+namespace Model.Decorator.Original
 {
     public class StartingCharacter : Character
     {
         public int Topscore { get; private set; }
 
         public StartingCharacter() { }
-        public StartingCharacter(User user,IWeapon weapon)
+        public StartingCharacter(User user, IWeapon weapon)
         {
             Name = user.Name;
             Level = user.Level;
@@ -20,8 +20,8 @@ namespace Model.Base
             MaxHealth = CalculateNewLevelValue(200);
             Health = MaxHealth;
             Dsecription = weapon.Name;
-           
-           
+
+
         }
         public override void AddCrit()
         {
@@ -30,23 +30,25 @@ namespace Model.Base
 
         public override void SetLevel(int level)
         {
-            Level= level;
+            Level = level;
             MaxHealth = CalculateNewLevelValue(200);
             Health = MaxHealth;
         }
 
         public override void Attack(Character person)
         {
-            if (Weapon != null) {
-                double damage = GetDamageInRange((int)Level, (int)Weapon.Damage + (int)Level);
+            if (Weapon != null)
+            {
+                double damage = GetDamageInRange((int)Level, (int)GetWeapon().GetDamage() + (int)Level);
                 damage = CheckForCritDamage(damage);
                 person.RemoveHealth(damage);
                 Console.WriteLine(damage);
             }
-            
+
         }
 
-        public override int GetDamageInRange(int min, int max) {
+        public override int GetDamageInRange(int min, int max)
+        {
             Random random = new Random();
             int value = random.Next(min, max);
             return value;
@@ -57,17 +59,20 @@ namespace Model.Base
         public override void RemoveHealth(double weaponDmg) => Health -= weaponDmg;
         public override double GetLevel() => Level;
 
-        public override string GetDescription() {
-            return  "Backpack";
-                    
+        public override string GetDescription()
+        {
+            return "\n# A Backpack";
+
         }
 
-        public override void SetWeapon(IWeapon weapon) {
-           Weapon = weapon;
+        public override void SetWeapon(IWeapon weapon)
+        {
+            Weapon = weapon;
         }
 
-        public override double CheckForCritDamage(double dmg) {
-            
+        public override double CheckForCritDamage(double dmg)
+        {
+
             Random gen = new Random();
             int prob = gen.Next(100);
             if (prob <= Crit)
@@ -76,21 +81,31 @@ namespace Model.Base
             return dmg;
         }
 
-       
 
-       
 
-      
 
-        public override string GetName() {
+
+
+
+        public override string GetName()
+        {
             return Name;
         }
 
-        public override void SetUser(User user) {
+        public override void SetUser(User user)
+        {
             Name = user.Name;
             Level = user.Level;
-             
 
+
+        }
+
+        public override IWeapon GetWeapon() {
+            return Weapon;
+        }
+
+        public override double GetMaxHealth() {
+            return MaxHealth;
         }
     }
 }

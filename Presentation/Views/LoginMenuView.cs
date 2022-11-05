@@ -12,7 +12,7 @@ namespace Presentation.Views {
  |______\____/ \_____|      |_____|_| \_|                                                                                                                                                                                                                                                                                                                                                                                       
 ";
         public void Draw() {
-            Writer.ResetScreen();
+            Writer.ClearScreen();
             Writer.PrintLine(headerLogin);
             Writer.PrintLine("Enter a username to start the game");
             Writer.PrintLine("Input:");

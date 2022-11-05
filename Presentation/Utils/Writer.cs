@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Presentation.Utils {
     static class Writer {
         private static ConsoleColor backgroundColor;
@@ -13,7 +8,7 @@ namespace Presentation.Utils {
         static Writer() {
             ResetColors();
         }
-        public static void ResetScreen() {
+        public static void ClearScreen() {
             Console.Clear();
         }
         private static void ResetColors() {

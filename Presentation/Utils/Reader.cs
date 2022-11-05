@@ -1,11 +1,4 @@
-﻿using Model.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Presentation.Utils {
+﻿namespace Presentation.Utils {
     public static class Reader {
 
         /// <summary>
@@ -29,7 +22,9 @@ namespace Presentation.Utils {
         public static string ReadIntAsString() {
 
             string input = Console.ReadLine();
-            if (Char.IsDigit(input.ToCharArray()[0]) && input.Length == 1 )
+            if (input.Length == 0)
+                return "ERROR";
+           else if (Char.IsDigit(input.ToCharArray()[0]) && input.Length == 1 )
                 return input;
             else
                 return "ERROR";
@@ -37,6 +32,8 @@ namespace Presentation.Utils {
         public static string ReadString() {
 
             string input = Console.ReadLine();
+            if (input.Length == 0)
+                return "ERROR";
             return input;
         }
 

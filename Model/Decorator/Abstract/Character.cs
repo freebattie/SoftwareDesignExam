@@ -1,11 +1,8 @@
-﻿using Model.Base;
-using Model.Enums;
-
+﻿using Model.Base.Player;
 using Model.Interface;
-using Persistence.Db;
-using System.Reflection.Emit;
 
-namespace Model.Abstract {
+namespace Model.Decorator.Abstract
+{
 
     //TODO: Pizza
     public abstract class Character {
@@ -55,6 +52,8 @@ namespace Model.Abstract {
         public abstract string GetDescription();
         public abstract string GetName();
         public abstract void SetUser(User user);
+        public abstract IWeapon GetWeapon();
+        public abstract double GetMaxHealth();
 
     }
 }

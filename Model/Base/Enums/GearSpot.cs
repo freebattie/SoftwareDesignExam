@@ -1,4 +1,4 @@
-﻿namespace Model.Enums {
+﻿namespace Model.Base.Enums {
    
         public enum GearSpot {
             NONE,
