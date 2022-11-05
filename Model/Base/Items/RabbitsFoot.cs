@@ -42,7 +42,7 @@ namespace Model.Base.ConcreateDecorators {
 
         public override string GetDescription()
         {
-            return base.GetDescription() + ", RabbitsFoot";
+            return base.GetDescription() + ", RabbitsFoot status:" + (isUsed ? " used": " not used");
         }
     }
 }

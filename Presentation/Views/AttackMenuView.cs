@@ -18,13 +18,11 @@ namespace Presentation.Views {
 ";
 
         public AttackMenuView(Character player,List<Character> enemies) {
-           
+            this.player = player;
+            this.enemies = enemies;
         }
 
-        public void AddModels<T, K>(T model, List<K> items = null) {
-            player = model as Character;
-            enemies = items<Character>;
-        }
+        
 
         public void AttackMenu() {
             Writer.ResetScreen();

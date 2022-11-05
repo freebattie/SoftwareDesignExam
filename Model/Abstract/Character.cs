@@ -2,6 +2,7 @@
 using Model.Enums;
 
 using Model.Interface;
+using Persistence.Db;
 using System.Reflection.Emit;
 
 namespace Model.Abstract {
@@ -10,7 +11,7 @@ namespace Model.Abstract {
     public abstract class Character {
        
         private IWeapon? _weapon;
-        public Dictionary<GearSpot,Item>? ActiveItems { get; set; }
+      
         private string? dsecription;
         protected string? Dsecription { get => dsecription; set => dsecription = value; }
         public string? Name { get; set; }
@@ -24,7 +25,6 @@ namespace Model.Abstract {
         protected double Level { get => level; set => level = value; }
         protected double Crit { get => CalculateNewLevelValue(crit); set => crit = value <= 100 ? value : 100; }
         protected double ArmorLevel { get; set; }
-        protected int Score { get; set; }
         protected IWeapon? Weapon { get => _weapon; set => _weapon = value; }
         protected double Health {
             get { return health; }
@@ -53,10 +53,8 @@ namespace Model.Abstract {
         public abstract void AddCrit();
         public abstract int GetDamageInRange(int min, int max);
         public abstract string GetDescription();
-        public abstract void AddItemToActiveItems(GearSpot spot,Item  item);
-        public abstract void RemoveItemFromActiveItems(GearSpot spot);
-        public abstract List<Item> GetActiveItems();
         public abstract string GetName();
+        public abstract void SetUser(User user);
 
     }
 }

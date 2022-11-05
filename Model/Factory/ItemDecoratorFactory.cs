@@ -53,5 +53,23 @@ namespace Model.Factory {
                 }
             }
         }
+        public static List<string> GetNameOFAllItemsInGame() {
+            List<string> AllItems = new();
+            Assembly? assembly = Assembly.GetExecutingAssembly();
+            foreach (Assembly currentassembly in AppDomain.CurrentDomain.GetAssemblies()) {
+                if (currentassembly.FullName.Contains("Model"))
+                    assembly = currentassembly;
+            }
+
+            foreach (var item in assembly.GetTypes()) {
+                if (item.IsSubclassOf(typeof(CharacterDecorator)) && !item.IsAbstract) {
+                    if (item.Name != typeof(NoItem).Name) {
+                        AllItems.Add(item.Name);
+                    }
+                }
+            }
+
+            return AllItems;
+        }
     }
 }

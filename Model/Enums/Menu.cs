@@ -4,8 +4,9 @@
         ATTACK,
         LOGIN,
         SHOP,
-        ERROR
+        ERROR,
         GAMEOVER,
         MAINMENU,
+        NEXTROOM,
     }
 }

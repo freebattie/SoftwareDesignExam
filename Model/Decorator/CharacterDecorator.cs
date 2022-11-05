@@ -1,11 +1,8 @@
 ﻿using Model.Abstract;
 using Model.Enums;
 using Model.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Persistence.Db;
+
 
 namespace Model.Decorator {
 
@@ -58,42 +55,12 @@ namespace Model.Decorator {
         public override double CheckForCritDamage(double dmg) {
             return original.CheckForCritDamage(dmg);
         }
-
-        public override void AddItemToInventory(GearSpot spot, Item item) {
-            original.AddItemToInventory(spot,item);
-        }
-
-        public override void RemoveItemFromInventory(GearSpot item) {
-            original.RemoveItemFromInventory(item);
-        }
-
-        public override void AddItemToActiveItems(GearSpot spot, Item item) {
-           original.AddItemToActiveItems(spot,item);
-        }
-
-        public override void RemoveItemFromActiveItems(GearSpot item) {
-            original.RemoveItemFromActiveItems(item);
-        }
-
-        public override List<Item> GetActiveItems() {
-            return original.GetActiveItems();
-        }
-
-        public override Dictionary<GearSpot, Item> GetInventoryItems() {
-            //TODO: Sjå på denne
-           return original.GetInventoryItems();
-        }
-
-        public override void MoveFromInvetoryToActiveItem(GearSpot spot) {
-            original.MoveFromInvetoryToActiveItem(spot);
-        }
-
-        public override Item GetInventoryItem(GearSpot spot) {
-            return original.GetInventoryItem(spot);
-        }
-
         public override string GetName() {
            return original.GetName();
+        }
+
+        public override void SetUser(User user) {
+            original.SetUser(user);
         }
     }
 }

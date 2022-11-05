@@ -8,8 +8,10 @@ namespace Model.Base
 {
     public class StartingCharacter : Character
     {
+        public int Topscore { get; private set; }
+
         public StartingCharacter() { }
-        public StartingCharacter(User user,IWeapon weapon,Dictionary<GearSpot,Item> items)
+        public StartingCharacter(User user,IWeapon weapon)
         {
             Name = user.Name;
             Level = user.Level;
@@ -19,7 +21,7 @@ namespace Model.Base
             Health = MaxHealth;
             Dsecription = weapon.Name;
            
-            ActiveItems = new Dictionary<GearSpot, Item>();
+           
         }
         public override void AddCrit()
         {
@@ -56,9 +58,8 @@ namespace Model.Base
         public override double GetLevel() => Level;
 
         public override string GetDescription() {
-            return  "";
-                    $"Health: {Health}" +
-                    $"He is equipt with items: {Dsecription}";
+            return  "Backpack";
+                    
         }
 
         public override void SetWeapon(IWeapon weapon) {
@@ -77,27 +78,19 @@ namespace Model.Base
 
        
 
-        public override void AddItemToActiveItems(GearSpot spot, Item item) {
-            ActiveItems?.Add(spot,item);
-        }
-
-        public override void RemoveItemFromActiveItems(GearSpot item) {
-            ActiveItems?.Remove(item);
-        }
-
-        public override List<Item> GetActiveItems() {
-            var list = new List<Item>();
-            foreach (var item in ActiveItems.Values) {
-                list.Add(item);
-                item.
-            }
-            return list;
-        }
+       
 
       
 
         public override string GetName() {
             return Name;
+        }
+
+        public override void SetUser(User user) {
+            Name = user.Name;
+            Level = user.Level;
+             
+
         }
     }
 }
