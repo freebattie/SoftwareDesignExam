@@ -56,9 +56,7 @@ namespace Model.Base
         public override double GetLevel() => Level;
 
         public override string GetDescription() {
-            return  $"{Name} is level {Level}\n" +
-                    $"Health: {Health}" +
-                    $"He is equipt with items: {Dsecription}";
+            return  "";
         }
 
         public override void SetWeapon(IWeapon weapon) {

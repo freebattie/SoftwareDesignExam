@@ -4,7 +4,8 @@
         ATTACK,
         LOGIN,
         SHOP,
-
-
+        ERROR
+        GAMEOVER,
+        MAINMENU,
     }
 }
