@@ -1,6 +1,4 @@
-﻿
-
-using Model.Base.Enemies;
+﻿using Model.Base.Enemies;
 using Model.Base.Enums;
 using Model.Base.Player;
 using Model.Base.Shop;
@@ -12,26 +10,26 @@ using Presentation;
 namespace SoftwareDesignExam
 {
     public class Game {
-        private string input;
+        private string _input;
         private PlayerHandler playerHandler;
-        private bool gameIsRunning = true;
+        private bool _gameIsRunning = true;
 
         public UserDao _userDao;
         private IUI ui;
 
-        private List<Character> enemyList;
+        private List<Character> _enemyList;
        
-        private Menu lastMenu;
-        private Menu menu = Menu.LOGIN;
+        private Menu _lastMenu;
+        private Menu _menu = Menu.LOGIN;
 
         public Game() {
             playerHandler = new PlayerHandler();
-            enemyList = new List<Character>();
+            _enemyList = new List<Character>();
             ui = new UI();
         }
 
         public void Update() {
-            while (gameIsRunning) {
+            while (_gameIsRunning) {
                 Draw();
                 HandelInput();
                 HandelGameMecknaics();
@@ -39,16 +37,16 @@ namespace SoftwareDesignExam
         }
 
         public void Draw() {
-            ui.SetActiveModels(playerHandler, enemyList);
-            ui.Draw(menu);
+            ui.SetActiveModels(playerHandler, _enemyList);
+            ui.Draw(_menu);
         }
 
         public void HandelInput() {
-            input = ui.HandelPlayerInput(menu);
-            if (input == "ERROR") {
-                lastMenu = menu;
-                menu = Menu.ERROR;
-                input = "";
+            _input = ui.HandelPlayerInput(_menu);
+            if (_input == "ERROR") {
+                _lastMenu = _menu;
+                _menu = Menu.ERROR;
+                _input = "";
             }
         }
 
@@ -57,25 +55,25 @@ namespace SoftwareDesignExam
         /// </summary>
         public void HandelGameMecknaics() {
             
-            switch (menu) {
+            switch (_menu) {
                 case Menu.ATTACK: {
-                        lastMenu = menu;
+                    _lastMenu = _menu;
                         HandelAttackMeckanics();
                         break;
                     }
                 case Menu.GAMEOVER: {
-                        lastMenu = menu;
-                        handleGameOverMeckanics();
+                        _lastMenu = _menu;
+                        HandleGameOverMeckanics();
                         break;
                     }
                 case Menu.MAINMENU: {
-                        lastMenu = menu;
-                        handelMainMenuMeckanics();
+                        _lastMenu = _menu;
+                        HandelMainMenuMeckanics();
                         break;
                     }
 
                 case Menu.LOGIN: {
-                        lastMenu = menu;
+                        _lastMenu = _menu;
                         HandelLoginMeckanics();
                         break;
                     }
@@ -84,26 +82,26 @@ namespace SoftwareDesignExam
                         break;
                     }
                 case Menu.NEXTROOM: {
-                        lastMenu = menu;
+                        _lastMenu = _menu;
                         break;
                     }
                 case Menu.INVETORY: {
-                        lastMenu = menu;
-                        if (int.Parse(input) <= playerHandler.GetInventory().Count) {
+                        _lastMenu = _menu;
+                        if (int.Parse(_input) <= playerHandler.GetInventory().Count) {
                             var items = playerHandler.GetInventory();
 
-                            var item = items[int.Parse(input) - 1];
+                            var item = items[int.Parse(_input) - 1];
                             playerHandler.removeItem(item);
                             playerHandler.SetActiveGearItem(item.GearSpot, item);
                             break;
                         }
-                        else if(int.Parse(input) == playerHandler.GetInventory().Count+1) {
+                        else if(int.Parse(_input) == playerHandler.GetInventory().Count+1) {
                             playerHandler.EquiptAllActiveItems();
-                            menu = Menu.ATTACK;
+                            _menu = Menu.ATTACK;
                             break;
                         }
                         else
-                            menu = Menu.ERROR;
+                            _menu = Menu.ERROR;
                         break;
                     }
 
@@ -112,28 +110,28 @@ namespace SoftwareDesignExam
 
         private void HandelLoginMeckanics() {
             HandelSettingActivePlayer();
-            menu = Menu.ATTACK;
+            _menu = Menu.ATTACK;
         }
 
-        private void handelMainMenuMeckanics() {
-            handleGameOverMeckanics();
-            handleHighScoreInput();
+        private void HandelMainMenuMeckanics() {
+            HandleGameOverMeckanics();
+            HandleHighScoreInput();
         }
 
         private void HandelErrorMeckanics() {
-            if (input == "1") {
-                menu = lastMenu;
+            if (_input == "1") {
+                _menu = _lastMenu;
             }
-            else if (input == "2") {
-                gameIsRunning = false;
+            else if (_input == "2") {
+                _gameIsRunning = false;
             }
            
         }
 
         private void HandelSettingActivePlayer() {
-            IUserDAO userDAO = new UserDao();
-            playerHandler.SetUser(userDAO.GetUser(input));
-            enemyList = EnemySpawner.SpawnEnemies(3, 2);
+            IUserDao userDao = new UserDao();
+            playerHandler.SetUser(userDao.GetUser(_input));
+            _enemyList = EnemySpawner.SpawnEnemies(3, 2);
             //ui.SetActiveModels(playerHandler, enemyList);
 
         }
@@ -141,25 +139,26 @@ namespace SoftwareDesignExam
         private void HandelAttackMeckanics() {
             // se om du har valgt å angripe en fiende eller gå til inventory
             
-            if (enemyList.Count >= 1 && int.Parse(input) <= enemyList.Count) {
+            if (_enemyList.Count >= 1 && int.Parse(_input) <= _enemyList.Count) {
+                //playerHandler.GetPlayer().GetHealth()
                 AttackSelectedTarget();
                 HandelEnemiesTurn();
             }
-            else if(int.Parse(input) == enemyList.Count + 1) {
-                menu = Menu.INVETORY;
+            else if(int.Parse(_input) == _enemyList.Count + 1) {
+                _menu = Menu.INVETORY;
             }
             else
-                menu = Menu.ERROR;
+                _menu = Menu.ERROR;
         }
 
         private void AttackSelectedTarget() {
-            var index = int.Parse(input) - 1;
-            playerHandler.setTarget(enemyList[index]);
+            var index = int.Parse(_input) - 1;
+            playerHandler.setTarget(_enemyList[index]);
             playerHandler.Attack();
         }
         private void HandelEnemiesTurn() {
             List<Character> remove = new();
-            foreach (var enemy in enemyList) {
+            foreach (var enemy in _enemyList) {
                 if (enemy.GetHealth() <= 0) {
                     remove.Add(enemy);
                 }else
@@ -167,25 +166,25 @@ namespace SoftwareDesignExam
 
             }
             foreach (var enemy in remove) { 
-                enemyList.Remove(enemy);
+                _enemyList.Remove(enemy);
             }
         }
 
-        private void handleHighScoreInput() {
-            if (input == "3") {
+        private void HandleHighScoreInput() {
+            if (_input == "3") {
                 Console.Clear();
                 Console.WriteLine("here is the topsore");
                 Console.ReadLine();
             }
 
         }
-        private void handleGameOverMeckanics() {
-            if (input == "1") {
-                menu = Menu.LOGIN;
+        private void HandleGameOverMeckanics() {
+            if (_input == "1") {
+                _menu = Menu.LOGIN;
 
             }
-            if (input == "2") {
-                gameIsRunning = false;
+            if (_input == "2") {
+                _gameIsRunning = false;
             }
         }
      
