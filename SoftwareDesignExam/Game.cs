@@ -137,6 +137,7 @@ namespace SoftwareDesignExam
                     player = new StartingCharacter(user, StartingWeapon(), new Dictionary<GearSpot, Item>());
                     ui.SetPlayer(player, enemyList);
                     menu = Menu.ATTACK;
+                    
                 }
 
                     break;
