@@ -10,7 +10,8 @@ namespace Persistence.Db {
             CREATE TABLE IF NOT EXISTS users (
                 name TEXT PRIMARY KEY NOT NULL,
                 level INT,
-                topscore INT 
+                topscore INT ,
+                currentscore INT
             );            
         ";
             command.ExecuteNonQuery();
@@ -23,9 +24,8 @@ namespace Persistence.Db {
             command.CommandText = @"
             CREATE TABLE IF NOT EXISTS weapons (
                 id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                classname TEXT NOT NULL,
-                description TEXT,
-                damage INT 
+                damage INT,
+                description TEXT 
             );            
         ";
             command.ExecuteNonQuery();

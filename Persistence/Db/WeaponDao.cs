@@ -1,4 +1,5 @@
 using Microsoft.Data.Sqlite;
+using Model.Base;
 using Model.Factory;
 using Model.Interface;
 
@@ -6,42 +7,41 @@ namespace Persistence.Db;
 
 public class WeaponDao : IWeaponDao
 {
-    public List<IWeapon> GetAllWeapons()
+    public void AddWeapon(Weapon weapon)
     {
-        List<IWeapon> weaponList = new();
         using SqliteConnection connection = new("Data Source = gameDb.db");
         connection.Open();
         SqliteCommand command = connection.CreateCommand();
         command.CommandText = @"
-            SELECT * from weapons
+            INSERT INTO weapons (damage, description)
+            VALUES ($damage, $description);
         ";
+        command.Parameters.AddWithValue("$damage", weapon.Damage);
+        command.Parameters.AddWithValue("$description", weapon.Description);
+        command.ExecuteNonQuery();
+    }
+
+    public List<Weapon> GetAllWeapons()
+    {
+        List<Weapon> weaponsList = new();
+
+        using SqliteConnection connection = new("Data Source = gameDb.db");
+        connection.Open();
+        SqliteCommand command = connection.CreateCommand();
+        command.CommandText = @"
+                 SELECT * from weapons
+             ";
         using SqliteDataReader reader = command.ExecuteReader();
         if (reader.HasRows)
         {
             while (reader.Read())
             {
-                weaponList.Add(WeaponFactory.GetWeapon(
-                    reader.GetString(1),
-                    reader.GetString(2),
-                    reader.GetInt32(3)
-                ));
+                Weapon weapon = new();
+                weapon.Damage = reader.GetInt32(0);
+                weapon.Description = reader.GetString(1);
             }
         }
-        return weaponList;
-    }
 
-    public void AddWeapon(string classname, string description, int damage)
-    {
-        using SqliteConnection connection = new("Data Source = gameDb.db");
-        connection.Open();
-        SqliteCommand command = connection.CreateCommand();
-        command.CommandText = @"
-            INSERT INTO weapons (classname, description, damage)
-            VALUES ($classname, $description, $damage  );
-        ";
-        command.Parameters.AddWithValue("$classname", classname);
-        command.Parameters.AddWithValue("$description", description);
-        command.Parameters.AddWithValue("$damage", damage);
-        command.ExecuteNonQuery();
+        return weaponsList;
     }
 }
