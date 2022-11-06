@@ -32,7 +32,7 @@ namespace Model.Factory
                 Type weaponType = weapons[weaponName.ToLower()];
                 var weapon = Activator.CreateInstance(weaponType) as Weapon;
                 weapon.Damage = dmg;
-                weapon.Name = itemDescription + weaponName;
+                weapon.Name = $"{itemDescription} {weaponName}";
                 return weapon;
             }
             else return new NoWeapon();
