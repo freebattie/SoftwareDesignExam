@@ -28,7 +28,7 @@ namespace Model.Factory
         /// <returns></returns>
         public static Weapon GetWeapon(string weaponName, string itemDescription, int dmg)
         {
-            if (weapons.ContainsKey(weaponName)) {
+            if (weapons.ContainsKey(weaponName.ToLower())) {
                 Type weaponType = weapons[weaponName.ToLower()];
                 var weapon = Activator.CreateInstance(weaponType) as Weapon;
                 weapon.Damage = dmg;
@@ -55,7 +55,7 @@ namespace Model.Factory
 
             }
             foreach (var item in assembly.GetTypes()) {
-                if (item.GetInterface(typeof(Weapon).ToString()) != null) {
+                if (item.IsSubclassOf(typeof(Weapon)) && !item.IsAbstract) {
                     if (item.Name != typeof(NoWeapon).Name) {
                        weapons.Add(item.Name.ToLower(), item);
                     }
