@@ -22,6 +22,7 @@ namespace Presentation {
             _allMenuViews.Add(Menu.MAINMENU, new MainMenuView(new User()));
             _allMenuViews.Add(Menu.ERROR, new ErrorView());
             _allMenuViews.Add(Menu.INVETORY, new InventoryView());
+            _allMenuViews.Add(Menu.ENEMYTURN, new EnemyTurnView());
 
 
         }
@@ -30,22 +31,15 @@ namespace Presentation {
         }
 
         public string HandelPlayerInput(Menu menu) {
-            string value = "";
-            switch (menu) {
-                case Menu.MAINMENU: 
-                case Menu.ERROR:
-                case Menu.GAMEOVER:
-                case Menu.INVETORY: 
-                case Menu.ATTACK: {
-                        return value = Reader.ReadIntAsString();
-                    }
-                case Menu.LOGIN: {
-                         return value = Reader.ReadString();
-                    }
-                
-                
-            }
-            return null;
+
+
+            if (menu == Menu.LOGIN )
+                return Reader.ReadString();
+            else if (menu == Menu.ENEMYTURN)
+                return Reader.KeyPressed();
+            else
+                return Reader.ReadIntAsString();
+            
         }
 
         public string ReadIntInput<T>(List<T> list) {
@@ -60,6 +54,7 @@ namespace Presentation {
             _allMenuViews[Menu.MAINMENU] = new MainMenuView(playerhandler.GetUser());
             _allMenuViews[Menu.ERROR] = new ErrorView();
             _allMenuViews[Menu.INVETORY] = new InventoryView(playerhandler.GetInventory(),playerhandler.GetActiveItems());
+            _allMenuViews[Menu.ENEMYTURN] = new EnemyTurnView(playerhandler);
         }
 
         public void SetPlayer(Character player,List<Character> enemies) {

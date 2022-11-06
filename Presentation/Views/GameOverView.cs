@@ -21,6 +21,7 @@ namespace Presentation.Views {
  \______/ |__/  |__/|__/     |__/|________/       \______/     \_/    |________/|__/  |__/                                                                                                                                                                   
 ";
         public void GameOverMenu() {
+            Writer.ClearScreen();
             Writer.PrintLine(asciGraphic);
             Writer.PrintLine("----------------------------");
             Writer.PrintLine("----------GAME RESULT-------");

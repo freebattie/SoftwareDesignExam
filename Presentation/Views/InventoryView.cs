@@ -22,7 +22,7 @@ namespace Presentation.Views {
             int index = 1;
             Writer.PrintLine("Your Invetory");
             foreach (var item in items) {
-                Writer.PrintLine($"{index}.[{item.GearSpot.ToString()}] [{item.Name}] value: [{item.Price}] ");
+                Writer.PrintLine($"{index}.[{item.GearSpot.ToString()}] [{item.Name}] value: [{item.Price}] Description: {item.Description}");
                 index++;
             }
             var index2 = 1;

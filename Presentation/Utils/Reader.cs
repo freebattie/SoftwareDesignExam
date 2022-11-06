@@ -39,6 +39,9 @@ namespace Presentation.Utils {
                 return "ERROR";
             return input;
         }
+        public static string KeyPressed() {
+            return Console.ReadKey().ToString();
+        }
 
     }
 }

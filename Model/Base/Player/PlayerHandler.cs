@@ -20,7 +20,7 @@ namespace Model.Base.Player
         private Character target;
         private List<ShopItem> playerInvetory;
         private Dictionary<GearSpot, ShopItem> activeItems = new();
-
+        private bool isDead;
 
         public PlayerHandler()
         {
@@ -105,6 +105,13 @@ namespace Model.Base.Player
                 items.Add(item.Name);
             }
             return items;
+        }
+
+        public void SetIsDead(bool isDead) {
+            this.isDead = isDead;
+        }
+        public bool GetIsDead() {
+            return isDead;
         }
     }
 }

@@ -71,5 +71,9 @@ namespace Model.Decorator
         public override double GetMaxHealth() {
             return original.GetMaxHealth();
         }
+
+        public override void SetName(string name) {
+             original.SetName(name);
+        }
     }
 }

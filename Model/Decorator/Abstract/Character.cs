@@ -62,6 +62,7 @@ namespace Model.Decorator.Abstract
         public abstract int GetDamageInRange(int min, int max);
         public abstract string GetDescription();
         public abstract string GetName();
+        public abstract void SetName(string name);
         public abstract void SetUser(User user);
         public abstract Weapon GetWeapon();
         public abstract double GetMaxHealth();

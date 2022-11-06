@@ -94,8 +94,8 @@ namespace Model.Decorator.Original
 
         public override void SetUser(User user)
         {
-            Name = user.Name;
-            Level = user.Level;
+            SetName(user.Name);
+            SetLevel(user.Level);
 
 
         }
@@ -106,6 +106,10 @@ namespace Model.Decorator.Original
 
         public override double GetMaxHealth() {
             return MaxHealth;
+        }
+
+        public override void SetName(string name) {
+            Name = name;
         }
     }
 }

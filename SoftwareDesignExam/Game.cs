@@ -85,6 +85,16 @@ namespace SoftwareDesignExam
                         _lastMenu = _menu;
                         break;
                     }
+                case Menu.ENEMYTURN: {
+                        
+                        _lastMenu = _menu;
+                        if(playerHandler.GetIsDead())
+                        _menu = Menu.GAMEOVER;
+                        else
+                            _menu = Menu.ATTACK;
+                        break;
+                    }
+
                 case Menu.INVETORY: {
                         _lastMenu = _menu;
                         if (int.Parse(_input) <= playerHandler.GetInventory().Count) {
@@ -131,7 +141,7 @@ namespace SoftwareDesignExam
         private void HandelSettingActivePlayer() {
             IUserDao userDao = new UserDao();
             playerHandler.SetUser(userDao.GetUser(_input));
-            _enemyList = EnemySpawner.SpawnEnemies(3, 2);
+            _enemyList = EnemySpawner.SpawnEnemies(3, 1);
             //ui.SetActiveModels(playerHandler, enemyList);
 
         }
@@ -140,9 +150,22 @@ namespace SoftwareDesignExam
             // se om du har valgt å angripe en fiende eller gå til inventory
             
             if (_enemyList.Count >= 1 && int.Parse(_input) <= _enemyList.Count) {
-                //playerHandler.GetPlayer().GetHealth()
                 AttackSelectedTarget();
                 HandelEnemiesTurn();
+                //playerHandler.GetPlayer().GetHealth()
+                if (playerHandler.GetPlayer().GetHealth() <0) {
+                    var user = playerHandler.GetUser();
+                    if (user.CurrentScore > user.Topscore) {
+                        user.Topscore = user.CurrentScore;
+                    }
+                    UserDao dao = new();
+                    
+                    dao.UpdateUser(user, user.Name);
+                    playerHandler.SetIsDead(true);
+
+                }
+                _menu = Menu.ENEMYTURN;
+
             }
             else if(int.Parse(_input) == _enemyList.Count + 1) {
                 _menu = Menu.INVETORY;
@@ -180,6 +203,8 @@ namespace SoftwareDesignExam
         }
         private void HandleGameOverMeckanics() {
             if (_input == "1") {
+                playerHandler = new PlayerHandler();
+
                 _menu = Menu.LOGIN;
 
             }
