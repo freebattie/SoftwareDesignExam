@@ -7,7 +7,7 @@ namespace Model.Decorator.Abstract
     //TODO: Pizza
     public abstract class Character {
        
-        private IWeapon? _weapon;
+        private Weapon? _weapon;
       
         private string? dsecription;
         protected string? Dsecription { get => dsecription; set => dsecription = value; }
@@ -22,7 +22,7 @@ namespace Model.Decorator.Abstract
         protected double Level { get => level; set => level = value; }
         protected double Crit { get => CalculateNewLevelValue(crit); set => crit = value <= 100 ? value : 100; }
         protected double ArmorLevel { get; set; }
-        protected IWeapon? Weapon { get => _weapon; set => _weapon = value; }
+        protected Weapon? Weapon { get => _weapon; set => _weapon = value; }
         protected double Health {
             get { return health; }
             set {
@@ -40,7 +40,7 @@ namespace Model.Decorator.Abstract
         }
         
         public abstract double CheckForCritDamage(double dmg);
-        public abstract void SetWeapon(IWeapon weapon);
+        public abstract void SetWeapon(Weapon weapon);
         public abstract void Attack(Character person);
         public abstract void RemoveHealth(double weaponDmg);
         public abstract void IncreaseHealth(double health);
@@ -52,7 +52,7 @@ namespace Model.Decorator.Abstract
         public abstract string GetDescription();
         public abstract string GetName();
         public abstract void SetUser(User user);
-        public abstract IWeapon GetWeapon();
+        public abstract Weapon GetWeapon();
         public abstract double GetMaxHealth();
 
     }

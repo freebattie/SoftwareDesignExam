@@ -1,8 +1,8 @@
 ﻿
 namespace Presentation.Utils {
-    static class Writer {
-        private static ConsoleColor backgroundColor;
-        private static ConsoleColor foregroundColor;
+    public static class Writer {
+        private static ConsoleColor backgroundColor = ConsoleColor.Black;
+        private static ConsoleColor foregroundColor = ConsoleColor.White;
 
 
         static Writer() {
@@ -12,10 +12,20 @@ namespace Presentation.Utils {
             Console.Clear();
         }
         private static void ResetColors() {
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = backgroundColor;
+            Console.ForegroundColor = foregroundColor;
         }
 
+        /// <summary>
+        /// hvis vi bestemmer oss for å skifte hele programmet fra kvit tekst og svart bakgrunn så kan vi gjør det her
+        /// </summary>
+        /// <param name="textColor"></param>
+        /// <param name="backGroundColor"></param>
+        public static void SetDefaultColors(ConsoleColor textColor, ConsoleColor backGroundColor) {
+            foregroundColor = textColor;
+            backgroundColor = backGroundColor;
+            ResetColors();
+        }
         public static void PrintLine(string line) {
             Console.WriteLine(line);
         }

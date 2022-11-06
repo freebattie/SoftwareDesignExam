@@ -86,7 +86,7 @@ namespace Model.Base.Player
             EquiptAllActiveItems();
         }
         //TODO:fix
-        private IWeapon StartingWeapon()
+        private Weapon StartingWeapon()
         {
             return WeaponFactory.GenerateRandomWeapon(1);
         }

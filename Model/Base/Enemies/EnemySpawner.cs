@@ -42,7 +42,7 @@ namespace Model.Base.Enemies
             return enemies;
         }
       
-        private static IWeapon PickRandomWeapon(int level)
+        private static Weapon PickRandomWeapon(int level)
         {
             return WeaponFactory.GenerateRandomWeapon(level);
         }

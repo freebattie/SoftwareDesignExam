@@ -20,12 +20,12 @@ namespace Model.Factory
 
            
             foreach (var item in items) {
-
-                Type decoratorItem = decoratorItems[item.Name.ToLower()];
-                if (decoratorItem == null) return new NoItem(original);
-                original = Activator.CreateInstance(decoratorItem, original) as CharacterDecorator;
-
-
+                if (decoratorItems.ContainsKey(item.Name.ToLower())) {
+                    Type decoratorItem = decoratorItems[item.Name.ToLower()];
+                    original = Activator.CreateInstance(decoratorItem, original) as CharacterDecorator;
+                }
+                else
+                    return new NoItem(original);
             }
 
 

@@ -7,7 +7,7 @@ namespace Persistence.Db;
 
 public class WeaponDao : IWeaponDao
 {
-    public void AddWeapon(Weapon weapon)
+    public void AddWeapon(DBWeapon weapon)
     {
         using SqliteConnection connection = new("Data Source = gameDb.db");
         connection.Open();
@@ -21,9 +21,9 @@ public class WeaponDao : IWeaponDao
         command.ExecuteNonQuery();
     }
 
-    public List<Weapon> GetAllWeapons()
+    public List<DBWeapon> GetAllWeapons()
     {
-        List<Weapon> weaponsList = new();
+        List<DBWeapon> weaponsList = new();
 
         using SqliteConnection connection = new("Data Source = gameDb.db");
         connection.Open();
@@ -36,7 +36,7 @@ public class WeaponDao : IWeaponDao
         {
             while (reader.Read())
             {
-                Weapon weapon = new();
+                DBWeapon weapon = new();
                 weapon.Damage = reader.GetInt32(0);
                 weapon.Description = reader.GetString(1);
             }

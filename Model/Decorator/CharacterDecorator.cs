@@ -49,7 +49,7 @@ namespace Model.Decorator
             original.SetLevel(level);
         }
 
-        public override void SetWeapon(IWeapon weapon) {
+        public override void SetWeapon(Weapon weapon) {
            original.SetWeapon(weapon);
         }
 
@@ -64,7 +64,7 @@ namespace Model.Decorator
             original.SetUser(user);
         }
 
-        public override IWeapon GetWeapon() {
+        public override Weapon GetWeapon() {
            return  original.GetWeapon();
         }
 

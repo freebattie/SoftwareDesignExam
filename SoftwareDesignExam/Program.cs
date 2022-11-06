@@ -1,4 +1,6 @@
 ﻿
+using Persistence.Db;
+
 namespace SoftwareDesignExam
 {     // kanskje ha med runder med forjskjellige funkjsoner osv, evt. en abstrakt Level/Round også flere leveler osv
 
@@ -8,7 +10,7 @@ namespace SoftwareDesignExam
 
 
         static void Main(string[] args) {
-            //TableMaker.UsersSchemaAndTableMaker();
+            TableMaker.UsersSchemaAndTableMaker();
 
 
             Game game = new();

@@ -1,15 +1,15 @@
 namespace Model.Base;
 
-public class Weapon
+public class DBWeapon
 {
     private int _damage;
     private string _description;
 
-    public Weapon()
+    public DBWeapon()
     {
     }
 
-    public Weapon(int damage, string description)
+    public DBWeapon(int damage, string description)
     {
         _damage = damage;
         _description = description;
@@ -29,7 +29,7 @@ public class Weapon
     
     public override bool Equals(object? o)
     {
-        Weapon? other = o as Weapon;
+        DBWeapon? other = o as DBWeapon;
         return Damage == other?.Damage && Description == other?.Description;
     }
 }

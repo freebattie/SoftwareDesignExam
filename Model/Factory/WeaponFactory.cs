@@ -26,14 +26,17 @@ namespace Model.Factory
         /// <param name="itemDescription"></param>
         /// <param name="dmg"></param>
         /// <returns></returns>
-        public static IWeapon GetWeapon(string weaponName, string itemDescription, int dmg)
+        public static Weapon GetWeapon(string weaponName, string itemDescription, int dmg)
         {
-            Type weaponType = weapons[weaponName.ToLower()];
-            if (weaponType == null) return new NoWeapon();
-            var weapon = Activator.CreateInstance(weaponType) as IWeapon;
-            weapon.Damage = dmg;
-            weapon.Name = itemDescription+weaponName;
-            return weapon;
+            if (weapons.ContainsKey(weaponName)) {
+                Type weaponType = weapons[weaponName.ToLower()];
+                var weapon = Activator.CreateInstance(weaponType) as Weapon;
+                weapon.Damage = dmg;
+                weapon.Name = itemDescription + weaponName;
+                return weapon;
+            }
+            else return new NoWeapon();
+            
 
           
         }
@@ -52,7 +55,7 @@ namespace Model.Factory
 
             }
             foreach (var item in assembly.GetTypes()) {
-                if (item.GetInterface(typeof(IWeapon).ToString()) != null) {
+                if (item.GetInterface(typeof(Weapon).ToString()) != null) {
                     if (item.Name != typeof(NoWeapon).Name) {
                        weapons.Add(item.Name.ToLower(), item);
                     }
@@ -65,9 +68,9 @@ namespace Model.Factory
         /// </summary>
         /// <param name="level"></param>
         /// <returns></returns>
-        public static IWeapon GenerateRandomWeapon(int level) {
+        public static Weapon GenerateRandomWeapon(int level) {
             var weaponNames = LoadNameOfAllWeapons();
-            var weapons = new List<IWeapon>();
+            var weapons = new List<Weapon>();
             Random random = new Random(); 
             var descriptionIndex = random.Next(itemDescription.Length);
             var weaponNameIndex = random.Next(weaponNames.Count);
@@ -89,7 +92,7 @@ namespace Model.Factory
             }
 
             foreach (var item in assembly.GetTypes()) {
-                if (item.GetInterface(typeof(IWeapon).ToString()) != null) {
+                if (item.IsSubclassOf(typeof(Weapon)) && !item.IsAbstract) {
                     if (item.Name != typeof(NoWeapon).Name) {
                         AllItems.Add(item.Name);
                     }

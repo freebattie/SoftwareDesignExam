@@ -1,5 +1,8 @@
-﻿namespace Presentation.Utils {
-    public static class Reader {
+﻿using Model.Interface;
+
+
+namespace Presentation.Utils {
+    public class Reader  {
 
         /// <summary>
         /// validates that the input is a number between 1 and length of the list max 9

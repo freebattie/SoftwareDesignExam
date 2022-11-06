@@ -5,7 +5,7 @@ using Model.Interface;
 namespace SoftwareDesignExam {
     public class Shop {
         
-        List<IWeapon> weapons = new();
+        List<Weapon> weapons = new();
 
 
         public Shop(Character player) {

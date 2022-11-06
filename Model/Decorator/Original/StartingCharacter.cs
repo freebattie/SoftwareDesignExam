@@ -11,7 +11,7 @@ namespace Model.Decorator.Original
         public int Topscore { get; private set; }
 
         public StartingCharacter() { }
-        public StartingCharacter(User user, IWeapon weapon)
+        public StartingCharacter(User user, Weapon weapon)
         {
             Name = user.Name;
             Level = user.Level;
@@ -65,7 +65,7 @@ namespace Model.Decorator.Original
 
         }
 
-        public override void SetWeapon(IWeapon weapon)
+        public override void SetWeapon(Weapon weapon)
         {
             Weapon = weapon;
         }
@@ -100,7 +100,7 @@ namespace Model.Decorator.Original
 
         }
 
-        public override IWeapon GetWeapon() {
+        public override Weapon GetWeapon() {
             return Weapon;
         }
 
