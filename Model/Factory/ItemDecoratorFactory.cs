@@ -34,14 +34,16 @@ namespace Model.Factory
         }
         public static Character GetItem(string item, Character original) {
 
+            if (decoratorItems.ContainsKey(item)) {
+                Type decoratorItem = decoratorItems[item.ToLower()];
+                return Activator.CreateInstance(decoratorItem, original) as CharacterDecorator;
+            }
+            else
+            return new NoItem(original);
 
-            Type decoratorItem = decoratorItems[item.ToLower()];
-            if (decoratorItem == null) return new NoItem(original);
-            original = Activator.CreateInstance(decoratorItem, original) as CharacterDecorator;
 
 
-
-            return original;
+           
         }
 
         public static void LoadInAllItemsFromAssambly() {

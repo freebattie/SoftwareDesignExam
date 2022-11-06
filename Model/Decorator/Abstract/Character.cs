@@ -1,5 +1,6 @@
 ﻿using Model.Base.Player;
 using Model.Interface;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Model.Decorator.Abstract
 {
@@ -38,7 +39,17 @@ namespace Model.Decorator.Abstract
         protected double CalculateNewLevelValue(double value) {
             return Math.Round((Level * GAINFACTOR * value) + value, 0);
         }
-        
+        public override bool Equals(object obj) {
+            //Check for null and compare run-time types.
+            if ((obj == null) || !this.GetType().Equals(obj.GetType())) {
+                return false;
+            }
+            else {
+                Character charecter = (Character)obj;
+                return (GetName() == charecter.GetName()) && (GetDescription() == charecter.GetDescription());
+            }
+        }
+
         public abstract double CheckForCritDamage(double dmg);
         public abstract void SetWeapon(Weapon weapon);
         public abstract void Attack(Character person);
