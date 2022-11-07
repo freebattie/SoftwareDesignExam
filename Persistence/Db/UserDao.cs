@@ -13,13 +13,13 @@ namespace Persistence.Db
             connection.Open();
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-            INSERT INTO users (name, level, topscore, currentscore)
-            VALUES ($name, $level, $topscore, $currentscore);
+            INSERT INTO users (name, level, topscore)
+            VALUES ($name, $level, $topscore);
         ";
             command.Parameters.AddWithValue("$name", user.Name);
             command.Parameters.AddWithValue("$level", user.Level);
             command.Parameters.AddWithValue("$topscore", user.Topscore);
-            command.Parameters.AddWithValue("$currentscore", user.CurrentScore);
+            
             command.ExecuteNonQuery();
         }
 
@@ -32,7 +32,7 @@ namespace Persistence.Db
             connection.Open();
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-            SELECT name, level, topscore, currentscore
+            SELECT name, level, topscore
             FROM users 
             WHERE name = $name
         ";
@@ -43,7 +43,7 @@ namespace Persistence.Db
                 user.Name = reader.GetString(0);
                 user.Level = reader.GetInt32(1);
                 user.Topscore = reader.GetInt32(2);
-                user.CurrentScore = reader.GetInt32(3);
+                user.CurrentScore = 0;
             }
             else
             {
@@ -60,14 +60,14 @@ namespace Persistence.Db
             connection.Open();
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
-            UPDATE users SET name = $name, level = $level, topscore = $topscore, currentscore = $currentscore 
+            UPDATE users SET name = $name, level = $level, topscore = $topscore 
                          WHERE name = $newName;
-            VALUES ($name, $level, $topscore, $currentscore, $newName);
+            VALUES ($name, $level, $topscore, $newName);
         ";
             command.Parameters.AddWithValue("$name", user.Name);
             command.Parameters.AddWithValue("$level", user.Level);
             command.Parameters.AddWithValue("$topscore", user.Topscore);
-            command.Parameters.AddWithValue("$currentscore", user.CurrentScore);
+           
             command.Parameters.AddWithValue("$newName", newName);
             command.ExecuteNonQuery();
         }
@@ -91,7 +91,7 @@ namespace Persistence.Db
                     user.Name = reader.GetString(0);
                     user.Level = reader.GetInt32(1);
                     user.Topscore = reader.GetInt32(2);
-                    user.CurrentScore = reader.GetInt32(3);
+                    user.CurrentScore = 0;
                     usersList.Add(user);    
                 }
             }

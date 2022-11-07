@@ -81,6 +81,11 @@ namespace SoftwareDesignExam
                         HandelMainMenuMeckanics();
                         break;
                     }
+                case Menu.HIGHSCORE: {
+                        _lastMenu = _menu;
+                        _menu = Menu.MAINMENU;
+                        break;
+                    }
 
                 case Menu.LOGIN: {
                         _lastMenu = _menu;

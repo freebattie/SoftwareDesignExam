@@ -17,6 +17,7 @@ namespace Presentation.Views {
         public MainMenuView() { }
 
         private void MainMenu() {
+            Writer.ClearScreen();
             Writer.PrintLine(asciString);
             Writer.PrintLine("PRESS 1 TO STARTGAME      ");
             Writer.PrintLine("-------------------   ");

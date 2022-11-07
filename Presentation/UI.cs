@@ -37,7 +37,7 @@ namespace Presentation {
 
             if (menu == Menu.LOGIN )
                 return Reader.ReadString();
-            else if (menu == Menu.ENEMYTURN)
+            else if (menu == Menu.ENEMYTURN || menu == Menu.HIGHSCORE || menu == Menu.NEXTROOM)
                 return Reader.KeyPressed();
             else
                 return Reader.ReadIntAsString();

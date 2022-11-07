@@ -10,8 +10,7 @@ namespace Persistence.Db {
             CREATE TABLE IF NOT EXISTS users (
                 name TEXT PRIMARY KEY NOT NULL,
                 level INT,
-                topscore INT ,
-                currentscore INT
+                topscore INT
             );            
         ";
             command.ExecuteNonQuery();
