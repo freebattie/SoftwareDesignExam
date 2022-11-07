@@ -21,9 +21,10 @@ namespace Persistence.Db {
                 while (reader.Read()) {
                     ShopItem item = new();
                     item.Name = reader.GetString(0);
-                    item.ItemLevel = reader.GetInt32(1);
-                    item.GearSpot = (GearSpot)reader.GetInt32(2);
-                    item.Price = reader.GetInt32(3);
+                    item.Description = reader.GetString(1);
+                    item.ItemLevel = reader.GetInt32(2);
+                    item.GearSpot = (GearSpot)reader.GetInt32(3);
+                    item.Price = reader.GetInt32(4);
                     shopItemList.Add(item);
 
                 }
@@ -31,7 +32,7 @@ namespace Persistence.Db {
             return shopItemList;
         }
 
-
+        //TODO: REMOVE
         public void AddItem(ShopItem item) {
             using SqliteConnection connection = new("Data Source = gameDb.db");
             connection.Open();

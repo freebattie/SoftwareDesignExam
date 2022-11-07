@@ -11,44 +11,53 @@ namespace SoftwareDesignExam
 {
     public class Game {
         private string _input;
-        private PlayerHandler playerHandler;
+        private PlayerHandler _playerHandler;
         private bool _gameIsRunning = true;
-
+        private List<ShopItem> _allItems;
         public UserDao _userDao;
-        private IUI ui;
+        private IUI _ui;
 
         private List<Character> _enemyList;
        
         private Menu _lastMenu;
-        private Menu _menu = Menu.LOGIN;
+        private Menu _menu = Menu.MAINMENU;
+        private List<User> _users;
 
+        private int roomNr = 1;
         public Game() {
-            playerHandler = new PlayerHandler();
+            //Load all items
+            IItemDao dao = new ItemDao();
+             _allItems = dao.GetAllItems();
+            ShopItemSpawner.SetAllShopItems(_allItems);
+
+            //TODO: kanskje bruke singelton pattern?
+            _userDao = new UserDao();
+            _playerHandler = new PlayerHandler();
             _enemyList = new List<Character>();
-            ui = new UI();
+            _ui = new UI();
         }
 
         public void Update() {
             while (_gameIsRunning) {
+                
                 Draw();
                 HandelInput();
                 HandelGameMecknaics();
+                
             }
         }
 
         public void Draw() {
-            ui.SetActiveModels(playerHandler, _enemyList);
-            ui.Draw(_menu);
+            _ui.SetActiveModels(_playerHandler, _enemyList, _users);
+            _ui.Draw(_menu);
         }
 
         public void HandelInput() {
-            _input = ui.HandelPlayerInput(_menu);
-            if (_input == "ERROR") {
-                _lastMenu = _menu;
-                _menu = Menu.ERROR;
-                _input = "";
-            }
+            _input = _ui.HandelPlayerInput(_menu);
+            HandelErrorInput();
         }
+
+        
 
         /// <summary>
         /// for Database hantering og spill relaterte opprasjoner
@@ -63,7 +72,7 @@ namespace SoftwareDesignExam
                     }
                 case Menu.GAMEOVER: {
                         _lastMenu = _menu;
-                        HandleGameOverMeckanics();
+                        HandelMenuSelection();
                         break;
                     }
                 case Menu.MAINMENU: {
@@ -86,27 +95,22 @@ namespace SoftwareDesignExam
                         break;
                     }
                 case Menu.ENEMYTURN: {
-                        
-                        _lastMenu = _menu;
-                        if(playerHandler.GetIsDead())
-                        _menu = Menu.GAMEOVER;
-                        else
-                            _menu = Menu.ATTACK;
+                        CheckIfGameOver();
                         break;
                     }
 
                 case Menu.INVETORY: {
                         _lastMenu = _menu;
-                        if (int.Parse(_input) <= playerHandler.GetInventory().Count) {
-                            var items = playerHandler.GetInventory();
+                        if (int.Parse(_input) <= _playerHandler.GetInventory().Count) {
+                            var items = _playerHandler.GetInventory();
 
                             var item = items[int.Parse(_input) - 1];
-                            playerHandler.removeItem(item);
-                            playerHandler.SetActiveGearItem(item.GearSpot, item);
+                            _playerHandler.removeItem(item);
+                            _playerHandler.SetActiveGearItem(item.GearSpot, item);
                             break;
                         }
-                        else if(int.Parse(_input) == playerHandler.GetInventory().Count+1) {
-                            playerHandler.EquiptAllActiveItems();
+                        else if(int.Parse(_input) == _playerHandler.GetInventory().Count+1) {
+                            _playerHandler.EquiptAllActiveItems();
                             _menu = Menu.ATTACK;
                             break;
                         }
@@ -118,13 +122,28 @@ namespace SoftwareDesignExam
             }
         }
 
+        private void CheckIfGameOver() {
+            if (!_playerHandler.PlayerIsAlive())
+                _menu = Menu.GAMEOVER;
+            else
+                _menu = Menu.ATTACK;
+        }
+
+        private void HandelErrorInput() {
+            if (_input == "ERROR" && _menu != Menu.ERROR) {
+                _lastMenu = _menu;
+                _menu = Menu.ERROR;
+                _input = "";
+            }
+        }
         private void HandelLoginMeckanics() {
             HandelSettingActivePlayer();
             _menu = Menu.ATTACK;
         }
 
+
         private void HandelMainMenuMeckanics() {
-            HandleGameOverMeckanics();
+            HandelMenuSelection();
             HandleHighScoreInput();
         }
 
@@ -140,9 +159,9 @@ namespace SoftwareDesignExam
 
         private void HandelSettingActivePlayer() {
             IUserDao userDao = new UserDao();
-            playerHandler.SetUser(userDao.GetUser(_input));
+            _playerHandler.SetUser(userDao.GetUser(_input));
             _enemyList = EnemySpawner.SpawnEnemies(3, 1);
-            //ui.SetActiveModels(playerHandler, enemyList);
+            
 
         }
 
@@ -152,32 +171,25 @@ namespace SoftwareDesignExam
             if (_enemyList.Count >= 1 && int.Parse(_input) <= _enemyList.Count) {
                 AttackSelectedTarget();
                 HandelEnemiesTurn();
-                //playerHandler.GetPlayer().GetHealth()
-                if (playerHandler.GetPlayer().GetHealth() <0) {
-                    var user = playerHandler.GetUser();
-                    if (user.CurrentScore > user.Topscore) {
-                        user.Topscore = user.CurrentScore;
-                    }
-                    UserDao dao = new();
-                    
-                    dao.UpdateUser(user, user.Name);
-                    playerHandler.SetIsDead(true);
-
-                }
+                //TODO: add leves some how
+                var lvl = _playerHandler.GetPlayer().GetLevel();
+                lvl += 0;
+                //_playerHandler.GetPlayer().SetLevel((int)lvl);
                 _menu = Menu.ENEMYTURN;
-
             }
             else if(int.Parse(_input) == _enemyList.Count + 1) {
                 _menu = Menu.INVETORY;
             }
             else
                 _menu = Menu.ERROR;
+
+           
         }
 
         private void AttackSelectedTarget() {
             var index = int.Parse(_input) - 1;
-            playerHandler.setTarget(_enemyList[index]);
-            playerHandler.Attack();
+            _playerHandler.setTarget(_enemyList[index]);
+            _playerHandler.Attack();
         }
         private void HandelEnemiesTurn() {
             List<Character> remove = new();
@@ -185,7 +197,7 @@ namespace SoftwareDesignExam
                 if (enemy.GetHealth() <= 0) {
                     remove.Add(enemy);
                 }else
-                    enemy.Attack(playerHandler.GetPlayer());
+                    enemy.Attack(_playerHandler.GetPlayer());
 
             }
             foreach (var enemy in remove) { 
@@ -195,26 +207,31 @@ namespace SoftwareDesignExam
 
         private void HandleHighScoreInput() {
             if (_input == "3") {
-                Console.Clear();
-                Console.WriteLine("here is the topsore");
-                Console.ReadLine();
+                _menu = Menu.HIGHSCORE;
             }
 
         }
-        private void HandleGameOverMeckanics() {
+        private void HandelMenuSelection() {
+            _users = _userDao.GetAllUsers();
             if (_input == "1") {
-                playerHandler = new PlayerHandler();
+                _playerHandler = new PlayerHandler();
 
                 _menu = Menu.LOGIN;
 
             }
-            if (_input == "2") {
-                _gameIsRunning = false;
+            else if (_input == "2") {
+                EndGame();
             }
+           
         }
-     
 
-       
+        private void EndGame() {
+            var user = _playerHandler.GetUser();
+            _userDao.UpdateUser(user, user.Name);
+            _gameIsRunning = false;
+        }
+
+
 
     }
 }

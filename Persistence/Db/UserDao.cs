@@ -6,6 +6,7 @@ using Model.Interface;
 namespace Persistence.Db
 {
     public class UserDao : IUserDao {
+
         public void AddUser(User user)
         {
             using SqliteConnection connection = new("Data Source = gameDb.db");
@@ -91,6 +92,7 @@ namespace Persistence.Db
                     user.Level = reader.GetInt32(1);
                     user.Topscore = reader.GetInt32(2);
                     user.CurrentScore = reader.GetInt32(3);
+                    usersList.Add(user);    
                 }
             }
 

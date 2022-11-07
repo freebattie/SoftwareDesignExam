@@ -92,7 +92,14 @@ namespace Model.Base.Player
         }
 
         public User GetUser() {
+            SetTopScore();
             return userInfo;
+        }
+
+        private void SetTopScore() {
+            if (userInfo.CurrentScore > userInfo.Topscore) {
+                userInfo.Topscore = userInfo.CurrentScore;
+            }
         }
 
         public void removeItem(ShopItem item) {
@@ -107,11 +114,13 @@ namespace Model.Base.Player
             return items;
         }
 
-        public void SetIsDead(bool isDead) {
-            this.isDead = isDead;
+       
+        public bool PlayerIsAlive() {
+            if (player.GetHealth() < 0)
+                return false;
+            else
+                return true;
         }
-        public bool GetIsDead() {
-            return isDead;
-        }
+        
     }
 }

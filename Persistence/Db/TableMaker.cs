@@ -38,6 +38,7 @@ namespace Persistence.Db {
             command.CommandText = @"
             CREATE TABLE IF NOT EXISTS items (
                 name TEXT PRIMARY KEY NOT NULL,
+                description TEXT,
                 itemlevel INT,
                 gearspot INT,
                 price INT 

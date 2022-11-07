@@ -1,16 +1,20 @@
 ﻿
 
 using Model.Base.Enums;
+using Model.Interface;
 
 namespace Model.Base.Shop
 {
     public static class ShopItemSpawner {
+        private static List<ShopItem> invetory;
+
         /// <summary>
         /// lager til en liste med alle items i spillet
         /// </summary>
         /// <returns></returns>
-        public static List<ShopItem> CreateAllShopItem() {
-
+        public static void SetAllShopItems(List<ShopItem> items) {
+            invetory = items;
+/*
             List<ShopItem> invetory = new();
             ShopItem item = new();
             item.Price = 100;
@@ -42,6 +46,7 @@ namespace Model.Base.Shop
             item.ItemLevel = 1;
             item.Description = "removes 5 damage from each attack utill it breaks after 40 dmg";
             item.Name = "wikinghelmet";
+
             invetory.Add(item);
             item = new();
             item.GearSpot = GearSpot.GLOVES;
@@ -49,21 +54,22 @@ namespace Model.Base.Shop
             item.ItemLevel = 1;
             item.Description = "You heal instead of take damage, 3 uses";
             item.Name = "knightgloves";
-            invetory.Add(item);
+            invetory.Add(item);*/
 
-            return invetory;
+            
         }
+
         public static Dictionary<GearSpot, ShopItem> GetARandomInventory(int items) {
             
             var allspots = Enum.GetNames(typeof(GearSpot));
             items = items <= allspots.Length ? items : allspots.Length;
             Dictionary<GearSpot, ShopItem> inventory = new Dictionary<GearSpot, ShopItem>();
-            var allItems = CreateAllShopItem();
+           
             while (items > 0) { 
             
                 Random rand = new Random();
-                var index = rand.Next(allItems.Count);
-                var tmpItem = allItems[index];
+                var index = rand.Next(invetory.Count);
+                var tmpItem = invetory[index];
                 if (inventory.ContainsKey(tmpItem.GearSpot)) {
                     continue;
                 }

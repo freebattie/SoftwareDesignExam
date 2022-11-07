@@ -4,8 +4,12 @@ using Presentation.Utils;
 
 namespace Presentation.Views {
     public class GameOverView : IView {
-        private readonly User user;
+        private readonly User? user;
 
+
+        public GameOverView() {
+            
+        }
         public GameOverView(User user) {
             this.user = user;
         }
@@ -22,7 +26,7 @@ namespace Presentation.Views {
 ";
         public void GameOverMenu() {
             Writer.ClearScreen();
-            Writer.PrintLine(asciGraphic);
+            Writer.PrintLine(asciGraphic,ConsoleColor.Red);
             Writer.PrintLine("----------------------------");
             Writer.PrintLine("----------GAME RESULT-------");
             Writer.PrintLine($"PLAYER LEVEL  {user.Level} ");

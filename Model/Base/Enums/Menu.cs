@@ -9,6 +9,7 @@
         MAINMENU,
         NEXTROOM,
         INVETORY,
-        ENEMYTURN
+        ENEMYTURN,
+        HIGHSCORE
     }
 }

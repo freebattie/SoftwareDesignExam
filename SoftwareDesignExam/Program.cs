@@ -10,7 +10,9 @@ namespace SoftwareDesignExam
 
 
         static void Main(string[] args) {
-            TableMaker.UsersSchemaAndTableMaker();
+            Console.SetWindowSize(120, 60);
+            //TableMaker.UsersSchemaAndTableMaker();
+            //TableMaker.ItemsSchemaAndTableMaker();
 
 
             Game game = new();
