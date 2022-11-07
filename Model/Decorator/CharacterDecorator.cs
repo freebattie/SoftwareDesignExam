@@ -74,6 +74,15 @@ namespace Model.Decorator
 
         public override void SetName(string name) {
              original.SetName(name);
+
+        }
+
+        public override int GetCrit() {
+            return original.GetCrit();
+        }
+
+        public override int GetMaxDamage() {
+           return original.GetMaxDamage();    
         }
     }
 }

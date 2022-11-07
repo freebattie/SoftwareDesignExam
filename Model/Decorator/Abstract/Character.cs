@@ -14,7 +14,7 @@ namespace Model.Decorator.Abstract
         protected string? Dsecription { get => dsecription; set => dsecription = value; }
         public string? Name { get; set; }
        
-        private double crit;
+        private double crit =5;
         private double level =1;
         private double health;
         private const double GAINFACTOR = 0.05;
@@ -66,6 +66,7 @@ namespace Model.Decorator.Abstract
         public abstract void SetUser(User user);
         public abstract Weapon GetWeapon();
         public abstract double GetMaxHealth();
-
+        public abstract int GetCrit();
+        public abstract int GetMaxDamage();
     }
 }

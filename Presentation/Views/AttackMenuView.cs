@@ -1,11 +1,12 @@
-﻿using Model.Decorator.Abstract;
+﻿using Model.Base.Player;
+using Model.Decorator.Abstract;
 using Model.Interface;
 using Presentation.Utils;
 using System;
 
 namespace Presentation.Views {
     public class AttackMenuView : IView{
-        private  Character player;
+        private  PlayerHandler playerHandler;
         private  List<Character> enemies;
         private readonly int room;
         private string attackHeader = @"
@@ -18,8 +19,8 @@ namespace Presentation.Views {
 
 ";
 
-        public AttackMenuView(Character player,List<Character> enemies, int room) {
-            this.player = player;
+        public AttackMenuView(PlayerHandler playerHandler,List<Character> enemies, int room) {
+            this.playerHandler = playerHandler;
             this.enemies = enemies;
             this.room = room;
         }
@@ -27,6 +28,7 @@ namespace Presentation.Views {
         
 
         public void AttackMenu() {
+            var player = playerHandler.GetPlayer();
             Writer.ClearScreen();
             Writer.PrintLine(attackHeader);
             Writer.PrintLine($"You are in room {room}");
@@ -34,8 +36,13 @@ namespace Presentation.Views {
             Writer.PrintLine("");
             Writer.PrintLine($"Your health: {player.GetHealth()}");
             Writer.PrintLine($"Your current level: {player.GetLevel()}");
-            Writer.PrintLine($"Your Items: {player.GetDescription()}");
             Writer.PrintLine($"Your Weapon: {player.GetWeapon().Name}");
+            Writer.PrintLine($"Your BaseDamge is: {player.GetLevel() + 25}");
+            Writer.PrintLine($"Your Crit Chance is: {player.GetCrit()}");
+            Writer.PrintLine($"Max damage if crit: {player.GetMaxDamage()}");
+            Writer.PrintLine($"Your Items: {player.GetDescription()}");
+           
+
             //Writer.PrintLine($"Your active items: {player.GetActiveItems()}");
 
             Writer.PrintLine("");

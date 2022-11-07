@@ -16,7 +16,7 @@ namespace Presentation {
         public UI() {
 
             _allMenuViews = new Dictionary<Menu, IView>();
-            _allMenuViews.Add(Menu.ATTACK, new AttackMenuView(new StartingCharacter(),new List<Character>(),0));
+            _allMenuViews.Add(Menu.ATTACK, new AttackMenuView(new PlayerHandler(),new List<Character>(),0));
             _allMenuViews.Add(Menu.LOGIN, new LoginMenuView());
             _allMenuViews.Add(Menu.GAMEOVER, new GameOverView());
             _allMenuViews.Add(Menu.MAINMENU, new MainMenuView());
@@ -37,7 +37,7 @@ namespace Presentation {
 
             if (menu == Menu.LOGIN )
                 return Reader.ReadString();
-            else if (menu == Menu.ENEMYTURN || menu == Menu.HIGHSCORE || menu == Menu.NEXTROOM)
+            else if (menu == Menu.ENEMYTURN || menu == Menu.HIGHSCORE)
                 return Reader.KeyPressed();
             else
                 return Reader.ReadIntAsString();
@@ -54,13 +54,13 @@ namespace Presentation {
             List<User> users,
             int room) {
            
-            _allMenuViews[Menu.ATTACK] = new AttackMenuView(playerhandler.GetPlayer(), enemies, room);
+            _allMenuViews[Menu.ATTACK] = new AttackMenuView(playerhandler, enemies, room);
             _allMenuViews[Menu.LOGIN] = new LoginMenuView(users);
             _allMenuViews[Menu.GAMEOVER] = new GameOverView(playerhandler.GetUser());
             _allMenuViews[Menu.MAINMENU] = new MainMenuView();
             _allMenuViews[Menu.ERROR] = new ErrorView();
             _allMenuViews[Menu.INVETORY] = new InventoryView(playerhandler.GetInventory(),playerhandler.GetActiveItems());
-            _allMenuViews[Menu.ENEMYTURN] = new EnemyTurnView(playerhandler);
+            _allMenuViews[Menu.ENEMYTURN] = new EnemyTurnView(playerhandler, enemies);
             _allMenuViews[Menu.HIGHSCORE] = new HighScoreView(users);
             _allMenuViews[Menu.NEXTROOM] = new RoomDoneView(playerhandler,room);
         }

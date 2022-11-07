@@ -39,7 +39,7 @@ namespace Model.Decorator.Original
         {
             if (Weapon != null)
             {
-                double damage = GetDamageInRange((int)Level, (int)GetWeapon().GetDamage() + (int)Level);
+                double damage = GetDamageInRange(25+(int)Level, (int)GetWeapon().GetDamage() + (int)Level);
                 damage = CheckForCritDamage(damage);
                 person.RemoveHealth(damage);
                 Console.WriteLine(damage);
@@ -110,6 +110,15 @@ namespace Model.Decorator.Original
 
         public override void SetName(string name) {
             Name = name;
+        }
+
+        public override int GetCrit() {
+            return (int)Crit;
+        }
+
+        public override int GetMaxDamage() {
+            var maxdmg = (int)GetWeapon().GetDamage() + (int)Level *1.5;
+            return (int)maxdmg;
         }
     }
 }

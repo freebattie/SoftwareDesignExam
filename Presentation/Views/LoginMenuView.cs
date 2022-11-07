@@ -27,7 +27,7 @@ namespace Presentation.Views {
             Writer.PrintLine(headerLogin);
             Writer.PrintLine("Users that have been created:");
             foreach (var user in users) {
-                Writer.PrintLine($"Name: {user.Name} Level: {user.Level}");
+                Writer.PrintLine($"{user.Name} Level: {user.Level}");
             }
             Writer.PrintLine("entar a name to load in or a new name to start fresh");
             Writer.Print("Input:");
