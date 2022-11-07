@@ -16,15 +16,15 @@ namespace Presentation {
         public UI() {
 
             _allMenuViews = new Dictionary<Menu, IView>();
-            _allMenuViews.Add(Menu.ATTACK, new AttackMenuView(new StartingCharacter(),new List<Character>()));
+            _allMenuViews.Add(Menu.ATTACK, new AttackMenuView(new StartingCharacter(),new List<Character>(),0));
             _allMenuViews.Add(Menu.LOGIN, new LoginMenuView());
-            _allMenuViews.Add(Menu.GAMEOVER, new GameOverView(new User()));
+            _allMenuViews.Add(Menu.GAMEOVER, new GameOverView());
             _allMenuViews.Add(Menu.MAINMENU, new MainMenuView());
             _allMenuViews.Add(Menu.ERROR, new ErrorView());
             _allMenuViews.Add(Menu.INVETORY, new InventoryView());
             _allMenuViews.Add(Menu.ENEMYTURN, new EnemyTurnView());
             _allMenuViews.Add(Menu.HIGHSCORE, new HighScoreView());
-
+            _allMenuViews[Menu.NEXTROOM] = new RoomDoneView(); 
 
         }
 
@@ -48,9 +48,13 @@ namespace Presentation {
            return Reader.ReadIntAsString(list);
         }
 
-        public void SetActiveModels(PlayerHandler playerhandler, List<Character> enemies,List<User> users) {
+        public void SetActiveModels(
+            PlayerHandler playerhandler,
+            List<Character> enemies,
+            List<User> users,
+            int room) {
            
-            _allMenuViews[Menu.ATTACK] = new AttackMenuView(playerhandler.GetPlayer(), enemies);
+            _allMenuViews[Menu.ATTACK] = new AttackMenuView(playerhandler.GetPlayer(), enemies, room);
             _allMenuViews[Menu.LOGIN] = new LoginMenuView(users);
             _allMenuViews[Menu.GAMEOVER] = new GameOverView(playerhandler.GetUser());
             _allMenuViews[Menu.MAINMENU] = new MainMenuView();
@@ -58,11 +62,10 @@ namespace Presentation {
             _allMenuViews[Menu.INVETORY] = new InventoryView(playerhandler.GetInventory(),playerhandler.GetActiveItems());
             _allMenuViews[Menu.ENEMYTURN] = new EnemyTurnView(playerhandler);
             _allMenuViews[Menu.HIGHSCORE] = new HighScoreView(users);
+            _allMenuViews[Menu.NEXTROOM] = new RoomDoneView(playerhandler,room);
         }
 
-        public void SetPlayer(Character player,List<Character> enemies) {
-            _allMenuViews[Menu.ATTACK]= new AttackMenuView(player, enemies);
-        }
+       
 
         
     }

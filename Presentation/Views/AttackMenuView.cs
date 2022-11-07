@@ -7,7 +7,7 @@ namespace Presentation.Views {
     public class AttackMenuView : IView{
         private  Character player;
         private  List<Character> enemies;
-
+        private readonly int room;
         private string attackHeader = @"
         _______ _______       _____ _  __
      /\|__   __|__   __|/\   / ____| |/ /
@@ -18,9 +18,10 @@ namespace Presentation.Views {
 
 ";
 
-        public AttackMenuView(Character player,List<Character> enemies) {
+        public AttackMenuView(Character player,List<Character> enemies, int room) {
             this.player = player;
             this.enemies = enemies;
+            this.room = room;
         }
 
         
@@ -28,7 +29,7 @@ namespace Presentation.Views {
         public void AttackMenu() {
             Writer.ClearScreen();
             Writer.PrintLine(attackHeader);
-            
+            Writer.PrintLine($"You are in room {room}");
             Writer.PrintLine($"Hi, {player.GetName()}.");
             Writer.PrintLine("");
             Writer.PrintLine($"Your health: {player.GetHealth()}");

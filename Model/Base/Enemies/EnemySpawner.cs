@@ -34,7 +34,7 @@ namespace Model.Base.Enemies
                 enemyUser.Level = level;
                 enemyUser.Topscore = 0;
                 Character enemy = new StartingCharacter(enemyUser, PickRandomWeapon(level));
-                var inventory = ShopItemSpawner.GetARandomInventory(level);
+                var inventory = ShopItemSpawner.GetRandomActiveItems(level);
                 enemy = ItemDecoratorFactory.GetItems(inventory.Values.ToList(),enemy);
                 enemies.Add(enemy);
                 

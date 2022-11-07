@@ -8,6 +8,6 @@ namespace Model.Interface
         void Draw(Menu menu);
         string ReadIntInput<T>(List<T> list);
         string HandelPlayerInput(Menu menu);
-        void SetActiveModels(PlayerHandler playerHandler, List<Character> enemyList, List<User> users);
+        void SetActiveModels(PlayerHandler playerHandler, List<Character> enemyList, List<User> users, int roomNr);
     }
 }

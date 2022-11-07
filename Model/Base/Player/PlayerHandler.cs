@@ -71,7 +71,7 @@ namespace Model.Base.Player
         {
 
             player = ItemDecoratorFactory.GetItems(activeItems.Values.ToList(), original);
-            activeItems.Clear();
+            
         }
 
         public void SetupPlayer()
@@ -81,7 +81,7 @@ namespace Model.Base.Player
             userInfo.Level = 1;
             userInfo.Topscore = 0;
             userInfo.CurrentScore = 0;
-            playerInvetory = ShopItemSpawner.GetARandomInventory(3).Values.ToList();
+            playerInvetory = ShopItemSpawner.GetRandomListOfItems(4);
             original = new StartingCharacter(userInfo, StartingWeapon());
             EquiptAllActiveItems();
         }

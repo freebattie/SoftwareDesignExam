@@ -59,7 +59,7 @@ namespace Model.Base.Shop
             
         }
 
-        public static Dictionary<GearSpot, ShopItem> GetARandomInventory(int items) {
+        public static Dictionary<GearSpot, ShopItem> GetRandomActiveItems(int items) {
             
             var allspots = Enum.GetNames(typeof(GearSpot));
             items = items <= allspots.Length ? items : allspots.Length;
@@ -78,6 +78,26 @@ namespace Model.Base.Shop
                     items--;
                 }
             }
+
+
+
+            return inventory;
+        }
+        public static List<ShopItem> GetRandomListOfItems(int items) {
+
+            var allspots = Enum.GetNames(typeof(GearSpot));
+            items = items <= allspots.Length ? items : allspots.Length;
+            List<ShopItem> inventory = new ();
+
+            while (items > 0) {
+
+                Random rand = new Random();
+                var index = rand.Next(invetory.Count);
+                var tmpItem = invetory[index];
+                inventory.Add( tmpItem);
+                items--;
+            }
+
 
 
             return inventory;

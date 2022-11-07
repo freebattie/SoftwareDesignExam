@@ -24,6 +24,7 @@ namespace SoftwareDesignExam
         private List<User> _users;
 
         private int roomNr = 1;
+
         public Game() {
             //Load all items
             IItemDao dao = new ItemDao();
@@ -48,7 +49,7 @@ namespace SoftwareDesignExam
         }
 
         public void Draw() {
-            _ui.SetActiveModels(_playerHandler, _enemyList, _users);
+            _ui.SetActiveModels(_playerHandler, _enemyList, _users, roomNr);
             _ui.Draw(_menu);
         }
 
@@ -92,6 +93,17 @@ namespace SoftwareDesignExam
                     }
                 case Menu.NEXTROOM: {
                         _lastMenu = _menu;
+                        if (_input == "1") {
+
+                            Random random = new Random();
+                            int nrEnemies = random.Next(1, 3);
+                            int level = random.Next(1, _playerHandler.GetUser().Level);
+                            _enemyList = EnemySpawner.SpawnEnemies(nrEnemies, level);
+                            roomNr++;
+                            _menu = Menu.ATTACK;
+                        }
+                        else
+                            _menu = Menu.MAINMENU;
                         break;
                     }
                 case Menu.ENEMYTURN: {
@@ -123,8 +135,11 @@ namespace SoftwareDesignExam
         }
 
         private void CheckIfGameOver() {
-            if (!_playerHandler.PlayerIsAlive())
+            if (!_playerHandler.PlayerIsAlive()) {
+                SavePlayerToDB();
                 _menu = Menu.GAMEOVER;
+            }
+               
             else
                 _menu = Menu.ATTACK;
         }
@@ -160,7 +175,7 @@ namespace SoftwareDesignExam
         private void HandelSettingActivePlayer() {
             IUserDao userDao = new UserDao();
             _playerHandler.SetUser(userDao.GetUser(_input));
-            _enemyList = EnemySpawner.SpawnEnemies(3, 1);
+            _enemyList = EnemySpawner.SpawnEnemies(1, 1);
             
 
         }
@@ -172,9 +187,7 @@ namespace SoftwareDesignExam
                 AttackSelectedTarget();
                 HandelEnemiesTurn();
                 //TODO: add leves some how
-                var lvl = _playerHandler.GetPlayer().GetLevel();
-                lvl += 0;
-                //_playerHandler.GetPlayer().SetLevel((int)lvl);
+               
                 _menu = Menu.ENEMYTURN;
             }
             else if(int.Parse(_input) == _enemyList.Count + 1) {
@@ -183,7 +196,20 @@ namespace SoftwareDesignExam
             else
                 _menu = Menu.ERROR;
 
-           
+            if (_enemyList.Count == 0) {
+                
+                _menu = Menu.NEXTROOM;
+            }
+
+
+        }
+
+        private void PlayerStatsUpdate() {
+            var user = _playerHandler.GetUser();
+            var lvl = user.Level;
+            user.CurrentScore += 100;
+            user.Level += 1;
+            _playerHandler.SetUser(user);
         }
 
         private void AttackSelectedTarget() {
@@ -196,12 +222,16 @@ namespace SoftwareDesignExam
             foreach (var enemy in _enemyList) {
                 if (enemy.GetHealth() <= 0) {
                     remove.Add(enemy);
-                }else
+                   
+
+                }
+                else
                     enemy.Attack(_playerHandler.GetPlayer());
 
             }
             foreach (var enemy in remove) { 
                 _enemyList.Remove(enemy);
+                PlayerStatsUpdate();
             }
         }
 
@@ -215,20 +245,21 @@ namespace SoftwareDesignExam
             _users = _userDao.GetAllUsers();
             if (_input == "1") {
                 _playerHandler = new PlayerHandler();
-
+                
                 _menu = Menu.LOGIN;
 
             }
             else if (_input == "2") {
-                EndGame();
+                SavePlayerToDB();
+                _gameIsRunning = false;
             }
            
         }
 
-        private void EndGame() {
+        private void SavePlayerToDB() {
             var user = _playerHandler.GetUser();
             _userDao.UpdateUser(user, user.Name);
-            _gameIsRunning = false;
+            
         }
 
 
