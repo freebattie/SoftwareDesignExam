@@ -7,6 +7,7 @@ public class DBWeapon
 
     public DBWeapon()
     {
+        _description = "";
     }
 
     public DBWeapon(int damage, string description)
@@ -31,5 +32,9 @@ public class DBWeapon
     {
         DBWeapon? other = o as DBWeapon;
         return Damage == other?.Damage && Description == other?.Description;
+    }
+
+    public override int GetHashCode() {
+        throw new NotImplementedException();
     }
 }

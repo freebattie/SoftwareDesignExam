@@ -6,15 +6,18 @@ using Model.Interface;
 namespace Model.Base.Shop
 {
     public static class ShopItemSpawner {
-        private static List<ShopItem>? invetory;
+        private static List<ShopItem> _invetory;
 
         /// <summary>
         /// lager til en liste med alle items i spillet
         /// </summary>
         /// <returns></returns>
         public static void SetAllShopItems(List<ShopItem> items) {
-            invetory = items;   
+            _invetory = items;   
         }
+        static ShopItemSpawner() {
+            _invetory = new();
+}
         /// <summary>
         /// genere angitte items, men kun 1 av hver slot
         /// </summary>
@@ -24,31 +27,37 @@ namespace Model.Base.Shop
             
             var allspots = Enum.GetNames(typeof(GearSpot));
             items = items <= allspots.Length ? items : allspots.Length;
-            Dictionary<GearSpot, ShopItem> inventory = new Dictionary<GearSpot, ShopItem>();
+            Dictionary<GearSpot, ShopItem> invetory = new Dictionary<GearSpot, ShopItem>();
            
             while (items > 0) { 
             
                 Random rand = new Random();
 
                 //Trenger ingen sjekk her siden vi lager Dictionary rett før loopen;
-                var count = invetory.Count;
-                var index = rand.Next(count);
-                var tmpItem = invetory?[index];
+                if (invetory != null && _invetory != null ) {
+                    var count = _invetory.Count;
+                    var index = rand.Next(count);
+                    var tmpItem = _invetory?[index];
+                    if (tmpItem !=null) {
+                        //Trenger ikke å sjekke for null her siden vi sjekker antall i Dictionary
+                        //og vi bruker not null pattern på items 
+                        if (invetory.ContainsKey(tmpItem.GearSpot)) {
+                            continue;
+                        }
+                        else {
+                            invetory.Add(tmpItem.GearSpot, tmpItem);
+                            items--;
+                        }
+                    }
 
-                //Trenger ikke å sjekke for null her siden vi sjekker antall i Dictionary
-                //og vi bruker not null pattern på items 
-                if (inventory.ContainsKey(tmpItem.GearSpot)) {
-                    continue;
+                    
                 }
-                else {
-                    inventory.Add(tmpItem.GearSpot, tmpItem);
-                    items--;
-                }
+                
             }
 
 
 
-            return inventory;
+            return invetory != null ? invetory : new();
         }
         /// <summary>
         /// henter ut angitt antall items, kan få like "gear spot" å like items.
@@ -64,8 +73,8 @@ namespace Model.Base.Shop
             while (items > 0) {
 
                 Random rand = new Random();
-                var index = rand.Next(invetory.Count);
-                var tmpItem = invetory[index];
+                var index = rand.Next(_invetory.Count);
+                var tmpItem = _invetory[index];
                 inventory.Add( tmpItem);
                 items--;
             }

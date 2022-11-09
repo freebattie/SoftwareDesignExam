@@ -36,11 +36,14 @@ namespace SoftwareDesignExam
         }
 
         private static void Setup() {
-            Console.SetWindowSize(120, 60);
-            TableMaker.UsersSchemaAndTableMaker();
-            TableMaker.ItemsSchemaAndTableMaker();
-            Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
-            ShowWindow(ThisConsole, MAXIMIZE);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
+                Console.SetWindowSize(120, 60);
+                TableMaker.UsersSchemaAndTableMaker();
+                TableMaker.ItemsSchemaAndTableMaker();
+                Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+                ShowWindow(ThisConsole, MAXIMIZE);
+            }
+            
         }
     }
 }

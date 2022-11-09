@@ -6,7 +6,7 @@ namespace Model.Interface
 {
     public interface IUI {
         void Draw(Menu menu);
-        string ReadIntInput<T>(List<T> list);
+        
         string HandelPlayerInput(Menu menu);
         void SetActiveModels(PlayerHandler playerHandler, List<CharacterInfo> enemyList, List<User> users, int roomNr);
     }

@@ -24,16 +24,14 @@ namespace Model.Factory
         /// <returns></returns>
         public static CharacterInfo GetItems(List<ShopItem> items, CharacterInfo original) {
 
-           
+            
             foreach (var item in items) {
                 if (decoratorItems.ContainsKey(item.Name.ToLower())) {
                     Type decoratorItem = decoratorItems[item.Name.ToLower()];
-                    var geardecorator = Activator.CreateInstance(decoratorItem, original) as CharacterGearDecorator;
-                    
-                    if (geardecorator != null)
-                        return geardecorator;
-                    else
-                        return new NoItem(original);
+                    var characterGear = Activator.CreateInstance(decoratorItem, original) as CharacterGearDecorator;
+                    if (characterGear != null) 
+                        original = characterGear;
+        
                 }
                 else
                     return new NoItem(original);

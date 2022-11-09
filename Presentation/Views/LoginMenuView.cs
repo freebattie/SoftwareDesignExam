@@ -22,15 +22,24 @@ namespace Presentation.Views {
         }
 
         public void Draw() {
-            Writer.ClearScreen();
-            
-            Writer.PrintLine(headerLogin);
+            PrintMenuName();
+            if (users != null)
+                PrintMenu(users);
+
+        }
+
+        private void PrintMenu(List<User> users) {
             Writer.PrintLine("Users that have been created:");
             foreach (var user in users) {
                 Writer.PrintLine($"{user.Name} Level: {user.Level}");
             }
             Writer.PrintLine("entar a name to load in or a new name to start fresh");
             Writer.Print("Input:");
+        }
+
+        private void PrintMenuName() {
+            Writer.ClearScreen();
+            Writer.PrintLine(headerLogin);
         }
     }
 }

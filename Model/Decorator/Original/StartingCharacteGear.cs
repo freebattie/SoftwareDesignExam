@@ -1,6 +1,7 @@
 ﻿
 
 using Model.Base.Player;
+using Model.Base.Weapons;
 using Model.Decorator.Abstract;
 using Model.Interface;
 
@@ -89,7 +90,7 @@ namespace Model.Decorator.Original
 
         public override string GetName()
         {
-            return Name;
+            return Name != null ? Name : "";
         }
 
         public override void SetUser(User user)
@@ -101,7 +102,7 @@ namespace Model.Decorator.Original
         }
 
         public override Weapon GetWeapon() {
-            return Weapon;
+            return Weapon != null ? Weapon : new NoWeapon();
         }
 
         public override double GetMaxHealth() {

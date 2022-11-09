@@ -2,7 +2,7 @@
 {
     public class User
     {
-        private string? _name;
+        private string _name ="";
         private int _level;
         private int _topscore;
         private int _currentscore;
@@ -11,7 +11,7 @@
         {
         }
 
-        public User(string? name, int level, int topscore, int currentscore)
+        public User(string name, int level, int topscore, int currentscore)
         {
             this._name = name;
             this._level = level;
@@ -19,7 +19,7 @@
             this._currentscore = currentscore;
         }
 
-        public string? Name
+        public string Name
         {
             get => _name;
             set => _name = value ?? throw new ArgumentNullException(nameof(value));

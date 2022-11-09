@@ -25,20 +25,44 @@ namespace Presentation.Views {
             this.room = room;
         }
 
-        
+
+        public void Draw() {
+            AttackMenu();
+
+        }
 
         public void AttackMenu() {
             var player = playerHandler.GetPlayer();
-            if (player != null) 
+            if (player != null)
                 PrintMenu(player);
+            
+            AddSpacing();
+            PrintEnemiesInfo();
+            PrintInputInfo();
+        }
+        private void PrintMenu(CharacterInfo player) {
+            Writer.ClearScreen();
+            Writer.PrintLine(attackHeader);
+            Writer.PrintLine($"You are in room {room}");
+            Writer.PrintLine($"Hi, {player.GetName()}.");
+            Writer.PrintLine("");
+            Writer.PrintLine($"Your health: {player.GetHealth()}");
+            Writer.PrintLine($"Your current level: {player.GetLevel()}");
+            Writer.PrintLine($"Your Weapon: {player.GetWeapon().Name}");
+            Writer.PrintLine($"Your BaseDamge is: {player.GetLevel() + 25}");
+            Writer.PrintLine($"Your Crit Chance is: {player.GetCrit()}");
+            Writer.PrintLine($"Max damage if crit: {player.GetMaxDamage()}");
+            Writer.PrintLine($"Your Items: {player.GetDescription()}");
+        }
 
-
-            //Writer.PrintLine($"Your active items: {player.GetActiveItems()}");
-
+        private static void AddSpacing() {
             Writer.PrintLine("");
             Writer.PrintLine("");
+        }
 
+       
 
+        private void PrintEnemiesInfo() {
             Writer.PrintLine("----------Enemies Information-------");
             Writer.PrintLine($"Number of enemies are: {enemies.Count}");
             int index = 1;
@@ -58,30 +82,16 @@ namespace Presentation.Views {
 
             }
 
+           
+        }
+        private void PrintInputInfo() {
             Writer.PrintLine("");
             Writer.PrintLine("----------Attack Menu-------");
-            Writer.PrintLine($"Select a Enemy to attack. or {index} for inventory");
+            Writer.PrintLine($"Select a Enemy to attack. or {enemies.Count} for inventory");
             Writer.Print("Input:");
         }
 
-        private void PrintMenu(CharacterInfo? player) {
-            Writer.ClearScreen();
-            Writer.PrintLine(attackHeader);
-            Writer.PrintLine($"You are in room {room}");
-            Writer.PrintLine($"Hi, {player?.GetName()}.");
-            Writer.PrintLine("");
-            Writer.PrintLine($"Your health: {player.GetHealth()}");
-            Writer.PrintLine($"Your current level: {player.GetLevel()}");
-            Writer.PrintLine($"Your Weapon: {player.GetWeapon().Name}");
-            Writer.PrintLine($"Your BaseDamge is: {player.GetLevel() + 25}");
-            Writer.PrintLine($"Your Crit Chance is: {player.GetCrit()}");
-            Writer.PrintLine($"Max damage if crit: {player.GetMaxDamage()}");
-            Writer.PrintLine($"Your Items: {player.GetDescription()}");
-        }
+      
 
-        public void Draw() {
-            AttackMenu();
-
-        }
     }
 }

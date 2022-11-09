@@ -27,10 +27,10 @@ namespace Presentation.Views {
         public void GameOverMenu() {
             Writer.ClearScreen();
             if (user != null) 
-                PrintMenu();
+                PrintMenu(user);
         }
 
-        private void PrintMenu() {
+        private void PrintMenu(User user) {
             Writer.PrintLine(asciGraphic, ConsoleColor.Red);
             Writer.PrintLine("----------------------------");
             Writer.PrintLine("----------GAME RESULT-------");

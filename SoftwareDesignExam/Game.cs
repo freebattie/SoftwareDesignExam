@@ -10,7 +10,7 @@ using Presentation;
 namespace SoftwareDesignExam
 {
     public class Game {
-        private string _input;
+        private string _input = "";
         private PlayerHandler _playerHandler;
         private bool _gameIsRunning = true;
         private List<ShopItem> _allItems;
@@ -19,7 +19,7 @@ namespace SoftwareDesignExam
 
         private List<CharacterInfo> _enemyList;
        
-        private Menu _lastMenu;
+        private Menu _lastMenu = Menu.MAINMENU;
         private Menu _menu = Menu.MAINMENU;
         private List<User> _users;
 
@@ -32,9 +32,10 @@ namespace SoftwareDesignExam
             ShopItemSpawner.SetAllShopItems(_allItems);
 
             //TODO: kanskje bruke singelton pattern?
-            _userDao = new UserDao();
-            _playerHandler = new PlayerHandler();
-            _enemyList = new List<CharacterInfo>();
+            _userDao = new ();
+            _playerHandler = new ();
+            _enemyList = new ();
+            _users = new();
             _ui = new UI();
         }
 
@@ -136,6 +137,7 @@ namespace SoftwareDesignExam
                         break;
                     }
 
+
             }
         }
 
@@ -230,8 +232,13 @@ namespace SoftwareDesignExam
                    
 
                 }
-                else
-                    enemy.Attack(_playerHandler.GetPlayer());
+                else {
+                    var player = _playerHandler.GetPlayer();
+                    if (player != null) {
+                        enemy.Attack(player);
+                    }
+                }
+                   
 
             }
             foreach (var enemy in remove) { 
@@ -264,7 +271,6 @@ namespace SoftwareDesignExam
         private void SavePlayerToDB() {
             var user = _playerHandler.GetUser();
             _userDao.UpdateUser(user, user.Name);
-            
         }
 
 

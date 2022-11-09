@@ -23,7 +23,7 @@ namespace Persistence.Db
             command.ExecuteNonQuery();
         }
 
-        public User GetUser(string? name)
+        public User GetUser(string name)
         {
             User user = new();
             user.Level = 1;

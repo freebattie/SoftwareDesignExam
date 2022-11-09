@@ -9,10 +9,10 @@ namespace Model.Base.Weapons
     public class Axe : Weapon
     {
       
-        private Weapon? enemyWeapon;
+        
         private int counter = 0;
         List<CharacterInfo> _targets;
-        Axe() : base() {
+        public Axe() : base() {
             
             Description = "Will do a spinning attack on the 3 attack. Hitting all enemies you have hit before with 100 dmg";
             _targets = new();

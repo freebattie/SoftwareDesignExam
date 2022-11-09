@@ -15,11 +15,11 @@ namespace Model.Base.Player
     {
 
         private User? userInfo;
-        private CharacterInfo original;
-        private CharacterInfo? player;
-        private CharacterInfo? target;
-        private List<ShopItem>? playerInvetory;
-        private Dictionary<GearSpot, ShopItem>? activeItems = new();
+        private CharacterInfo original = new StartingCharacteGear();
+        private CharacterInfo player = new StartingCharacteGear();
+        private CharacterInfo target = new StartingCharacteGear ();
+        private List<ShopItem> playerInvetory = new ();
+        private Dictionary<GearSpot, ShopItem> activeItems = new();
        
 
         public PlayerHandler()
@@ -45,17 +45,13 @@ namespace Model.Base.Player
         }
       
         public Dictionary<GearSpot, ShopItem> GetActiveItems() {
-            if (activeItems == null)
-                return new();
-            else
+
+     
             return activeItems;
         }
         public CharacterInfo? GetPlayer()
         {
-            if (player != null) 
-                return player;
-            else
-                return original;
+            return player;
         }
 
         public void setTarget(CharacterInfo character)
@@ -101,6 +97,7 @@ namespace Model.Base.Player
             userInfo.CurrentScore = 0;
             playerInvetory = ShopItemSpawner.GetRandomListOfItems(4);
             original = new StartingCharacteGear(userInfo, StartingWeapon());
+            player = original;
             EquiptAllActiveItems();
         }
         //TODO:fix

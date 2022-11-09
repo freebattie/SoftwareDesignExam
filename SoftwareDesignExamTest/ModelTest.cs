@@ -17,7 +17,7 @@ namespace SoftwareDesignExamTest {
         public void WeaponFactoryInvalidInputNotNullTest() {
             var item = WeaponFactory.GetWeapon("error", "test", 200);
             Assert.IsNotNull(item);
-            Assert.AreEqual(new NoWeapon(), item);
+            Assert.That(item.Equals(new NoWeapon()));
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace SoftwareDesignExamTest {
             Weapon wep = new Sword();
             wep.Name = "test sword";
             wep.Damage=200;
-            Assert.AreEqual(wep, item);
+            Assert.That(item.Equals(wep));
         }
         [Test]
         public void ItemFacoryInvalidInputNotNullTest() {
@@ -35,7 +35,7 @@ namespace SoftwareDesignExamTest {
             var equipment = ItemDecoratorFactory.GetItem("rabbitsf00t", starteq);
             Assert.IsNotNull(equipment);
             CharacterInfo wep = new NoItem(starteq);
-            Assert.AreEqual(wep, equipment);
+            Assert.That(equipment.Equals(wep));
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace SoftwareDesignExamTest {
             Assert.IsNotNull(equipment);
             CharacterInfo wep = new RabbitsFoot(starteq);
             
-            Assert.AreEqual(wep, equipment);
+            Assert.That(equipment.Equals(wep));
         }
     }
 }

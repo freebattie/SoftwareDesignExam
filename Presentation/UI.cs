@@ -11,7 +11,6 @@ using Presentation.Views;
 namespace Presentation {
     public class UI: IUI {
         private Dictionary<Menu,IView> _allMenuViews;
-        private List<User> _users;
 
         public UI() {
 
@@ -42,10 +41,6 @@ namespace Presentation {
             else
                 return Reader.ReadIntAsString();
             
-        }
-
-        public string ReadIntInput<T>(List<T> list) {
-           return Reader.ReadIntAsString(list);
         }
 
         public void SetActiveModels(

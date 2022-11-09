@@ -13,7 +13,7 @@ namespace Model.Base.Weapons
         private Weapon? enemyWeapon;
         private int counter = 0;
 
-        Sword() : base() {
+        public Sword() : base() {
             target = null;
             Description = "You have a 15% chance to disarm a enemy";
         }

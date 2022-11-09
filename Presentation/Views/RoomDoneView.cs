@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.Views {
     internal class RoomDoneView : IView {
-        private readonly PlayerHandler playerhandler = new();;
+        private readonly PlayerHandler playerhandler = new();
         private readonly int room;
         private readonly string menu = @"
   _____   ____   ____  __  __    _____ _      ______          _____  ______ _____  
