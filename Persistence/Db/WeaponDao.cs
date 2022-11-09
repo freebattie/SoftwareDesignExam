@@ -1,6 +1,5 @@
 using Microsoft.Data.Sqlite;
 using Model.Base;
-using Model.Factory;
 using Model.Interface;
 
 namespace Persistence.Db;

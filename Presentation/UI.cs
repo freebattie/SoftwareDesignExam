@@ -16,7 +16,7 @@ namespace Presentation {
         public UI() {
 
             _allMenuViews = new Dictionary<Menu, IView>();
-            _allMenuViews.Add(Menu.ATTACK, new AttackMenuView(new PlayerHandler(),new List<Character>(),0));
+            _allMenuViews.Add(Menu.ATTACK, new AttackMenuView(new PlayerHandler(),new List<CharacterInfo>(),0));
             _allMenuViews.Add(Menu.LOGIN, new LoginMenuView());
             _allMenuViews.Add(Menu.GAMEOVER, new GameOverView());
             _allMenuViews.Add(Menu.MAINMENU, new MainMenuView());
@@ -50,7 +50,7 @@ namespace Presentation {
 
         public void SetActiveModels(
             PlayerHandler playerhandler,
-            List<Character> enemies,
+            List<CharacterInfo> enemies,
             List<User> users,
             int room) {
            

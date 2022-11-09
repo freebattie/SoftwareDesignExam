@@ -21,7 +21,9 @@ namespace Presentation.Views {
                                                                 
 ";
 
-        public HighScoreView() { }
+        public HighScoreView() {
+            _users = new();
+        }
         public HighScoreView(List<User> users ) {
             this._users = users;
         }

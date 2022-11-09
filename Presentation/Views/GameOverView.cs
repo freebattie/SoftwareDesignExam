@@ -26,7 +26,12 @@ namespace Presentation.Views {
 ";
         public void GameOverMenu() {
             Writer.ClearScreen();
-            Writer.PrintLine(asciGraphic,ConsoleColor.Red);
+            if (user != null) 
+                PrintMenu();
+        }
+
+        private void PrintMenu() {
+            Writer.PrintLine(asciGraphic, ConsoleColor.Red);
             Writer.PrintLine("----------------------------");
             Writer.PrintLine("----------GAME RESULT-------");
             Writer.PrintLine($"PLAYER LEVEL  {user.Level} ");
@@ -36,6 +41,7 @@ namespace Presentation.Views {
             Writer.PrintLine("PRESS 2 TO QUIT             ");
             Writer.PrintLine("----------------------------");
         }
+
         public void Draw() {
             GameOverMenu();
         }

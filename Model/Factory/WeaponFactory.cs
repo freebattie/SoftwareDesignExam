@@ -11,12 +11,13 @@ namespace Model.Factory
     {
         private static Dictionary<string, Type> weapons = new();
 
-        //TODO get Names from Database;
+        
         private static string[] itemDescription =  { "Glowing ", "Burning ","Dragon ","Gold "  };
         private static int[] damageRange = { 100, 120, 170, 190, 220,400 };
         static WeaponFactory() {
             LoadInWeapons();
         }
+
         /// <summary>
         /// WeaponName er key verdi for å finne rett type IWeapon i Dictionary 
         /// itemDescription i lag med weaponName blir navne på våpenet døme : Golden axe
@@ -31,9 +32,13 @@ namespace Model.Factory
             if (weapons.ContainsKey(weaponName.ToLower())) {
                 Type weaponType = weapons[weaponName.ToLower()];
                 var weapon = Activator.CreateInstance(weaponType) as Weapon;
-                weapon.Damage = dmg;
-                weapon.Name = $"{itemDescription} {weaponName}";
-                return weapon;
+                if (weapon != null) {
+                    weapon.Damage = dmg;
+                    weapon.Name = $"{itemDescription} {weaponName}";
+                    return weapon;
+                }
+               else
+                    return new NoWeapon();
             }
             else return new NoWeapon();
             
@@ -50,8 +55,7 @@ namespace Model.Factory
             Assembly? assembly = Assembly.GetExecutingAssembly();
             foreach (Assembly currentassembly in AppDomain.CurrentDomain.GetAssemblies()) {
 
-                if (currentassembly.FullName.Contains("Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"))
-                    assembly = currentassembly;
+                assembly = CheckForNullName(assembly, currentassembly);
 
             }
             foreach (var item in assembly.GetTypes()) {
@@ -87,8 +91,7 @@ namespace Model.Factory
             List<string> AllItems = new();
             Assembly? assembly = Assembly.GetExecutingAssembly();
             foreach (Assembly currentassembly in AppDomain.CurrentDomain.GetAssemblies()) {
-                if (currentassembly.FullName.Contains("Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"))
-                    assembly = currentassembly;
+                assembly = CheckForNullName(assembly, currentassembly);
             }
 
             foreach (var item in assembly.GetTypes()) {
@@ -100,6 +103,15 @@ namespace Model.Factory
             }
 
             return AllItems;
+        }
+        private static Assembly CheckForNullName(Assembly assembly, Assembly currentassembly) {
+            var name = currentassembly.FullName;
+            if (name != null) {
+                if (name.Contains("Model, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"))
+                    assembly = currentassembly;
+            }
+
+            return assembly;
         }
     }
 }

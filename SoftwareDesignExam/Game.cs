@@ -17,7 +17,7 @@ namespace SoftwareDesignExam
         public UserDao _userDao;
         private IUI _ui;
 
-        private List<Character> _enemyList;
+        private List<CharacterInfo> _enemyList;
        
         private Menu _lastMenu;
         private Menu _menu = Menu.MAINMENU;
@@ -34,7 +34,7 @@ namespace SoftwareDesignExam
             //TODO: kanskje bruke singelton pattern?
             _userDao = new UserDao();
             _playerHandler = new PlayerHandler();
-            _enemyList = new List<Character>();
+            _enemyList = new List<CharacterInfo>();
             _ui = new UI();
         }
 
@@ -223,7 +223,7 @@ namespace SoftwareDesignExam
             _playerHandler.Attack();
         }
         private void HandelEnemiesTurn() {
-            List<Character> remove = new();
+            List<CharacterInfo> remove = new();
             foreach (var enemy in _enemyList) {
                 if (enemy.GetHealth() <= 0) {
                     remove.Add(enemy);

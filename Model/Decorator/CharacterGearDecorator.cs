@@ -8,16 +8,16 @@ namespace Model.Decorator
 {
 
     //TODO: PizzaDecorator
-    public class CharacterDecorator : Character {
-        private readonly Character original;
+    public class CharacterGearDecorator : CharacterInfo {
+        private readonly CharacterInfo original;
 
-        public CharacterDecorator(Character original) {
+        public CharacterGearDecorator(CharacterInfo original) {
             this.original = original;
         }
         public override void AddCrit() {
             original.AddCrit();
         }
-        public override void Attack(Character person) {
+        public override void Attack(CharacterInfo person) {
             original.Attack(person);
         }
 

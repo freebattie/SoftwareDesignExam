@@ -3,11 +3,11 @@
 using Model.Decorator.Abstract;
 
 namespace Model.Decorator.Items {
-    public class WikingHelmet:CharacterDecorator {
+    public class WikingHelmet:CharacterGearDecorator {
         bool isbroken = false;
         double hitpoints = 22;
         double dmgReduction = 15;
-        public WikingHelmet(Character original) : base(original) {
+        public WikingHelmet(CharacterInfo original) : base(original) {
         }
 
         public override void RemoveHealth(double weaponDmg) {

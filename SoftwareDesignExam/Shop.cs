@@ -8,7 +8,7 @@ namespace SoftwareDesignExam {
         List<Weapon> weapons = new();
 
 
-        public Shop(Character player) {
+        public Shop(CharacterInfo player) {
             weapons.Add(WeaponFactory.GetWeapon("axe","FireAxe",215));
             weapons.Add(WeaponFactory.GetWeapon("axe","Normal Axe",124));
         }

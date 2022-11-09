@@ -6,12 +6,12 @@ using Model.Interface;
 
 namespace Model.Decorator.Original
 {
-    public class StartingCharacter : Character
+    public class StartingCharacteGear : CharacterInfo
     {
         public int Topscore { get; private set; }
 
-        public StartingCharacter() { }
-        public StartingCharacter(User user, Weapon weapon)
+        public StartingCharacteGear() { }
+        public StartingCharacteGear(User user, Weapon weapon)
         {
             Name = user.Name;
             Level = user.Level;
@@ -35,7 +35,7 @@ namespace Model.Decorator.Original
             Health = MaxHealth;
         }
 
-        public override void Attack(Character person)
+        public override void Attack(CharacterInfo person)
         {
             if (Weapon != null)
             {

@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 namespace Presentation.Views {
     internal class EnemyTurnView : IView {
         private readonly PlayerHandler playerHandler;
-        private readonly List<Character> enemies;
+        private readonly List<CharacterInfo> enemies;
 
-        public EnemyTurnView(PlayerHandler playerHandler, List<Character> enemies) {
+        public EnemyTurnView(PlayerHandler playerHandler, List<CharacterInfo> enemies) {
             this.playerHandler = playerHandler;
             this.enemies = enemies;
         }
@@ -28,14 +28,29 @@ namespace Presentation.Views {
                                                                                
 ";
         public EnemyTurnView() {
+            playerHandler = new();
+            enemies = new();
         }
        
 
 
         public void EnemyTurn() {
+            PrintMenuName();
+            PlayerAttackingEnemiesInfo();
+            var health = playerHandler.GetPlayer();
+            if (health != null)
+                EnemiesAttackingPlayerInfo(health.GetHealth());
+           
 
+
+        }
+
+        private void PrintMenuName() {
             Writer.ClearScreen();
             Writer.PrintLine(menu);
+        }
+
+        private void PlayerAttackingEnemiesInfo() {
             Writer.PrintLine("----------Enemies healt left after your Attack---------");
             foreach (var enemy in enemies) {
                 Writer.PrintLine($"{enemy.GetName()} has {enemy.GetHealth()} healt left after your Attack");
@@ -43,13 +58,14 @@ namespace Presentation.Views {
             }
             Writer.PrintLine("-------------------------------------------------------");
             Writer.PrintLine($"");
+        }
 
+        private void EnemiesAttackingPlayerInfo(double health) {
             Writer.PrintLine("-----------------Enemies are attacking-----------------");
-            Writer.PrintLine($"You have {playerHandler.GetPlayer().GetHealth()} Healt left after enemies Attack");
+            Writer.PrintLine($"You have {health} Healt left after enemies Attack");
             Writer.PrintLine("-------------------------------------------------------");
             Writer.PrintLine("");
             Writer.PrintLine("---------------Press eny key to continue---------------");
-
         }
 
         public void Draw() {

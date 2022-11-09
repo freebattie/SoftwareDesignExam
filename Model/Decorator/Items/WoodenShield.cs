@@ -1,12 +1,12 @@
 ﻿using Model.Decorator.Abstract;
 
 namespace Model.Decorator.Items {
-    internal class WoodenShield : CharacterDecorator
+    internal class WoodenShield : CharacterGearDecorator
     {
         bool isbroken = false;
         double hitpoints = 4;
         double dmgReduction = 1;
-        public WoodenShield(Character original) : base(original)
+        public WoodenShield(CharacterInfo original) : base(original)
         {
         }
 

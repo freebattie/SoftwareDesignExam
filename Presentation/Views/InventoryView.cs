@@ -38,6 +38,8 @@ namespace Presentation.Views {
         }
 
         public InventoryView() {
+            items = new();
+            activeItems = new();
         }
 
         public void DrawInvetory() {

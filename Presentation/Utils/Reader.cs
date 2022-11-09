@@ -13,34 +13,53 @@ namespace Presentation.Utils {
         /// <returns></returns>
         public static string ReadIntAsString<T>(List<T> list) { 
 
-            string input = Console.ReadLine();
-            
-            if (Char.IsDigit(input.ToCharArray()[0]) && input.Length == 1 
-                && int.Parse(input.ToCharArray()[0].ToString()) <= list.Count 
+            string? input = Console.ReadLine();
+            if (input != null) {
+                if (Char.IsDigit(input.ToCharArray()[0]) && input.Length == 1
+                && int.Parse(input.ToCharArray()[0].ToString()) <= list.Count
                 && int.Parse(input.ToCharArray()[0].ToString()) != 0)
-                return input;
+                    return input;
+                else
+                    return "ERROR";
+            }
             else
                 return "ERROR";
+            
         }
         public static string ReadIntAsString() {
 
-            string input = Console.ReadLine();
-            if (input.Length == 0)
-                return "ERROR";
-           else if (Char.IsDigit(input.ToCharArray()[0]) && input.Length == 1 )
-                return input;
+            string? input = Console.ReadLine();
+            if (input != null) {
+                if (input.Length == 0)
+                    return "ERROR";
+                else if (Char.IsDigit(input.ToCharArray()[0]) && input.Length == 1)
+                    return input;
+                else
+                    return "ERROR";
+            }
             else
                 return "ERROR";
+           
         }
         public static string ReadString() {
 
-            string input = Console.ReadLine();
-            if (input.Length == 0)
+            string? input = Console.ReadLine();
+            if (input != null) {
+                if (input.Length == 0)
+                    return "ERROR";
+                else
+                    return input;
+
+            }
+            else
                 return "ERROR";
-            return input;
         }
         public static string KeyPressed() {
-            return Console.ReadKey().ToString();
+                var key = Console.ReadKey().ToString();
+            if (key != null)
+                return key;
+            else
+                return "";
         }
 
     }

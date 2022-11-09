@@ -2,12 +2,12 @@
 
 
 namespace Model.Decorator.Items {
-    internal class KnightGloves :CharacterDecorator{
+    internal class KnightGloves :CharacterGearDecorator{
         bool isbroken = false;
         double hitpoints = 3;
         
 
-        public KnightGloves(Character original) : base(original) {
+        public KnightGloves(CharacterInfo original) : base(original) {
         }
 
         public override void RemoveHealth(double weaponDmg) {

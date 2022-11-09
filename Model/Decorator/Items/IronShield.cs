@@ -4,12 +4,12 @@
 using Model.Decorator.Abstract;
 
 namespace Model.Decorator.Items {
-    public class IronShield : CharacterDecorator {
+    public class IronShield : CharacterGearDecorator {
 
         bool isbroken = false;
         double hitpoints = 10;
         double dmgReduction = 5;
-        public IronShield(Character original) : base(original) {
+        public IronShield(CharacterInfo original) : base(original) {
         }
 
         public override void RemoveHealth(double weaponDmg) {

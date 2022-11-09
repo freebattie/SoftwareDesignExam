@@ -17,14 +17,23 @@ namespace Presentation.Views {
         public MainMenuView() { }
 
         private void MainMenu() {
+            PrintGameName();
+            PrintMenu();
+        }
+
+        private void PrintGameName() {
             Writer.ClearScreen();
             Writer.PrintLine(asciString);
+        }
+
+        private static void PrintMenu() {
             Writer.PrintLine("PRESS 1 TO STARTGAME      ");
             Writer.PrintLine("-------------------   ");
             Writer.PrintLine("PRESS 2 TO QUIT       ");
             Writer.PrintLine("--------------------- ");
             Writer.PrintLine("PRESS 3 for HIGHSCORES");
         }
+
         public void Draw() {
             MainMenu();
         }

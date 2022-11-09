@@ -31,19 +31,19 @@ namespace SoftwareDesignExamTest {
         }
         [Test]
         public void ItemFacoryInvalidInputNotNullTest() {
-            var starteq = new StartingCharacter();
+            var starteq = new StartingCharacteGear();
             var equipment = ItemDecoratorFactory.GetItem("rabbitsf00t", starteq);
             Assert.IsNotNull(equipment);
-            Character wep = new NoItem(starteq);
+            CharacterInfo wep = new NoItem(starteq);
             Assert.AreEqual(wep, equipment);
         }
 
         [Test]
         public void ItemFacoryValidInputTest() {
-            var starteq = new StartingCharacter();
+            var starteq = new StartingCharacteGear();
             var equipment = ItemDecoratorFactory.GetItem("rabbitsfoot", starteq);
             Assert.IsNotNull(equipment);
-            Character wep = new RabbitsFoot(starteq);
+            CharacterInfo wep = new RabbitsFoot(starteq);
             
             Assert.AreEqual(wep, equipment);
         }

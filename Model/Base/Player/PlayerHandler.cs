@@ -14,40 +14,51 @@ namespace Model.Base.Player
     public class PlayerHandler
     {
 
-        private User userInfo;
-        private Character original;
-        private Character player;
-        private Character target;
-        private List<ShopItem> playerInvetory;
-        private Dictionary<GearSpot, ShopItem> activeItems = new();
-        private bool isDead;
+        private User? userInfo;
+        private CharacterInfo original;
+        private CharacterInfo? player;
+        private CharacterInfo? target;
+        private List<ShopItem>? playerInvetory;
+        private Dictionary<GearSpot, ShopItem>? activeItems = new();
+       
 
         public PlayerHandler()
         {
+
             SetupPlayer();
+            if (original == null)
+                original = new StartingCharacteGear();
         }
         public void Attack()
         {
-           
-            player.Attack(target);
+            if (target != null) 
+                player?.Attack(target);
         }
 
         public List<ShopItem> GetInventory()
         {
-            return playerInvetory;
+            if (playerInvetory != null)
+                return playerInvetory;
+            else
+                return
+                    new();
         }
       
         public Dictionary<GearSpot, ShopItem> GetActiveItems() {
-            
+            if (activeItems == null)
+                return new();
+            else
             return activeItems;
         }
-        public Character GetPlayer()
+        public CharacterInfo? GetPlayer()
         {
-           
-            return player;
+            if (player != null) 
+                return player;
+            else
+                return original;
         }
 
-        public void setTarget(Character character)
+        public void setTarget(CharacterInfo character)
         {
             target = character;
         }
@@ -59,30 +70,37 @@ namespace Model.Base.Player
             original.SetUser(user);
         }
         public void SetActiveGearItem(GearSpot spot, ShopItem item) {
+            if (item != null) 
+                AddGearToSpot(spot, item);
+        }
 
-            if (activeItems.ContainsKey(spot)) {
-                activeItems[spot] = item;
+        private void AddGearToSpot(GearSpot spot, ShopItem item) {
+            var items = GetActiveItems();
+            if (items.ContainsKey(spot)) {
+                items[spot] = item;
             }
             else {
-                activeItems.Add(spot, item);
+                items.Add(spot, item);
             }
         }
+
         public void EquiptAllActiveItems()
         {
-
-            player = ItemDecoratorFactory.GetItems(activeItems.Values.ToList(), original);
+            if (original != null) 
+                player = ItemDecoratorFactory.GetItems(GetActiveItems().Values.ToList(), original);
             
         }
 
         public void SetupPlayer()
         {
+            
             userInfo = new();
             userInfo.Name = "";
             userInfo.Level = 1;
             userInfo.Topscore = 0;
             userInfo.CurrentScore = 0;
             playerInvetory = ShopItemSpawner.GetRandomListOfItems(4);
-            original = new StartingCharacter(userInfo, StartingWeapon());
+            original = new StartingCharacteGear(userInfo, StartingWeapon());
             EquiptAllActiveItems();
         }
         //TODO:fix
@@ -92,23 +110,28 @@ namespace Model.Base.Player
         }
 
         public User GetUser() {
-            SetTopScore();
-            return userInfo;
+            if (userInfo != null) {
+                SetTopScore();
+                return userInfo;
+            }
+            else
+                return new User();
+            
         }
 
         private void SetTopScore() {
-            if (userInfo.CurrentScore > userInfo.Topscore) {
+            if (userInfo?.CurrentScore > userInfo?.Topscore) {
                 userInfo.Topscore = userInfo.CurrentScore;
             }
         }
 
         public void removeItem(ShopItem item) {
-            playerInvetory.Remove(item);
+            playerInvetory?.Remove(item);
         }
 
         public List<string> GetInventoryAsString() {
             List<string> items = new();
-            foreach (var item in playerInvetory) {
+            foreach (var item in GetInventory()) {
                 items.Add(item.Name);
             }
             return items;
@@ -116,7 +139,7 @@ namespace Model.Base.Player
 
        
         public bool PlayerIsAlive() {
-            if (player.GetHealth() < 0)
+            if (player?.GetHealth() < 0)
                 return false;
             else
                 return true;

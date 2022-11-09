@@ -2,14 +2,14 @@
 
 namespace Model.Decorator.Items {
     //TODO: HAM,PEPPERONI ETC
-    public class RabbitsFoot : CharacterDecorator
+    public class RabbitsFoot : CharacterGearDecorator
     {
 
         public int Pirce { get; set; } = 100;
         public int Lvl { get; set; } = 1;
         public string ItemName { get; set; } = "Rabbit Foot";
         private bool isUsed = false;
-        public RabbitsFoot(Character original) : base(original)
+        public RabbitsFoot(CharacterInfo original) : base(original)
         {
 
         }
@@ -23,7 +23,7 @@ namespace Model.Decorator.Items {
             base.RemoveHealth(weaponDmg);
         }
 
-        public override void Attack(Character person)
+        public override void Attack(CharacterInfo person)
         {
             base.Attack(person);
             Console.WriteLine(GetLevel());

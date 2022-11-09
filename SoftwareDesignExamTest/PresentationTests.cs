@@ -4,7 +4,10 @@ using Presentation.Utils;
 
 namespace SoftwareDesignExamTest {
     internal class PresentationTests {
-    
+        
+        /// <summary>
+        /// Tester at ReadIntAsString retunere "ERROR" hvis verdien ikke er et gyldig int
+        /// </summary>
         [Test]
         public void IntInputTest() {
             var sr = new StringReader("x");
@@ -22,11 +25,12 @@ namespace SoftwareDesignExamTest {
             Assert.That(stringInput.Equals("2"));
 
 
-            //var standarInputStream = new StreamReader(Console.OpenStandardInput());
-            //Console.SetIn(standarInputStream);
-
+           
         }
       
+        /// <summary>
+        /// Test at ReadString kan lese en streng fra input 
+        /// </summary>
         [Test]
         public void ValidStringInputTest() {
             var sr = new StringReader("Testname");
@@ -37,6 +41,9 @@ namespace SoftwareDesignExamTest {
            
 
         }
+        /// <summary>
+        /// Test at PrintLine printer string til outputten
+        /// </summary>
         [Test]
         public void WriterTest() {
             var stringWriter = new StringWriter();
@@ -44,7 +51,7 @@ namespace SoftwareDesignExamTest {
             
             Writer.PrintLine("Hello World");
 
-            Assert.AreEqual("Hello World\r\n", stringWriter.ToString());
+            Assert.That(stringWriter.ToString().Equals("Hello World\r\n"));
 
 
         }

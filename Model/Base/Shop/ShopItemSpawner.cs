@@ -6,59 +6,20 @@ using Model.Interface;
 namespace Model.Base.Shop
 {
     public static class ShopItemSpawner {
-        private static List<ShopItem> invetory;
+        private static List<ShopItem>? invetory;
 
         /// <summary>
         /// lager til en liste med alle items i spillet
         /// </summary>
         /// <returns></returns>
         public static void SetAllShopItems(List<ShopItem> items) {
-            invetory = items;
-/*
-            List<ShopItem> invetory = new();
-            ShopItem item = new();
-            item.Price = 100;
-            item.GearSpot = GearSpot.TRINCKET;
-            item.ItemLevel = 1;
-            item.Description = "Stops user from dieing from a leathal blow one time";
-            item.Name = "rabbitsfoot";
-            invetory.Add(item);
-
-            item = new();
-            item.GearSpot = GearSpot.SHIELD;
-            item.Price = 100;
-            item.ItemLevel = 1;
-            item.Description = "removes 1 damage from each attack utill it breaks after 10 dmg";
-            item.Name = "woodenshield";
-            invetory.Add(item);
-
-            item = new();
-            item.GearSpot = GearSpot.SHIELD;
-            item.Price = 100;
-            item.ItemLevel = 1;
-            item.Description = "removes 5 damage from each attack utill it breaks after 40 dmg";
-            item.Name = "ironshield";
-            invetory.Add(item);
-
-            item = new();
-            item.GearSpot = GearSpot.HELMET;
-            item.Price = 100;
-            item.ItemLevel = 1;
-            item.Description = "removes 5 damage from each attack utill it breaks after 40 dmg";
-            item.Name = "wikinghelmet";
-
-            invetory.Add(item);
-            item = new();
-            item.GearSpot = GearSpot.GLOVES;
-            item.Price = 100;
-            item.ItemLevel = 1;
-            item.Description = "You heal instead of take damage, 3 uses";
-            item.Name = "knightgloves";
-            invetory.Add(item);*/
-
-            
+            invetory = items;   
         }
-
+        /// <summary>
+        /// genere angitte items, men kun 1 av hver slot
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
         public static Dictionary<GearSpot, ShopItem> GetRandomActiveItems(int items) {
             
             var allspots = Enum.GetNames(typeof(GearSpot));
@@ -68,8 +29,14 @@ namespace Model.Base.Shop
             while (items > 0) { 
             
                 Random rand = new Random();
-                var index = rand.Next(invetory.Count);
-                var tmpItem = invetory[index];
+
+                //Trenger ingen sjekk her siden vi lager Dictionary rett før loopen;
+                var count = invetory.Count;
+                var index = rand.Next(count);
+                var tmpItem = invetory?[index];
+
+                //Trenger ikke å sjekke for null her siden vi sjekker antall i Dictionary
+                //og vi bruker not null pattern på items 
                 if (inventory.ContainsKey(tmpItem.GearSpot)) {
                     continue;
                 }
@@ -83,6 +50,11 @@ namespace Model.Base.Shop
 
             return inventory;
         }
+        /// <summary>
+        /// henter ut angitt antall items, kan få like "gear spot" å like items.
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
         public static List<ShopItem> GetRandomListOfItems(int items) {
 
             var allspots = Enum.GetNames(typeof(GearSpot));
