@@ -26,6 +26,7 @@ namespace SoftwareDesignExam {
         private int roomNr = 1;
         #endregion
 
+        #region Constructor
         public Game() {
             _itemDao = new ItemDao();
             _allItems = _itemDao.GetAllItems();
@@ -50,7 +51,9 @@ namespace SoftwareDesignExam {
             _gameMeckanics.Add(Menu.ENEMYTURN, HandelCheckIfGameOverMeckanics);
            
         }
-       
+        #endregion
+
+        #region Game flow
         public void Update() {
             while (_gameIsRunning) {
 
@@ -76,9 +79,7 @@ namespace SoftwareDesignExam {
         public void HandelGameMecknaics() {
             _gameMeckanics[_menu].DynamicInvoke();
         }
-
-
-
+        #endregion
 
         #region Game Meckanics
         private void HandelInventoryMeckanics() {
