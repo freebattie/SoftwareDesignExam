@@ -27,6 +27,27 @@ namespace Presentation.Views {
                                                                                
                                                                                
 ";
+        string enemyDrawing = @"
+     |\____/|
+    (\|----|/)
+     \ 0  0 /
+      |    |
+   ___/\../\____
+  /     --       \
+ /  \         /   \
+|    \___/___/(   |
+\   /|  }{   | \  )
+ \  ||__}{__|  |  |
+  \  |;;;;;;;\  \ / \_______
+   \ /;;;;;;;;| [,,[|======'
+     |;;;;;;/ |     /
+     ||;;|\   |
+     ||;;/|   /
+     \_|:||__|
+      \ ;||  /
+      |= || =|
+      |= /\ =|
+      /_/  \_\";
         public EnemyTurnView() {
             playerHandler = new();
             enemies = new();
@@ -51,8 +72,16 @@ namespace Presentation.Views {
         }
 
         private void PlayerAttackingEnemiesInfo() {
+            enemies.Add(enemies[0]);
+            int index = 0;
+            Writer.PrintDrawing(enemyDrawing,10, 10, ConsoleColor.Red);
+            Writer.PrintDrawing(enemyDrawing, 20, 10, ConsoleColor.Red);
+            Writer.PrintDrawing(enemyDrawing, 30, 10, ConsoleColor.Red);
+            
+            Writer.DonePrintDrawing(0, 51);
             Writer.PrintLine("----------Enemies healt left after your Attack---------");
             foreach (var enemy in enemies) {
+                
                 Writer.PrintLine($"{enemy.GetName()} has {enemy.GetHealth()} healt left after your Attack");
 
             }

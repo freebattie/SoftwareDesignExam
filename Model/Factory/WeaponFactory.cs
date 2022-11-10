@@ -13,7 +13,7 @@ namespace Model.Factory
 
         
         private static string[] itemDescription =  { "Glowing ", "Burning ","Dragon ","Gold "  };
-        private static int[] damageRange = { 100, 120, 170, 190, 220,400 };
+        private static int[] damageRange = { 100, 120, 170, 190, 220,340,440,550,700,1230,2200 };
         static WeaponFactory() {
             LoadInWeapons();
         }

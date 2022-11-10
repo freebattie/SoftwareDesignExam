@@ -1,12 +1,7 @@
 ﻿using Model.Base.Player;
-using Model.Decorator.Abstract;
 using Model.Interface;
 using Presentation.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Presentation.Views {
     internal class RoomDoneView : IView {
@@ -34,7 +29,8 @@ namespace Presentation.Views {
             var playerHandler = playerhandler; 
             if (playerHandler != null) 
                 PrintMenu(playerHandler);
-            //Writer.PrintLine($"3. To go too shop");
+            else if(room %3 == 0)
+                Writer.PrintLine($"3. To go too shop");
         }
 
         private void PrintMenuName() {

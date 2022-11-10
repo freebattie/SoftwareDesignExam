@@ -16,7 +16,7 @@ namespace SoftwareDesignExam
         private List<ShopItem> _allItems;
         public UserDao _userDao;
         private IUI _ui;
-
+        private Dictionary<Menu, Delegate> _gameMeckanics;
         private List<CharacterInfo> _enemyList;
        
         private Menu _lastMenu = Menu.MAINMENU;
@@ -26,17 +26,28 @@ namespace SoftwareDesignExam
         private int roomNr = 1;
 
         public Game() {
+            GameSetup();
+        }
+
+        private void GameSetup() {
             //Load all items
             IItemDao dao = new ItemDao();
-             _allItems = dao.GetAllItems();
+            _allItems = dao.GetAllItems();
             ShopItemSpawner.SetAllShopItems(_allItems);
-
-            //TODO: kanskje bruke singelton pattern?
-            _userDao = new ();
-            _playerHandler = new ();
-            _enemyList = new ();
+            _userDao = new();
+            _playerHandler = new();
+            _enemyList = new();
             _users = new();
             _ui = new UI();
+            _gameMeckanics = new Dictionary<Menu, Delegate>();
+            _gameMeckanics.Add(Menu.ERROR, HandelErrorMeckanics);
+            _gameMeckanics.Add(Menu.MAINMENU, HandelMenuSelection);
+            _gameMeckanics.Add(Menu.LOGIN, HandelLoginMeckanics);
+            _gameMeckanics.Add(Menu.ATTACK, HandelAttackMeckanics);
+            _gameMeckanics.Add(Menu.INVETORY, HandelInventoryMeckanics);
+            _gameMeckanics.Add(Menu.NEXTROOM, HandelNextRoomMeckanics);
+            _gameMeckanics.Add(Menu.HIGHSCORE, HandelMaxScoreMeckanics);
+            _gameMeckanics.Add(Menu.ENEMYTURN, HandelCheckIfGameOverMeckanics);
         }
 
         public void Update() {
@@ -49,12 +60,12 @@ namespace SoftwareDesignExam
             }
         }
 
-        public void Draw() {
+        private void Draw() {
             _ui.SetActiveModels(_playerHandler, _enemyList, _users, roomNr);
             _ui.Draw(_menu);
         }
 
-        public void HandelInput() {
+        private void HandelInput() {
             _input = _ui.HandelPlayerInput(_menu);
             HandelErrorInput();
         }
@@ -65,83 +76,57 @@ namespace SoftwareDesignExam
         /// for Database hantering og spill relaterte opprasjoner
         /// </summary>
         public void HandelGameMecknaics() {
-            
-            switch (_menu) {
-                case Menu.ATTACK: {
-                    _lastMenu = _menu;
-                        HandelAttackMeckanics();
-                        break;
-                    }
-                case Menu.GAMEOVER: {
-                        _lastMenu = _menu;
-                        HandelMenuSelection();
-                        break;
-                    }
-                case Menu.MAINMENU: {
-                        _lastMenu = _menu;
-                        HandelMainMenuMeckanics();
-                        break;
-                    }
-                case Menu.HIGHSCORE: {
-                        _lastMenu = _menu;
-                        _menu = Menu.MAINMENU;
-                        break;
-                    }
+            _gameMeckanics[_menu].DynamicInvoke();
 
-                case Menu.LOGIN: {
-                        _lastMenu = _menu;
-                        HandelLoginMeckanics();
-                        break;
-                    }
-                case Menu.ERROR: {
-                        HandelErrorMeckanics();
-                        break;
-                    }
-                case Menu.NEXTROOM: {
-                        _lastMenu = _menu;
-                        if (_input == "1") {
-
-                            Random random = new Random();
-                            int nrEnemies = random.Next(1, 3);
-                            int level = random.Next(1, _playerHandler.GetUser().Level);
-                            _enemyList = EnemySpawner.SpawnEnemies(nrEnemies, level);
-                            roomNr++;
-                            _menu = Menu.ATTACK;
-                        }
-                        else
-                            _menu = Menu.MAINMENU;
-                        break;
-                    }
-                case Menu.ENEMYTURN: {
-                        CheckIfGameOver();
-                        break;
-                    }
-
-                case Menu.INVETORY: {
-                        _lastMenu = _menu;
-                        if (int.Parse(_input) <= _playerHandler.GetInventory().Count) {
-                            var items = _playerHandler.GetInventory();
-
-                            var item = items[int.Parse(_input) - 1];
-                            _playerHandler.removeItem(item);
-                            _playerHandler.SetActiveGearItem(item.GearSpot, item);
-                            break;
-                        }
-                        else if(int.Parse(_input) == _playerHandler.GetInventory().Count+1) {
-                            _playerHandler.EquiptAllActiveItems();
-                            _menu = Menu.ATTACK;
-                            break;
-                        }
-                        else
-                            _menu = Menu.ERROR;
-                        break;
-                    }
-
-
-            }
         }
 
-        private void CheckIfGameOver() {
+        private void HandelInventoryMeckanics() {
+            _lastMenu = _menu;
+            if (int.Parse(_input) <= _playerHandler.GetInventory().Count) {
+                SelectActiveItems();
+
+            }
+            else if (int.Parse(_input) == _playerHandler.GetInventory().Count + 1) {
+                _playerHandler.EquiptAllActiveItems();
+                _menu = Menu.ATTACK;
+
+            }
+            else
+                _menu = Menu.ERROR;
+        }
+
+        private void SelectActiveItems() {
+            var items = _playerHandler.GetInventory();
+
+            var item = items[int.Parse(_input) - 1];
+            _playerHandler.removeItem(item);
+            _playerHandler.SetActiveGearItem(item.GearSpot, item);
+        }
+
+        private void HandelMaxScoreMeckanics() {
+            _lastMenu = _menu;
+            _menu = Menu.MAINMENU;
+        }
+
+        private void HandelNextRoomMeckanics() {
+            _lastMenu = _menu;
+            if (_input == "1") {
+                CreateNextRoom();
+            }
+            else
+                _menu = Menu.MAINMENU;
+        }
+
+        private void CreateNextRoom() {
+            Random random = new Random();
+            int nrEnemies = random.Next(1, 3);
+            int level = random.Next(1, _playerHandler.GetUser().Level);
+            _enemyList = EnemySpawner.SpawnEnemies(nrEnemies, level);
+            roomNr++;
+            _menu = Menu.ATTACK;
+        }
+
+        private void HandelCheckIfGameOverMeckanics() {
             if (!_playerHandler.PlayerIsAlive()) {
                 SavePlayerToDB();
                 _menu = Menu.GAMEOVER;
@@ -159,12 +144,14 @@ namespace SoftwareDesignExam
             }
         }
         private void HandelLoginMeckanics() {
+            _lastMenu = _menu;
             HandelSettingActivePlayer();
             _menu = Menu.ATTACK;
         }
 
 
         private void HandelMainMenuMeckanics() {
+            _lastMenu = _menu;
             HandelMenuSelection();
             HandleHighScoreInput();
         }
@@ -189,7 +176,7 @@ namespace SoftwareDesignExam
 
         private void HandelAttackMeckanics() {
             // se om du har valgt å angripe en fiende eller gå til inventory
-            
+            _lastMenu = _menu;
             if (_enemyList.Count >= 1 && int.Parse(_input) <= _enemyList.Count) {
                 AttackSelectedTarget();
                 HandelEnemiesTurn();
@@ -254,6 +241,7 @@ namespace SoftwareDesignExam
 
         }
         private void HandelMenuSelection() {
+            _lastMenu = _menu;
             _users = _userDao.GetAllUsers();
             if (_input == "1") {
                 _playerHandler = new PlayerHandler();

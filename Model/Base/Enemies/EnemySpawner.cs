@@ -46,5 +46,14 @@ namespace Model.Base.Enemies
         {
             return WeaponFactory.GenerateRandomWeapon(level);
         }
+        private static List<Weapon> GetRandomWeaponList(int level,int weapons) {
+            List<Weapon> weaponsList = new List<Weapon>();
+            for (int i = 0; i < weapons; i++) {
+                Weapon weapon = WeaponFactory.GenerateRandomWeapon(level);
+                weaponsList.Add(weapon);
+            }
+            return weaponsList;
+            
+        }
     }
 }

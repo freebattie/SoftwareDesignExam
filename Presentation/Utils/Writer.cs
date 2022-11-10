@@ -1,4 +1,6 @@
 ﻿
+using System.Data;
+
 namespace Presentation.Utils {
     public static class Writer {
         private static ConsoleColor backgroundColor = ConsoleColor.Black;
@@ -34,6 +36,16 @@ namespace Presentation.Utils {
             Console.SetCursorPosition(x, y);
             Console.WriteLine(line);
             Console.SetCursorPosition(x, y+1);
+        }
+        public static void PrintDrawing(string line, int x, int y,ConsoleColor color) {
+            Console.ForegroundColor = color;
+            Console.SetCursorPosition(x, y);
+            Console.WriteLine(line);
+           
+            ResetColors();
+        }
+        public static void DonePrintDrawing(int x, int y) {
+            Console.SetCursorPosition(x, y);
         }
         public static void PrintLine(string line, ConsoleColor forground, ConsoleColor background = ConsoleColor.Black) {
             Console.ForegroundColor = forground;
