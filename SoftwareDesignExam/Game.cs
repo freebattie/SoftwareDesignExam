@@ -9,6 +9,8 @@ using Presentation;
 
 namespace SoftwareDesignExam {
     public class Game {
+
+        #region Private fileds
         private string _input = "";
         private PlayerHandler _playerHandler;
         private bool _gameIsRunning = true;
@@ -17,38 +19,38 @@ namespace SoftwareDesignExam {
         private IUI _ui;
         private Dictionary<Menu, Delegate> _gameMeckanics;
         private List<CharacterInfo> _enemyList;
-
         private Menu _lastMenu = Menu.MAINMENU;
         private Menu _menu = Menu.MAINMENU;
         private List<User> _users;
-
+        private ItemDao _itemDao;
         private int roomNr = 1;
+        #endregion
 
         public Game() {
-            GameSetup();
-        }
-        #region setup
-        private void GameSetup() {
-            //Load all items
-            IItemDao dao = new ItemDao();
-            _allItems = dao.GetAllItems();
+            _itemDao = new ItemDao();
+            _allItems = _itemDao.GetAllItems();
             ShopItemSpawner.SetAllShopItems(_allItems);
             _userDao = new();
+            _gameMeckanics = new Dictionary<Menu, Delegate>();
             _playerHandler = new();
             _enemyList = new();
+            _allItems = new List<ShopItem>();
             _users = new();
+          
             _ui = new UI();
-            _gameMeckanics = new Dictionary<Menu, Delegate>();
+            
+            
             _gameMeckanics.Add(Menu.ERROR, HandelErrorMeckanics);
-            _gameMeckanics.Add(Menu.MAINMENU, HandelMenuSelection);
+            _gameMeckanics.Add(Menu.MAINMENU, HandelMainMenuMeckanics);
             _gameMeckanics.Add(Menu.LOGIN, HandelLoginMeckanics);
             _gameMeckanics.Add(Menu.ATTACK, HandelAttackMeckanics);
             _gameMeckanics.Add(Menu.INVETORY, HandelInventoryMeckanics);
             _gameMeckanics.Add(Menu.NEXTROOM, HandelNextRoomMeckanics);
             _gameMeckanics.Add(Menu.HIGHSCORE, HandelMaxScoreMeckanics);
             _gameMeckanics.Add(Menu.ENEMYTURN, HandelCheckIfGameOverMeckanics);
+           
         }
-        #endregion
+       
         public void Update() {
             while (_gameIsRunning) {
 

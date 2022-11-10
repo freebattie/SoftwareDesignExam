@@ -98,7 +98,7 @@ namespace Model.Base.Player
             playerInvetory = ShopItemSpawner.GetRandomListOfItems(4);
             original = new StartingCharacteGear(userInfo, StartingWeapon());
             player = original;
-            EquiptAllActiveItems();
+            //EquiptAllActiveItems();
         }
         //TODO:fix
         private Weapon StartingWeapon()
