@@ -12,6 +12,8 @@ namespace Model.Base.Weapons
         
         private int counter = 0;
         List<CharacterInfo> _targets;
+
+
         public Axe() : base() {
             
             Description = "Will do a spinning attack on the 3 attack. Hitting all enemies you have hit before with 100 dmg";

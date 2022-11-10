@@ -1,6 +1,7 @@
 using Microsoft.Data.Sqlite;
 using Model.Base.Enums;
 using Model.Base.Shop;
+using Model.Decorator.Items;
 using Model.Interface;
 
 namespace Persistence.Db {
@@ -29,6 +30,9 @@ namespace Persistence.Db {
 
                 }
             }
+            if (shopItemList.Count == 0)
+                return new() {new ShopItem("noitem",2,2,GearSpot.GLOVES,"Item not found") };
+
             return shopItemList;
         }
 

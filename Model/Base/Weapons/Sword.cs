@@ -9,17 +9,17 @@ namespace Model.Base.Weapons
     //TODO: refactor til abstract weapon?
     public class Sword : Weapon
     {
-        private CharacterInfo? target;
-        private Weapon? enemyWeapon;
-        private int counter = 0;
+        private CharacterInfo? _target;
+        private Weapon? _enemyWeapon;
+        private int _counter = 0;
 
         public Sword() : base() {
-            target = null;
+            _target = null;
             Description = "You have a 15% chance to disarm a enemy";
         }
 
         public override double GetDamage() {
-            if (target == null) {
+            if (_target == null) {
                 CheckIfYouDisarmEnemy();
 
             }
@@ -28,28 +28,28 @@ namespace Model.Base.Weapons
         }
 
         private void CheckIfYouDisarmEnemy() {
-            if (target?.GetWeapon()?.Name?.ToLower() != "no weapon") {
+            if (_target?.GetWeapon()?.Name?.ToLower() != "no weapon") {
                 Random random = new Random();
                 var chance = random.Next(100);
                 if (chance <= 15) {
-                    enemyWeapon = target?.GetWeapon();
-                    target?.SetWeapon(new NoWeapon());
+                    _enemyWeapon = _target?.GetWeapon();
+                    _target?.SetWeapon(new NoWeapon());
                 }
 
             }
-            else if (counter == 4) {
-                if (enemyWeapon != null) {
-                    target?.SetWeapon(enemyWeapon);
-                    target = null;
+            else if (_counter == 4) {
+                if (_enemyWeapon != null) {
+                    _target?.SetWeapon(_enemyWeapon);
+                    _target = null;
                 }
             }
             else {
-                counter++;
+                _counter++;
             }
         }
 
         public override void SetTarget(CharacterInfo target) {
-            this.target = target;
+            this._target = target;
         }
     } 
 }

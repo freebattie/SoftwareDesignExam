@@ -49,7 +49,8 @@ namespace SoftwareDesignExam {
             _gameMeckanics.Add(Menu.NEXTROOM, HandelNextRoomMeckanics);
             _gameMeckanics.Add(Menu.HIGHSCORE, HandelMaxScoreMeckanics);
             _gameMeckanics.Add(Menu.ENEMYTURN, HandelCheckIfGameOverMeckanics);
-           
+            _gameMeckanics.Add(Menu.GAMEOVER, HandelGameOverMeckanics);
+
         }
         #endregion
 
@@ -165,6 +166,13 @@ namespace SoftwareDesignExam {
             else if (_input == "2") {
                 _gameIsRunning = false;
             }
+
+        }
+        private void HandelGameOverMeckanics() {
+            if (!_playerHandler.PlayerIsAlive()) { SavePlayerToDB();}
+            HandelMenuSelection();
+
+
 
         }
 

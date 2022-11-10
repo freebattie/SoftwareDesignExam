@@ -73,9 +73,12 @@ namespace Model.Base.Shop
             while (items > 0) {
 
                 Random rand = new Random();
-                var index = rand.Next(_invetory.Count);
-                var tmpItem = _invetory[index];
-                inventory.Add( tmpItem);
+                if (_invetory.Count >0) {
+                    var index = rand.Next(_invetory.Count);
+                    var tmpItem = _invetory[index];
+                    inventory.Add(tmpItem);
+                    
+                }
                 items--;
             }
 
