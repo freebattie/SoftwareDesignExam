@@ -7,8 +7,7 @@ using Model.Interface;
 using Persistence.Db;
 using Presentation;
 
-namespace SoftwareDesignExam
-{
+namespace SoftwareDesignExam {
     public class Game {
         private string _input = "";
         private PlayerHandler _playerHandler;
@@ -18,7 +17,7 @@ namespace SoftwareDesignExam
         private IUI _ui;
         private Dictionary<Menu, Delegate> _gameMeckanics;
         private List<CharacterInfo> _enemyList;
-       
+
         private Menu _lastMenu = Menu.MAINMENU;
         private Menu _menu = Menu.MAINMENU;
         private List<User> _users;
@@ -28,7 +27,7 @@ namespace SoftwareDesignExam
         public Game() {
             GameSetup();
         }
-
+        #region setup
         private void GameSetup() {
             //Load all items
             IItemDao dao = new ItemDao();
@@ -49,14 +48,14 @@ namespace SoftwareDesignExam
             _gameMeckanics.Add(Menu.HIGHSCORE, HandelMaxScoreMeckanics);
             _gameMeckanics.Add(Menu.ENEMYTURN, HandelCheckIfGameOverMeckanics);
         }
-
+        #endregion
         public void Update() {
             while (_gameIsRunning) {
-                
+
                 Draw();
                 HandelInput();
                 HandelGameMecknaics();
-                
+
             }
         }
 
@@ -69,17 +68,17 @@ namespace SoftwareDesignExam
             _input = _ui.HandelPlayerInput(_menu);
             HandelErrorInput();
         }
-
-        
-
         /// <summary>
         /// for Database hantering og spill relaterte opprasjoner
         /// </summary>
         public void HandelGameMecknaics() {
             _gameMeckanics[_menu].DynamicInvoke();
-
         }
 
+
+
+
+        #region Game Meckanics
         private void HandelInventoryMeckanics() {
             _lastMenu = _menu;
             if (int.Parse(_input) <= _playerHandler.GetInventory().Count) {
@@ -131,7 +130,7 @@ namespace SoftwareDesignExam
                 SavePlayerToDB();
                 _menu = Menu.GAMEOVER;
             }
-               
+
             else
                 _menu = Menu.ATTACK;
         }
@@ -163,14 +162,14 @@ namespace SoftwareDesignExam
             else if (_input == "2") {
                 _gameIsRunning = false;
             }
-           
+
         }
 
         private void HandelSettingActivePlayer() {
             IUserDao userDao = new UserDao();
             _playerHandler.SetUser(userDao.GetUser(_input));
             _enemyList = EnemySpawner.SpawnEnemies(1, 1);
-            
+
 
         }
 
@@ -181,17 +180,17 @@ namespace SoftwareDesignExam
                 AttackSelectedTarget();
                 HandelEnemiesTurn();
                 //TODO: add leves some how
-               
+
                 _menu = Menu.ENEMYTURN;
             }
-            else if(int.Parse(_input) == _enemyList.Count + 1) {
+            else if (int.Parse(_input) == _enemyList.Count + 1) {
                 _menu = Menu.INVETORY;
             }
             else
                 _menu = Menu.ERROR;
 
             if (_enemyList.Count == 0) {
-                
+
                 _menu = Menu.NEXTROOM;
             }
 
@@ -216,7 +215,7 @@ namespace SoftwareDesignExam
             foreach (var enemy in _enemyList) {
                 if (enemy.GetHealth() <= 0) {
                     remove.Add(enemy);
-                   
+
 
                 }
                 else {
@@ -225,10 +224,10 @@ namespace SoftwareDesignExam
                         enemy.Attack(player);
                     }
                 }
-                   
+
 
             }
-            foreach (var enemy in remove) { 
+            foreach (var enemy in remove) {
                 _enemyList.Remove(enemy);
                 PlayerStatsUpdate();
             }
@@ -245,7 +244,7 @@ namespace SoftwareDesignExam
             _users = _userDao.GetAllUsers();
             if (_input == "1") {
                 _playerHandler = new PlayerHandler();
-                
+
                 _menu = Menu.LOGIN;
 
             }
@@ -253,7 +252,7 @@ namespace SoftwareDesignExam
                 SavePlayerToDB();
                 _gameIsRunning = false;
             }
-           
+
         }
 
         private void SavePlayerToDB() {
@@ -264,4 +263,5 @@ namespace SoftwareDesignExam
 
 
     }
+    #endregion
 }
