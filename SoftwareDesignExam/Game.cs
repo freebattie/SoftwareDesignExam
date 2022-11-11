@@ -198,7 +198,7 @@ namespace SoftwareDesignExam {
 
                 _menu = Menu.ENEMYTURN;
             }
-            else if (int.Parse(_input) == _enemyList.Count + 1) {
+            else if (int.Parse(_input) == 0) {
                 _menu = Menu.INVETORY;
             }
             else
