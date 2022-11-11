@@ -89,7 +89,8 @@ namespace SoftwareDesignExam {
         #region Game Meckanics
         private void HandelInventoryMeckanics() {
             _lastMenu = _menu;
-            if (int.Parse(_input) <= _playerHandler.GetInventory().Count) {
+            if (int.Parse(_input) <= _playerHandler.GetInventory().Count &&
+                int.Parse(_input) > 0) {
                 SelectActiveItems();
 
             }
@@ -191,7 +192,7 @@ namespace SoftwareDesignExam {
         private void HandelAttackMeckanics() {
             // se om du har valgt å angripe en fiende eller gå til inventory
             _lastMenu = _menu;
-            if (_enemyList.Count >= 1 && int.Parse(_input) <= _enemyList.Count) {
+            if (_enemyList.Count > 1 && int.Parse(_input) <= _enemyList.Count) {
                 AttackSelectedTarget();
                 HandelEnemiesTurn();
                 //TODO: add leves some how
