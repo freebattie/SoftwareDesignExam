@@ -87,7 +87,7 @@ namespace Presentation.Views {
         private void PrintInputInfo() {
             Writer.PrintLine("");
             Writer.PrintLine("----------Attack Menu-------");
-            Writer.PrintLine($"Select a Enemy to attack. or {enemies.Count} for inventory");
+            Writer.PrintLine($"Select a Enemy to attack. or 0 for inventory");
             Writer.Print("Input:");
         }
 

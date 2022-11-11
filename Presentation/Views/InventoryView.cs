@@ -60,7 +60,7 @@ namespace Presentation.Views {
             }
             Writer.PrintLine("");
             Writer.PrintLine("");
-            Writer.PrintLine($"select a invetory item to put on enter {index} when done");
+            Writer.PrintLine($"select a invetory item to put on enter 0 when done");
         }
 
         private static void ItemsList(int index, ShopItem item) {
