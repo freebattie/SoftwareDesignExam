@@ -1,5 +1,6 @@
 ﻿
 
+using Model.Base;
 using Model.Base.Player;
 using Model.Decorator.Abstract;
 using Model.Interface;
@@ -8,10 +9,10 @@ namespace Model.Decorator
 {
 
     //TODO: PizzaDecorator
-    public class CharacterGearDecorator : CharacterInfo {
+    public class CharacterInfoDecorator : CharacterInfo {
         private readonly CharacterInfo original;
 
-        public CharacterGearDecorator(CharacterInfo original) {
+        public CharacterInfoDecorator(CharacterInfo original) {
             this.original = original;
         }
         public override void AddCrit() {

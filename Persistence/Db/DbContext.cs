@@ -4,11 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Presentation.Views {
-    public class DBContext{
-        
-       
-      
-
+namespace Persistence.Db {
+    internal class DbContext {
     }
 }

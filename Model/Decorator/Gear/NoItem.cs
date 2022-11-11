@@ -1,8 +1,8 @@
 ﻿using Model.Decorator.Abstract;
 
-namespace Model.Decorator.Items {
+namespace Model.Decorator.Gear {
     
-    public class NoItem : CharacterGearDecorator
+    public class NoItem : CharacterInfoDecorator
     {
         public NoItem(CharacterInfo original) : base(original)
         {

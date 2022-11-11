@@ -1,8 +1,8 @@
 ﻿using Model.Decorator.Abstract;
 
 
-namespace Model.Decorator.Items {
-    internal class KnightGloves :CharacterGearDecorator{
+namespace Model.Decorator.Gear {
+    internal class KnightGloves :CharacterInfoDecorator{
         bool isbroken = false;
         double hitpoints = 3;
         

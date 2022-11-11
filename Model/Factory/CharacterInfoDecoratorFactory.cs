@@ -2,17 +2,17 @@
 using Model.Base.Shop;
 using Model.Decorator;
 using Model.Decorator.Abstract;
-using Model.Decorator.Items;
+using Model.Decorator.Gear;
 using System.Reflection;
 
 namespace Model.Factory
 {
-    public static class ItemDecoratorFactory {
+    public static class CharacterInfoDecoratorFactory {
 
         private static Dictionary<string, Type> decoratorItems = new();
 
 
-        static ItemDecoratorFactory() {
+        static CharacterInfoDecoratorFactory() {
             LoadInAllItemsFromAssambly();
         }
 
@@ -28,7 +28,7 @@ namespace Model.Factory
             foreach (var item in items) {
                 if (decoratorItems.ContainsKey(item.Name.ToLower())) {
                     Type decoratorItem = decoratorItems[item.Name.ToLower()];
-                    var characterGear = Activator.CreateInstance(decoratorItem, original) as CharacterGearDecorator;
+                    var characterGear = Activator.CreateInstance(decoratorItem, original) as CharacterInfoDecorator;
                     if (characterGear != null) 
                         original = characterGear;
         
@@ -52,9 +52,9 @@ namespace Model.Factory
 
             if (decoratorItems.ContainsKey(item)) {
                 Type decoratorItem = decoratorItems[item.ToLower()];
-                var geardecorator = Activator.CreateInstance(decoratorItem, original) as CharacterGearDecorator;
-                if (geardecorator != null) 
-                    return geardecorator;
+                var concreatDecorator = Activator.CreateInstance(decoratorItem, original) as CharacterInfoDecorator;
+                if (concreatDecorator != null) 
+                    return concreatDecorator;
                 else
                     return new NoItem(original);
 
@@ -81,11 +81,11 @@ namespace Model.Factory
 
             }
 
-            foreach (var item in assembly.GetTypes()) {
+            foreach (var type in assembly.GetTypes()) {
 
-                if (item.IsSubclassOf(typeof(CharacterGearDecorator)) && !item.IsAbstract) {
-                    if (item.Name != typeof(NoItem).Name) {
-                        decoratorItems.Add(item.Name.ToLower(), item);
+                if (type.IsSubclassOf(typeof(CharacterInfoDecorator)) && !type.IsAbstract) {
+                    if (type.Name != typeof(NoItem).Name) {
+                        decoratorItems.Add(type.Name.ToLower(), type);
                     }
                 }
             }
@@ -104,7 +104,7 @@ namespace Model.Factory
             }
 
             foreach (var item in assembly.GetTypes()) {
-                if (item.IsSubclassOf(typeof(CharacterGearDecorator)) && !item.IsAbstract) {
+                if (item.IsSubclassOf(typeof(CharacterInfoDecorator)) && !item.IsAbstract) {
                     if (item.Name != typeof(NoItem).Name) {
                         AllItems.Add(item.Name);
                     }

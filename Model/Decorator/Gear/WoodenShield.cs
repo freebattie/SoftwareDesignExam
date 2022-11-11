@@ -1,18 +1,17 @@
-﻿
+﻿using Model.Decorator.Abstract;
 
-
-using Model.Decorator.Abstract;
-
-namespace Model.Decorator.Items {
-    public class IronShield : CharacterGearDecorator {
-
+namespace Model.Decorator.Gear {
+    internal class WoodenShield : CharacterInfoDecorator
+    {
         bool isbroken = false;
-        double hitpoints = 10;
-        double dmgReduction = 5;
-        public IronShield(CharacterInfo original) : base(original) {
+        double hitpoints = 4;
+        double dmgReduction = 1;
+        public WoodenShield(CharacterInfo original) : base(original)
+        {
         }
 
-        public override void RemoveHealth(double weaponDmg) {
+        public override void RemoveHealth(double weaponDmg)
+        {
             if (hitpoints < 1)
                 isbroken = true;
 
@@ -25,7 +24,7 @@ namespace Model.Decorator.Items {
                 base.RemoveHealth(weaponDmg);
         }
         public override string GetDescription() {
-            return base.GetDescription() + "\n# Iron Shield: " + (isbroken ? "is broken" : $"has {hitpoints} left");
+            return base.GetDescription() + "\n# Wooden Shield: "+(isbroken ? "is broken": $"has {hitpoints} left");
         }
     }
 }

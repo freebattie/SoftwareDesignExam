@@ -22,7 +22,7 @@ namespace Model.Base.Enemies
             List<CharacterInfo> enemies = new ();
            
              
-            var allItems = ItemDecoratorFactory.GetNameOFAllItemsInGame();
+            var allItems = CharacterInfoDecoratorFactory.GetNameOFAllItemsInGame();
            
             for (int i = 0; i < nrOfEnemies; i++)
             {
@@ -35,7 +35,7 @@ namespace Model.Base.Enemies
                 enemyUser.Topscore = 0;
                 CharacterInfo enemy = new StartingCharacteGear(enemyUser, PickRandomWeapon(level));
                 var inventory = ShopItemSpawner.GetRandomActiveItems(level);
-                enemy = ItemDecoratorFactory.GetItems(inventory.Values.ToList(),enemy);
+                enemy = CharacterInfoDecoratorFactory.GetItems(inventory.Values.ToList(),enemy);
                 enemies.Add(enemy);
                 
             }

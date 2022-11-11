@@ -2,9 +2,9 @@
 using Model.Base.Weapons;
 using Model.Decorator.Abstract;
 
-namespace Model.Interface
+namespace Model.Base
 {
-    //TODO: flytt, ikke lengre en interface
+   
     public abstract class Weapon
     {
 

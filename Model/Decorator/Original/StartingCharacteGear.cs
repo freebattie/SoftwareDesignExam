@@ -1,5 +1,6 @@
 ﻿
 
+using Model.Base;
 using Model.Base.Player;
 using Model.Base.Weapons;
 using Model.Decorator.Abstract;

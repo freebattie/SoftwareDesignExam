@@ -83,7 +83,7 @@ namespace Model.Base.Player
         public void EquiptAllActiveItems()
         {
             if (original != null) 
-                player = ItemDecoratorFactory.GetItems(GetActiveItems().Values.ToList(), original);
+                player = CharacterInfoDecoratorFactory.GetItems(GetActiveItems().Values.ToList(), original);
             
         }
 

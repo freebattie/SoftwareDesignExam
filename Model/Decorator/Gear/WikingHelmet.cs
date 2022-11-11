@@ -2,8 +2,8 @@
 
 using Model.Decorator.Abstract;
 
-namespace Model.Decorator.Items {
-    public class WikingHelmet:CharacterGearDecorator {
+namespace Model.Decorator.Gear {
+    public class WikingHelmet:CharacterInfoDecorator {
         bool isbroken = false;
         double hitpoints = 22;
         double dmgReduction = 15;

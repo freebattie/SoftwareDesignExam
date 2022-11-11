@@ -32,7 +32,7 @@ namespace SoftwareDesignExamTest {
         [Test]
         public void ItemFacoryInvalidInputNotNullTest() {
             var starteq = new StartingCharacteGear();
-            var equipment = ItemDecoratorFactory.GetItem("rabbitsf00t", starteq);
+            var equipment = CharacterInfoDecoratorFactory.GetItem("rabbitsf00t", starteq);
             Assert.IsNotNull(equipment);
             CharacterInfo wep = new NoItem(starteq);
             Assert.That(equipment.Equals(wep));
@@ -41,7 +41,7 @@ namespace SoftwareDesignExamTest {
         [Test]
         public void ItemFacoryValidInputTest() {
             var starteq = new StartingCharacteGear();
-            var equipment = ItemDecoratorFactory.GetItem("rabbitsfoot", starteq);
+            var equipment = CharacterInfoDecoratorFactory.GetItem("rabbitsfoot", starteq);
             Assert.IsNotNull(equipment);
             CharacterInfo wep = new RabbitsFoot(starteq);
             

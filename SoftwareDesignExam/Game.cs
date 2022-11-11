@@ -22,6 +22,7 @@ namespace SoftwareDesignExam {
         private Menu _lastMenu = Menu.MAINMENU;
         private Menu _menu = Menu.MAINMENU;
         private List<User> _users;
+        private UpdateManagar _updater;
         private ItemDao _itemDao;
         private int roomNr = 1;
         #endregion
@@ -37,10 +38,10 @@ namespace SoftwareDesignExam {
             _enemyList = new();
             _allItems = new List<ShopItem>();
             _users = new();
-          
+            _updater = new UpdateManagar();
             _ui = new UI();
             
-            
+            _updater.Start();
             _gameMeckanics.Add(Menu.ERROR, HandelErrorMeckanics);
             _gameMeckanics.Add(Menu.MAINMENU, HandelMainMenuMeckanics);
             _gameMeckanics.Add(Menu.LOGIN, HandelLoginMeckanics);

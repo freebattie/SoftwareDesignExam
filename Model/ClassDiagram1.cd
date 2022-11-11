@@ -80,7 +80,7 @@
   <Class Name="Model.Decorator.Items.NoItem" Collapsed="true">
     <Position X="5.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Decorator\Items\NoItem.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -112,18 +112,18 @@
       <FileName>Decorator\Original\StartingCharacteGear.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Model.Decorator.CharacterGearDecorator" Collapsed="true">
+  <Class Name="Model.Decorator.CharacterInfoDecorator" Collapsed="true">
     <Position X="6.75" Y="0.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIABACAAAAAAAAAIAAYAQBBAIBCAAAAAAABUCAABCA=</HashCode>
-      <FileName>Decorator\CharacterGearDecorator.cs</FileName>
+      <FileName>Decorator\CharacterInfoDecorator.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Model.Factory.ItemDecoratorFactory" Collapsed="true">
+  <Class Name="Model.Factory.CharacterInfoDecoratorFactory" Collapsed="true">
     <Position X="10" Y="12.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAABAEAAAAAAAAAAAgAAQgAAAAAAAAAEAAA=</HashCode>
-      <FileName>Factory\ItemDecoratorFactory.cs</FileName>
+      <FileName>Factory\CharacterInfoDecoratorFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Model.Factory.WeaponFactory" Collapsed="true">
@@ -131,13 +131,6 @@
     <TypeIdentifier>
       <HashCode>AAIAAAACAAAAAABAAAAAAQAAAgAAAAAEAgAAEAAAAAA=</HashCode>
       <FileName>Factory\WeaponFactory.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Model.Interface.Weapon" Collapsed="true">
-    <Position X="4" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAACAAAggAAAEgAAAAAQAAAAAAIAAAAAAAAAAAAI=</HashCode>
-      <FileName>Interface\Weapon.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="Model.Interface.IItemDao" Collapsed="true">
@@ -166,13 +159,6 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Interface\IView.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="Model.Interface.IWeaponDao" Collapsed="true">
-    <Position X="13.75" Y="11.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAgABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Interface\IWeaponDao.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="Model.Base.Enums.GearSpot" Collapsed="true">

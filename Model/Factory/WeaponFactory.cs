@@ -1,4 +1,5 @@
 ﻿
+using Model.Base;
 using Model.Base.Weapons;
 using Model.Interface;
 using System.Reflection;

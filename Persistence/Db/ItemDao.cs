@@ -1,7 +1,6 @@
 using Microsoft.Data.Sqlite;
 using Model.Base.Enums;
 using Model.Base.Shop;
-using Model.Decorator.Items;
 using Model.Interface;
 
 namespace Persistence.Db {
@@ -13,6 +12,7 @@ namespace Persistence.Db {
 
             using SqliteConnection connection = new("Data Source = gameDb.db");
             connection.Open();
+            
             SqliteCommand command = connection.CreateCommand();
             command.CommandText = @"
             SELECT * from items
