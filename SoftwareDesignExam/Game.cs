@@ -29,6 +29,9 @@ namespace SoftwareDesignExam {
 
         #region Constructor
         public Game() {
+            TableMaker.ItemsSchemaAndTableMaker();
+            TableMaker.UsersSchemaAndTableMaker();
+
             _itemDao = new ItemDao();
             _allItems = _itemDao.GetAllItems();
             ShopItemSpawner.SetAllShopItems(_allItems);
@@ -90,7 +93,7 @@ namespace SoftwareDesignExam {
                 SelectActiveItems();
 
             }
-            else if (int.Parse(_input) == _playerHandler.GetInventory().Count + 1) {
+            else if (int.Parse(_input) == 0) {
                 _playerHandler.EquiptAllActiveItems();
                 _menu = Menu.ATTACK;
 
