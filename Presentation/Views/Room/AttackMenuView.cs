@@ -4,10 +4,12 @@ using Model.Interface;
 using Presentation.Utils;
 using System;
 
-namespace Presentation.Views {
-    public class AttackMenuView : IView{
-        private  PlayerHandler playerHandler;
-        private  List<CharacterInfo> enemies;
+namespace Presentation.Views.rooms
+{
+    public class AttackMenuView : IView
+    {
+        private PlayerHandler playerHandler;
+        private List<CharacterInfo> enemies;
         private readonly int room;
         private string attackHeader = @"
         _______ _______       _____ _  __
@@ -19,28 +21,32 @@ namespace Presentation.Views {
 
 ";
 
-        public AttackMenuView(PlayerHandler playerHandler,List<CharacterInfo> enemies, int room) {
+        public AttackMenuView(PlayerHandler playerHandler, List<CharacterInfo> enemies, int room)
+        {
             this.playerHandler = playerHandler;
             this.enemies = enemies;
             this.room = room;
         }
 
 
-        public void Draw() {
+        public void Draw()
+        {
             AttackMenu();
 
         }
 
-        public void AttackMenu() {
+        public void AttackMenu()
+        {
             var player = playerHandler.GetPlayer();
             if (player != null)
                 PrintMenu(player);
-            
+
             AddSpacing();
             PrintEnemiesInfo();
             PrintInputInfo();
         }
-        private void PrintMenu(CharacterInfo player) {
+        private void PrintMenu(CharacterInfo player)
+        {
             Writer.ClearScreen();
             Writer.PrintLine(attackHeader);
             Writer.PrintLine($"You are in room {room}");
@@ -55,18 +61,21 @@ namespace Presentation.Views {
             Writer.PrintLine($"Your Items: {player.GetDescription()}");
         }
 
-        private static void AddSpacing() {
+        private static void AddSpacing()
+        {
             Writer.PrintLine("");
             Writer.PrintLine("");
         }
 
-       
 
-        private void PrintEnemiesInfo() {
+
+        private void PrintEnemiesInfo()
+        {
             Writer.PrintLine("----------Enemies Information-------");
             Writer.PrintLine($"Number of enemies are: {enemies.Count}");
             int index = 1;
-            foreach (CharacterInfo enemy in enemies) {
+            foreach (CharacterInfo enemy in enemies)
+            {
                 Writer.Print($"#############");
                 Writer.Print($"Enemy: {index}", ConsoleColor.Red);
                 Writer.Print($"################");
@@ -82,16 +91,17 @@ namespace Presentation.Views {
 
             }
 
-           
+
         }
-        private void PrintInputInfo() {
+        private void PrintInputInfo()
+        {
             Writer.PrintLine("");
             Writer.PrintLine("----------Attack Menu-------");
             Writer.PrintLine($"Select a Enemy to attack. or 0 for inventory");
             Writer.Print("Input:");
         }
 
-      
+
 
     }
 }

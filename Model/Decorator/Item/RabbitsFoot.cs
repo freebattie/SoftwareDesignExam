@@ -1,6 +1,6 @@
 ﻿using Model.Decorator.Abstract;
 
-namespace Model.Decorator.Gear {
+namespace Model.Decorator.Item {
     //TODO: HAM,PEPPERONI ETC
     public class RabbitsFoot : CharacterInfoDecorator
     {

@@ -10,6 +10,8 @@
         NEXTROOM,
         INVETORY,
         ENEMYTURN,
-        HIGHSCORE
+        HIGHSCORE,
+        WEAPONSHOP,
+        ITEMSHOP
     }
 }

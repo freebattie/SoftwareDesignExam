@@ -1,6 +1,6 @@
 ﻿using Model.Decorator.Abstract;
 
-namespace Model.Decorator.Gear {
+namespace Model.Decorator.Item {
     internal class WoodenShield : CharacterInfoDecorator
     {
         bool isbroken = false;
@@ -17,7 +17,7 @@ namespace Model.Decorator.Gear {
 
             if (!isbroken) {
                 weaponDmg -= weaponDmg >= dmgReduction ? dmgReduction : weaponDmg;
-                hitpoints -= weaponDmg >= dmgReduction ? hitpoints : weaponDmg;
+                hitpoints -= weaponDmg < dmgReduction ? weaponDmg : dmgReduction;
                 base.RemoveHealth(weaponDmg);
             }
             else

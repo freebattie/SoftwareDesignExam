@@ -3,10 +3,11 @@
 using Model.Base.Enums;
 using Model.Base.Player;
 using Model.Decorator.Abstract;
-using Model.Decorator.Original;
 using Model.Interface;
 using Presentation.Utils;
 using Presentation.Views;
+using Presentation.Views.rooms;
+using Presentation.Views.ShopView;
 
 namespace Presentation {
     public class UI: IUI {
@@ -14,15 +15,19 @@ namespace Presentation {
 
         public UI() {
 
-            _allMenuViews = new Dictionary<Menu, IView>();
-            _allMenuViews.Add(Menu.ATTACK, new AttackMenuView(new PlayerHandler(),new List<CharacterInfo>(),0));
-            _allMenuViews.Add(Menu.LOGIN, new LoginMenuView());
-            _allMenuViews.Add(Menu.GAMEOVER, new GameOverView());
-            _allMenuViews.Add(Menu.MAINMENU, new MainMenuView());
-            _allMenuViews.Add(Menu.ERROR, new ErrorView());
-            _allMenuViews.Add(Menu.INVETORY, new InventoryView());
-            _allMenuViews.Add(Menu.ENEMYTURN, new EnemyTurnView());
-            _allMenuViews.Add(Menu.HIGHSCORE, new HighScoreView());
+            _allMenuViews = new Dictionary<Menu, IView> {
+                { Menu.ATTACK, new AttackMenuView(new PlayerHandler(), new List<CharacterInfo>(), 0) },
+                { Menu.LOGIN, new LoginMenuView() },
+                { Menu.GAMEOVER, new GameOverView() },
+                { Menu.MAINMENU, new MainMenuView() },
+                { Menu.ERROR, new ErrorView() },
+                { Menu.INVETORY, new InventoryView() },
+                { Menu.ENEMYTURN, new EnemyTurnView() },
+                { Menu.HIGHSCORE, new HighScoreView() },
+                { Menu.SHOP, new ShopMainMenuView() },
+                { Menu.WEAPONSHOP, new ShopWeaponView() },
+                { Menu.ITEMSHOP, new ShopItemView() }
+            };
             _allMenuViews[Menu.NEXTROOM] = new RoomDoneView(); 
 
         }
@@ -51,10 +56,10 @@ namespace Presentation {
            
             _allMenuViews[Menu.ATTACK] = new AttackMenuView(playerhandler, enemies, room);
             _allMenuViews[Menu.LOGIN] = new LoginMenuView(users);
-            _allMenuViews[Menu.GAMEOVER] = new GameOverView(playerhandler.GetUser());
+            _allMenuViews[Menu.GAMEOVER] = new GameOverView(playerhandler);
             _allMenuViews[Menu.MAINMENU] = new MainMenuView();
             _allMenuViews[Menu.ERROR] = new ErrorView();
-            _allMenuViews[Menu.INVETORY] = new InventoryView(playerhandler.GetInventory(),playerhandler.GetActiveItems());
+            _allMenuViews[Menu.INVETORY] = new InventoryView(playerhandler);
             _allMenuViews[Menu.ENEMYTURN] = new EnemyTurnView(playerhandler, enemies);
             _allMenuViews[Menu.HIGHSCORE] = new HighScoreView(users);
             _allMenuViews[Menu.NEXTROOM] = new RoomDoneView(playerhandler,room);

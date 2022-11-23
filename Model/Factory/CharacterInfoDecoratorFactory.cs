@@ -2,7 +2,7 @@
 using Model.Base.Shop;
 using Model.Decorator;
 using Model.Decorator.Abstract;
-using Model.Decorator.Gear;
+using Model.Decorator.Item;
 using System.Reflection;
 
 namespace Model.Factory

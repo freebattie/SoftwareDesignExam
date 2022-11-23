@@ -105,11 +105,11 @@
       <FileName>Decorator\Items\WoodenShield.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Model.Decorator.Original.StartingCharacteGear" Collapsed="true">
+  <Class Name="Model.Decorator.Original.StartingCharacterInfo" Collapsed="true">
     <Position X="4" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIQAACAAAAAAAAAIAAYAQBBAIBCAAAAAAABUCAABCA=</HashCode>
-      <FileName>Decorator\Original\StartingCharacteGear.cs</FileName>
+      <FileName>Decorator\Original\StartingCharacterInfo.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Model.Decorator.CharacterInfoDecorator" Collapsed="true">
@@ -129,7 +129,7 @@
   <Class Name="Model.Factory.WeaponFactory" Collapsed="true">
     <Position X="8.25" Y="11.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAIAAAACAAAAAABAAAAAAQAAAgAAAAAEAgAAEAAAAAA=</HashCode>
+      <HashCode>AAIAAAACAAgAAABAAAAAAQAAAgAAAAAEAgAAEAAAAAA=</HashCode>
       <FileName>Factory\WeaponFactory.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -168,17 +168,10 @@
       <FileName>Base\Enums\GearSpot.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="Model.Base.Enums.Item" Collapsed="true">
-    <Position X="13.75" Y="12.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAABAAAgAAAAAAAAAAAAAAAAAAAAMAAAAACAA=</HashCode>
-      <FileName>Base\Enums\item.cs</FileName>
-    </TypeIdentifier>
-  </Enum>
   <Enum Name="Model.Base.Enums.Menu" Collapsed="true">
     <Position X="15.5" Y="12.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgAAAABEAAAEAAAgAAggAAAAIIAAAAAAAAAAAABAAA=</HashCode>
+      <HashCode>AAgAAQABEBAAEAAAgAAggAAAAIIAAAAAAAAAAAABAAA=</HashCode>
       <FileName>Base\Enums\Menu.cs</FileName>
     </TypeIdentifier>
   </Enum>

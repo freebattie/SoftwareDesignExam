@@ -33,7 +33,7 @@ namespace Model.Base.Enemies
                 enemyUser.Name = $"{enemyRace[race]} {enemyTypes[type]}";
                 enemyUser.Level = level;
                 enemyUser.Topscore = 0;
-                CharacterInfo enemy = new StartingCharacteGear(enemyUser, PickRandomWeapon(level));
+                CharacterInfo enemy = new StartingCharacterInfo(enemyUser, PickRandomWeapon(level));
                 var inventory = ShopItemSpawner.GetRandomActiveItems(level);
                 enemy = CharacterInfoDecoratorFactory.GetItems(inventory.Values.ToList(),enemy);
                 enemies.Add(enemy);

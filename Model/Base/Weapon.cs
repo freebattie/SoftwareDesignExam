@@ -16,9 +16,7 @@ namespace Model.Base
         public double Damage { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
-
-
-        
+        public object Price { get; set; }
 
         public override bool Equals(object? obj) {
             //Check for null and compare run-time types.

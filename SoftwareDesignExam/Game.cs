@@ -3,9 +3,12 @@ using Model.Base.Enums;
 using Model.Base.Player;
 using Model.Base.Shop;
 using Model.Decorator.Abstract;
+using Model.Factory;
 using Model.Interface;
 using Persistence.Db;
 using Presentation;
+using Presentation.ViewModel;
+using System.Reflection.Emit;
 
 namespace SoftwareDesignExam {
     public class Game {
@@ -14,9 +17,10 @@ namespace SoftwareDesignExam {
         private string _input = "";
         private PlayerHandler _playerHandler;
         private bool _gameIsRunning = true;
-        private List<ShopItem> _allItems;
+        private List<Model.Base.Shop.ShopItem> _allItems;
         public UserDao _userDao;
         private IUI _ui;
+        private ViewModel _vm;
         private Dictionary<Menu, Delegate> _gameMeckanics;
         private List<CharacterInfo> _enemyList;
         private Menu _lastMenu = Menu.MAINMENU;
@@ -32,22 +36,29 @@ namespace SoftwareDesignExam {
             TableMaker.ItemsSchemaAndTableMaker();
             TableMaker.UsersSchemaAndTableMaker();
 
+            _allItems = new ();
+            _enemyList = new();
             _itemDao = new ItemDao();
-            _allItems = _itemDao.GetAllItems();
-            ShopItemSpawner.SetAllShopItems(_allItems);
             _userDao = new();
             _gameMeckanics = new Dictionary<Menu, Delegate>();
             _playerHandler = new();
-            _enemyList = new();
-            _allItems = new List<ShopItem>();
             _users = new();
             _updater = new UpdateManagar();
             _ui = new UI();
+             
+            _allItems = _itemDao.GetAllItems();
+            ShopItemSpawner.SetAllShopItems(_allItems);
+            _enemyList = EnemySpawner.SpawnEnemies(1, 1);
             
+           
+
+
+
             _updater.Start();
             _gameMeckanics.Add(Menu.ERROR, HandelErrorMeckanics);
-            _gameMeckanics.Add(Menu.MAINMENU, HandelMainMenuMeckanics);
             _gameMeckanics.Add(Menu.LOGIN, HandelLoginMeckanics);
+            _gameMeckanics.Add(Menu.MAINMENU, HandelMainMenuMeckanics);
+            _gameMeckanics.Add(Menu.SHOP, HandelShopMeckanics);
             _gameMeckanics.Add(Menu.ATTACK, HandelAttackMeckanics);
             _gameMeckanics.Add(Menu.INVETORY, HandelInventoryMeckanics);
             _gameMeckanics.Add(Menu.NEXTROOM, HandelNextRoomMeckanics);
@@ -154,7 +165,7 @@ namespace SoftwareDesignExam {
         private void HandelLoginMeckanics() {
             _lastMenu = _menu;
             HandelSettingActivePlayer();
-            _menu = Menu.ATTACK;
+            _menu = Menu.SHOP;
         }
 
 
@@ -184,15 +195,29 @@ namespace SoftwareDesignExam {
         private void HandelSettingActivePlayer() {
             IUserDao userDao = new UserDao();
             _playerHandler.SetUser(userDao.GetUser(_input));
-            _enemyList = EnemySpawner.SpawnEnemies(1, 1);
+            var weapons = WeaponFactory.GenerateOneOfEachWeaponRandom(1);
+            _users = _userDao.GetAllUsers();
+            _vm = new ViewModel(1,_playerHandler, weapons, _allItems,_enemyList, _users);
 
 
         }
-
+        private void HandelShopMeckanics() {
+            _lastMenu = _menu;
+           
+            if (_input == "1") {
+                _menu = Menu.WEAPONSHOP;
+            }
+            else if (_input == "2") {
+                _menu = Menu.ITEMSHOP;
+            }
+            else if (_input == "0") {
+                _menu = Menu.ATTACK;
+            }
+        }
         private void HandelAttackMeckanics() {
             // se om du har valgt å angripe en fiende eller gå til inventory
             _lastMenu = _menu;
-            if (_enemyList.Count > 1 && int.Parse(_input) <= _enemyList.Count) {
+            if (int.Parse(_input) > 0 && int.Parse(_input) <= _enemyList.Count) {
                 AttackSelectedTarget();
                 HandelEnemiesTurn();
                 //TODO: add leves some how

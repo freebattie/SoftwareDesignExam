@@ -7,8 +7,8 @@ namespace Persistence.Db {
     public class ItemDao : IItemDao {
 
 
-        public List<ShopItem> GetAllItems() {
-            List<ShopItem> shopItemList = new();
+        public List<Model.Base.Shop.ShopItem> GetAllItems() {
+            List<Model.Base.Shop.ShopItem> shopItemList = new();
 
             using SqliteConnection connection = new("Data Source = gameDb.db");
             connection.Open();
@@ -20,7 +20,7 @@ namespace Persistence.Db {
             using SqliteDataReader reader = command.ExecuteReader();
             if (reader.HasRows) {
                 while (reader.Read()) {
-                    ShopItem item = new();
+                    Model.Base.Shop.ShopItem item = new();
                     item.Name = reader.GetString(0);
                     item.Description = reader.GetString(1);
                     item.ItemLevel = reader.GetInt32(2);
@@ -31,13 +31,13 @@ namespace Persistence.Db {
                 }
             }
             if (shopItemList.Count == 0)
-                return new() {new ShopItem("noitem",2,2,GearSpot.GLOVES,"Item not found") };
+                return new() {new Model.Base.Shop.ShopItem("noitem",2,2, GearSpot.GLOVES,"Item not found") };
 
             return shopItemList;
         }
 
         //TODO: REMOVE
-        public void AddItem(ShopItem item) {
+        public void AddItem(Model.Base.Shop.ShopItem item) {
             using SqliteConnection connection = new("Data Source = gameDb.db");
             connection.Open();
             SqliteCommand command = connection.CreateCommand();

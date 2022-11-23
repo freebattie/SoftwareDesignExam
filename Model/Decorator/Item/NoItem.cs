@@ -1,6 +1,6 @@
 ﻿using Model.Decorator.Abstract;
 
-namespace Model.Decorator.Gear {
+namespace Model.Decorator.Item {
     
     public class NoItem : CharacterInfoDecorator
     {

@@ -10,8 +10,8 @@ namespace Presentation.Views {
         public GameOverView() {
             
         }
-        public GameOverView(User user) {
-            this.user = user;
+        public GameOverView(PlayerHandler playerHandler) {
+            this.user = playerHandler.GetUser();
         }
 
         private string asciGraphic = @"

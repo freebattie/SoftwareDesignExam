@@ -75,12 +75,28 @@ namespace Model.Factory
         /// <returns></returns>
         public static Weapon GenerateRandomWeapon(int level) {
             var weaponNames = LoadNameOfAllWeapons();
-            var weapons = new List<Weapon>();
             Random random = new Random(); 
             var descriptionIndex = random.Next(itemDescription.Length);
             var weaponNameIndex = random.Next(weaponNames.Count);
             var dmg = damageRange[level];
             return GetWeapon(weaponNames[weaponNameIndex], itemDescription[descriptionIndex], dmg);
+
+        }
+        public static List<Weapon> GenerateOneOfEachWeaponRandom(int level) {
+            var weaponNames = LoadNameOfAllWeapons();
+            var weapons = new List<Weapon>();
+            Random random = new Random();
+            var descriptionIndex = random.Next(itemDescription.Length);
+            var dmg = damageRange[level];
+            var index = 0;
+            while(index < weaponNames.Count) {
+                var weapon = GetWeapon(weaponNames[index], itemDescription[descriptionIndex], dmg);
+                weapons.Add(weapon);
+                index++;
+            }
+           
+           
+            return weapons;
 
         }
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using Model.Base.Enums;
+using Model.Base.Player;
 using Model.Base.Shop;
 using Model.Interface;
 using Presentation.Utils;
@@ -31,10 +32,10 @@ namespace Presentation.Views {
  |___/_/ \_\___|_|\_|_|/_/ \_\___|_|\_\
                                        
 ";
-        public InventoryView(List<ShopItem> inventory,Dictionary<GearSpot,ShopItem> activeItems) {
+        public InventoryView(PlayerHandler playerhandler) {
 
-            this.items = inventory;
-            this.activeItems = activeItems;
+            this.items = playerhandler.GetInventory();
+            this.activeItems = playerhandler.GetActiveItems();
         }
 
         public InventoryView() {

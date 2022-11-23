@@ -8,18 +8,6 @@
     <Position X="17.25" Y="0.5" Width="1.5" />
     <TypeIdentifier />
   </Class>
-  <Class Name="Model.Base.Enums.GearSpot" Collapsed="true">
-    <Position X="15.5" Y="1.5" Width="1.5" />
-    <TypeIdentifier />
-  </Class>
-  <Class Name="Model.Base.Enums.Item" Collapsed="true">
-    <Position X="17.25" Y="1.5" Width="1.5" />
-    <TypeIdentifier />
-  </Class>
-  <Class Name="Model.Base.Enums.Menu" Collapsed="true">
-    <Position X="13.75" Y="2.5" Width="1.5" />
-    <TypeIdentifier />
-  </Class>
   <Class Name="Model.Base.Player.PlayerHandler" Collapsed="true">
     <Position X="15.5" Y="2.5" Width="1.5" />
     <TypeIdentifier />
@@ -148,13 +136,6 @@
     <TypeIdentifier />
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="SoftwareDesignExam.Game" Collapsed="true">
-    <Position X="12" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>IgQIgCAAKAIAUgQQAYAAABIAIAACAIAUIAARECASRAI=</HashCode>
-      <FileName>Game.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Class Name="SoftwareDesignExam.Program" Collapsed="true">
     <Position X="17.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
@@ -172,8 +153,27 @@
   <Class Name="SoftwareDesignExam.UpdateManagar" Collapsed="true">
     <Position X="19" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAgAAAAESCAAAAAAIAAAAAAACACAABABgAAAQCAAAA=</HashCode>
       <FileName>UpdateManagar.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Model.Base.Enums.GearSpot" Collapsed="true">
+    <Position X="15.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Model.Base.Enums.Item" Collapsed="true">
+    <Position X="17.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Model.Base.Enums.Menu" Collapsed="true">
+    <Position X="13.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="SoftwareDesignExam.Game" Collapsed="true">
+    <Position X="12" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IgQIgCAAKAIAUgQQAYAAABIAIAACAIAUoAURECBSRAI=</HashCode>
+      <FileName>Game.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="Model.Interface.IItemDao" Collapsed="true">

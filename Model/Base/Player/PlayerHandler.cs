@@ -15,11 +15,11 @@ namespace Model.Base.Player
     {
 
         private User? userInfo;
-        private CharacterInfo original = new StartingCharacteGear();
-        private CharacterInfo player = new StartingCharacteGear();
-        private CharacterInfo target = new StartingCharacteGear ();
-        private List<ShopItem> playerInvetory = new ();
-        private Dictionary<GearSpot, ShopItem> activeItems = new();
+        private CharacterInfo original = new StartingCharacterInfo();
+        private CharacterInfo player = new StartingCharacterInfo();
+        private CharacterInfo target = new StartingCharacterInfo ();
+        private List<Shop.ShopItem> playerInvetory = new ();
+        private Dictionary<GearSpot, Shop.ShopItem> activeItems = new();
        
 
         public PlayerHandler()
@@ -27,7 +27,7 @@ namespace Model.Base.Player
 
             SetupPlayer();
             if (original == null)
-                original = new StartingCharacteGear();
+                original = new StartingCharacterInfo();
         }
         public void Attack()
         {
@@ -35,7 +35,7 @@ namespace Model.Base.Player
                 player?.Attack(target);
         }
 
-        public List<ShopItem> GetInventory()
+        public List<Shop.ShopItem> GetInventory()
         {
             if (playerInvetory != null)
                 return playerInvetory;
@@ -44,7 +44,7 @@ namespace Model.Base.Player
                     new();
         }
       
-        public Dictionary<GearSpot, ShopItem> GetActiveItems() {
+        public Dictionary<GearSpot, Shop.ShopItem> GetActiveItems() {
 
      
             return activeItems;
@@ -65,12 +65,12 @@ namespace Model.Base.Player
             
             original.SetUser(user);
         }
-        public void SetActiveGearItem(GearSpot spot, ShopItem item) {
+        public void SetActiveGearItem(GearSpot spot, Shop.ShopItem item) {
             if (item != null) 
                 AddGearToSpot(spot, item);
         }
 
-        private void AddGearToSpot(GearSpot spot, ShopItem item) {
+        private void AddGearToSpot(GearSpot spot, Shop.ShopItem item) {
             var items = GetActiveItems();
             if (items.ContainsKey(spot)) {
                 items[spot] = item;
@@ -96,7 +96,7 @@ namespace Model.Base.Player
             userInfo.Topscore = 0;
             userInfo.CurrentScore = 0;
             playerInvetory = ShopItemSpawner.GetRandomListOfItems(4);
-            original = new StartingCharacteGear(userInfo, StartingWeapon());
+            original = new StartingCharacterInfo(userInfo, StartingWeapon());
             player = original;
             //EquiptAllActiveItems();
         }
@@ -122,7 +122,7 @@ namespace Model.Base.Player
             }
         }
 
-        public void removeItem(ShopItem item) {
+        public void removeItem(Shop.ShopItem item) {
             playerInvetory?.Remove(item);
         }
 

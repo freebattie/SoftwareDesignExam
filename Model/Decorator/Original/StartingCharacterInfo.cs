@@ -8,12 +8,12 @@ using Model.Interface;
 
 namespace Model.Decorator.Original
 {
-    public class StartingCharacteGear : CharacterInfo
+    public class StartingCharacterInfo : CharacterInfo
     {
         public int Topscore { get; private set; }
 
-        public StartingCharacteGear() { }
-        public StartingCharacteGear(User user, Weapon weapon)
+        public StartingCharacterInfo() { }
+        public StartingCharacterInfo(User user, Weapon weapon)
         {
             Name = user.Name;
             Level = user.Level;

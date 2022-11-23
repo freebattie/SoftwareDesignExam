@@ -8,12 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Presentation.Views {
-    internal class EnemyTurnView : IView {
+namespace Presentation.Views.rooms
+{
+    internal class EnemyTurnView : IView
+    {
         private readonly PlayerHandler playerHandler;
         private readonly List<CharacterInfo> enemies;
 
-        public EnemyTurnView(PlayerHandler playerHandler, List<CharacterInfo> enemies) {
+        public EnemyTurnView(PlayerHandler playerHandler, List<CharacterInfo> enemies)
+        {
             this.playerHandler = playerHandler;
             this.enemies = enemies;
         }
@@ -27,37 +30,42 @@ namespace Presentation.Views {
                                                                                
                                                                                
 ";
-        
-        public EnemyTurnView() {
+
+        public EnemyTurnView()
+        {
             playerHandler = new();
             enemies = new();
         }
-       
 
 
-        public void EnemyTurn() {
+
+        public void EnemyTurn()
+        {
             PrintMenuName();
             PlayerAttackingEnemiesInfo();
             var health = playerHandler.GetPlayer();
             if (health != null)
                 EnemiesAttackingPlayerInfo(health.GetHealth());
-           
+
 
 
         }
 
-        private void PrintMenuName() {
+        private void PrintMenuName()
+        {
             Writer.ClearScreen();
             Writer.PrintLine(menu);
         }
 
-        private void PlayerAttackingEnemiesInfo() {
-           
+        private void PlayerAttackingEnemiesInfo()
+        {
+
             int index = 0;
 
             Writer.PrintLine("----------Enemies healt left after your Attack---------");
-            foreach (var enemy in enemies) {
-                
+            foreach (var enemy in enemies)
+            {
+
                 Writer.PrintLine($"{enemy.GetName()} has {enemy.GetHealth()} healt left after your Attack");
 
             }
@@ -65,7 +73,8 @@ namespace Presentation.Views {
             Writer.PrintLine($"");
         }
 
-        private void EnemiesAttackingPlayerInfo(double health) {
+        private void EnemiesAttackingPlayerInfo(double health)
+        {
             Writer.PrintLine("-----------------Enemies are attacking-----------------");
             Writer.PrintLine($"You have {health} Healt left after enemies Attack");
             Writer.PrintLine("-------------------------------------------------------");
@@ -73,7 +82,8 @@ namespace Presentation.Views {
             Writer.PrintLine("---------------Press eny key to continue---------------");
         }
 
-        public void Draw() {
+        public void Draw()
+        {
             EnemyTurn();
         }
     }

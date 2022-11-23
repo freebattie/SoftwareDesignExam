@@ -1,13 +1,15 @@
 ﻿
 
+
 using Model.Decorator.Abstract;
 
-namespace Model.Decorator.Gear {
-    public class WikingHelmet:CharacterInfoDecorator {
+namespace Model.Decorator.Item {
+    public class IronShield : CharacterInfoDecorator {
+
         bool isbroken = false;
-        double hitpoints = 22;
-        double dmgReduction = 15;
-        public WikingHelmet(CharacterInfo original) : base(original) {
+        double hitpoints = 100;
+        double dmgReduction = 25;
+        public IronShield(CharacterInfo original) : base(original) {
         }
 
         public override void RemoveHealth(double weaponDmg) {
@@ -16,15 +18,14 @@ namespace Model.Decorator.Gear {
 
             if (!isbroken) {
                 weaponDmg -= weaponDmg >= dmgReduction ? dmgReduction : weaponDmg;
-                hitpoints -= weaponDmg >= dmgReduction ? hitpoints : weaponDmg;
+                hitpoints -= hitpoints;
                 base.RemoveHealth(weaponDmg);
             }
             else
                 base.RemoveHealth(weaponDmg);
         }
         public override string GetDescription() {
-            return base.GetDescription() + "\n# Wiking helmet: " + (isbroken ? "is broken" : $"has {hitpoints} hitpoints left");
+            return base.GetDescription() + "\n# Iron Shield: " + (isbroken ? "is broken" : $"has {hitpoints} left");
         }
     }
 }
-
