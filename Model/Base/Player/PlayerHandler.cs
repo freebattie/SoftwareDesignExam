@@ -7,7 +7,7 @@ using Model.Base.Weapons;
 using Model.Decorator.Abstract;
 using Model.Decorator.Original;
 using Model.Factory;
-using Model.Interface;
+
 
 namespace Model.Base.Player
 {
@@ -15,12 +15,14 @@ namespace Model.Base.Player
     {
 
         private User? userInfo;
+        private int money = 300;
         private CharacterInfo original = new StartingCharacterInfo();
         private CharacterInfo player = new StartingCharacterInfo();
         private CharacterInfo target = new StartingCharacterInfo ();
-        private List<Shop.ShopItem> playerInvetory = new ();
-        private Dictionary<GearSpot, Shop.ShopItem> activeItems = new();
-       
+        private List<ShopItem> playerInvetory = new ();
+        private Dictionary<GearSpot, ShopItem> activeItems = new();
+
+        public int Money { get => money; set => money = value; }
 
         public PlayerHandler()
         {
@@ -35,7 +37,7 @@ namespace Model.Base.Player
                 player?.Attack(target);
         }
 
-        public List<Shop.ShopItem> GetInventory()
+        public List<ShopItem> GetInventory()
         {
             if (playerInvetory != null)
                 return playerInvetory;
@@ -44,7 +46,7 @@ namespace Model.Base.Player
                     new();
         }
       
-        public Dictionary<GearSpot, Shop.ShopItem> GetActiveItems() {
+        public Dictionary<GearSpot, ShopItem> GetActiveItems() {
 
      
             return activeItems;
@@ -65,12 +67,12 @@ namespace Model.Base.Player
             
             original.SetUser(user);
         }
-        public void SetActiveGearItem(GearSpot spot, Shop.ShopItem item) {
+        public void SetActiveGearItem(GearSpot spot, ShopItem item) {
             if (item != null) 
                 AddGearToSpot(spot, item);
         }
 
-        private void AddGearToSpot(GearSpot spot, Shop.ShopItem item) {
+        private void AddGearToSpot(GearSpot spot, ShopItem item) {
             var items = GetActiveItems();
             if (items.ContainsKey(spot)) {
                 items[spot] = item;
@@ -95,17 +97,17 @@ namespace Model.Base.Player
             userInfo.Level = 1;
             userInfo.Topscore = 0;
             userInfo.CurrentScore = 0;
-            playerInvetory = ShopItemSpawner.GetRandomListOfItems(4);
-            original = new StartingCharacterInfo(userInfo, StartingWeapon());
+            playerInvetory = new();
+            original = new StartingCharacterInfo(userInfo, new NoWeapon());
             player = original;
             //EquiptAllActiveItems();
         }
-        //TODO:fix
-        private Weapon StartingWeapon()
-        {
-            return WeaponFactory.GenerateRandomWeapon(1);
+        public bool CanAffordIt(int money) {
+            if (Money - money >= 0)
+                return true;
+            else
+                return false;
         }
-
         public User GetUser() {
             if (userInfo != null) {
                 SetTopScore();

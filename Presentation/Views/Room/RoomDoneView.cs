@@ -1,4 +1,5 @@
 ﻿using Model.Base.Player;
+using Model.Base.ViewModel;
 using Model.Interface;
 using Presentation.Utils;
 
@@ -7,8 +8,7 @@ namespace Presentation.Views.rooms
 {
     internal class RoomDoneView : IView
     {
-        private readonly PlayerHandler playerhandler = new();
-        private readonly int room;
+    
         private readonly string menu = @"
   _____   ____   ____  __  __    _____ _      ______          _____  ______ _____  
  |  __ \ / __ \ / __ \|  \/  |  / ____| |    |  ____|   /\   |  __ \|  ____|  __ \ 
@@ -19,21 +19,16 @@ namespace Presentation.Views.rooms
                                                                                    
                                                                                    
 ";
-        public RoomDoneView() { }
-        public RoomDoneView(PlayerHandler playerhandler, int room)
-        {
+        private ViewModel _vm;
 
-            this.playerhandler = playerhandler;
-            this.room = room;
-
-        }
+       
         public void Draw()
         {
             PrintMenuName();
-            var playerHandler = playerhandler;
+            var playerHandler = _vm.Playerhandler;
             if (playerHandler != null)
                 PrintMenu(playerHandler);
-            else if (room % 3 == 0)
+            else if (_vm.Room % 3 == 0)
                 Writer.PrintLine($"3. To go too shop");
         }
 
@@ -49,7 +44,7 @@ namespace Presentation.Views.rooms
 
             if (player != null)
             {
-                Writer.PrintLine($"You beat room {room}");
+                Writer.PrintLine($"You beat room {_vm.Room}");
                 Writer.PrintLine($"you are now level: {player.GetLevel()}");
                 Writer.PrintLine($"your current score is: {playerhandler.GetUser().CurrentScore}");
                 Writer.PrintLine($"your best score is: {playerhandler.GetUser().Topscore}");
@@ -57,6 +52,10 @@ namespace Presentation.Views.rooms
                 Writer.PrintLine($"2. To end run and go to main menu");
             }
 
+        }
+
+        public void AddViewModel(ViewModel vm) {
+           _vm = vm;
         }
     }
 }

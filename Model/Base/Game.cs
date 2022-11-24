@@ -2,71 +2,68 @@
 using Model.Base.Enums;
 using Model.Base.Player;
 using Model.Base.Shop;
+using Model.Base.ViewModel;
 using Model.Decorator.Abstract;
 using Model.Factory;
 using Model.Interface;
-using Persistence.Db;
-using Presentation;
-using Presentation.ViewModel;
-using System.Reflection.Emit;
+
 
 namespace SoftwareDesignExam {
     public class Game {
 
         #region Private fileds
         private string _input = "";
-        private PlayerHandler _playerHandler;
         private bool _gameIsRunning = true;
-        private List<Model.Base.Shop.ShopItem> _allItems;
-        public UserDao _userDao;
+        public IUserDao _userDao;
         private IUI _ui;
         private ViewModel _vm;
         private Dictionary<Menu, Delegate> _gameMeckanics;
-        private List<CharacterInfo> _enemyList;
         private Menu _lastMenu = Menu.MAINMENU;
         private Menu _menu = Menu.MAINMENU;
-        private List<User> _users;
-        private UpdateManagar _updater;
-        private ItemDao _itemDao;
-        private int roomNr = 1;
+        private IUpdateManagar _updater;
+        private IItemDao _itemDao;
+        
         #endregion
 
         #region Constructor
-        public Game() {
-            TableMaker.ItemsSchemaAndTableMaker();
-            TableMaker.UsersSchemaAndTableMaker();
+        public Game(IItemDao itemDao, IUserDao userDao, IUpdateManagar manager, IUI ui) {
+            _itemDao = itemDao;
+            _userDao = userDao;
+            _updater = manager;
+            _ui = ui;
+            GameInit();
+              
+        }
 
-            _allItems = new ();
-            _enemyList = new();
-            _itemDao = new ItemDao();
-            _userDao = new();
-            _gameMeckanics = new Dictionary<Menu, Delegate>();
-            _playerHandler = new();
-            _users = new();
-            _updater = new UpdateManagar();
-            _ui = new UI();
-             
-            _allItems = _itemDao.GetAllItems();
-            ShopItemSpawner.SetAllShopItems(_allItems);
-            _enemyList = EnemySpawner.SpawnEnemies(1, 1);
-            
+
+        #endregion
+
+        #region setup
+        private void GameInit() { 
            
-
-
-
-            _updater.Start();
+            _gameMeckanics = new Dictionary<Menu, Delegate>();
+           
+            _vm = new ViewModel();
+            var _allItems = _itemDao.GetAllItems();
+            ShopItemSpawner.SetAllShopItems(_allItems);
+            _vm.Items = _allItems;
+            
             _gameMeckanics.Add(Menu.ERROR, HandelErrorMeckanics);
             _gameMeckanics.Add(Menu.LOGIN, HandelLoginMeckanics);
             _gameMeckanics.Add(Menu.MAINMENU, HandelMainMenuMeckanics);
             _gameMeckanics.Add(Menu.SHOP, HandelShopMeckanics);
+            _gameMeckanics.Add(Menu.WEAPONSHOP, HandelWeaponShopMeckanics);
+            _gameMeckanics.Add(Menu.ITEMSHOP, HandelItemsShopMeckanics);
+            _gameMeckanics.Add(Menu.NOMONEY, HandelNoMoneyShopMeckanics);
             _gameMeckanics.Add(Menu.ATTACK, HandelAttackMeckanics);
             _gameMeckanics.Add(Menu.INVETORY, HandelInventoryMeckanics);
             _gameMeckanics.Add(Menu.NEXTROOM, HandelNextRoomMeckanics);
             _gameMeckanics.Add(Menu.HIGHSCORE, HandelMaxScoreMeckanics);
-            _gameMeckanics.Add(Menu.ENEMYTURN, HandelCheckIfGameOverMeckanics);
+            _gameMeckanics.Add(Menu.ENEMYTURN, HandelRoundUpdateMeckanics);
             _gameMeckanics.Add(Menu.GAMEOVER, HandelGameOverMeckanics);
-
+            _gameMeckanics.Add(Menu.DOWNLOAD, HandelDownloadMeckanics);
         }
+
         #endregion
 
         #region Game flow
@@ -81,7 +78,7 @@ namespace SoftwareDesignExam {
         }
 
         private void Draw() {
-            _ui.SetActiveModels(_playerHandler, _enemyList, _users, roomNr);
+            _ui.SetActiveViewModel(_vm);
             _ui.Draw(_menu);
         }
 
@@ -93,20 +90,21 @@ namespace SoftwareDesignExam {
         /// for Database hantering og spill relaterte opprasjoner
         /// </summary>
         public void HandelGameMecknaics() {
-            _gameMeckanics[_menu].DynamicInvoke();
+            
+           _gameMeckanics[_menu].DynamicInvoke();
         }
         #endregion
 
         #region Game Meckanics
         private void HandelInventoryMeckanics() {
             _lastMenu = _menu;
-            if (int.Parse(_input) <= _playerHandler.GetInventory().Count &&
+            if (int.Parse(_input) <= _vm.Playerhandler.GetInventory().Count &&
                 int.Parse(_input) > 0) {
                 SelectActiveItems();
 
             }
             else if (int.Parse(_input) == 0) {
-                _playerHandler.EquiptAllActiveItems();
+                _vm.Playerhandler.EquiptAllActiveItems();
                 _menu = Menu.ATTACK;
 
             }
@@ -115,11 +113,11 @@ namespace SoftwareDesignExam {
         }
 
         private void SelectActiveItems() {
-            var items = _playerHandler.GetInventory();
+            var items = _vm.Playerhandler.GetInventory();
 
             var item = items[int.Parse(_input) - 1];
-            _playerHandler.removeItem(item);
-            _playerHandler.SetActiveGearItem(item.GearSpot, item);
+            _vm.Playerhandler.removeItem(item);
+            _vm.Playerhandler.SetActiveGearItem(item.GearSpot, item);
         }
 
         private void HandelMaxScoreMeckanics() {
@@ -139,18 +137,27 @@ namespace SoftwareDesignExam {
         private void CreateNextRoom() {
             Random random = new Random();
             int nrEnemies = random.Next(1, 3);
-            int level = random.Next(1, _playerHandler.GetUser().Level);
-            _enemyList = EnemySpawner.SpawnEnemies(nrEnemies, level);
-            roomNr++;
-            _menu = Menu.ATTACK;
+            int level = random.Next(1, _vm.Playerhandler.GetUser().Level);
+           
+            _vm.Enemies = EnemySpawner.SpawnEnemies(nrEnemies, level);
+            _vm.Room++;
+            if (_vm.Room % 3 == 0) {
+                _menu = Menu.SHOP;
+            }
+            else
+                _menu = Menu.ATTACK;
+
         }
 
-        private void HandelCheckIfGameOverMeckanics() {
-            if (!_playerHandler.PlayerIsAlive()) {
+        private void HandelRoundUpdateMeckanics() {
+            if (!_vm.Playerhandler.PlayerIsAlive()) {
                 SavePlayerToDB();
                 _menu = Menu.GAMEOVER;
             }
+            else if (_vm.Enemies.Count == 0) {
 
+                _menu = Menu.NEXTROOM;
+            }
             else
                 _menu = Menu.ATTACK;
         }
@@ -172,7 +179,7 @@ namespace SoftwareDesignExam {
         private void HandelMainMenuMeckanics() {
             _lastMenu = _menu;
             HandelMenuSelection();
-            HandleHighScoreInput();
+            HandleExstra();
         }
 
         private void HandelErrorMeckanics() {
@@ -185,19 +192,35 @@ namespace SoftwareDesignExam {
 
         }
         private void HandelGameOverMeckanics() {
-            if (!_playerHandler.PlayerIsAlive()) { SavePlayerToDB();}
+            if (_vm.Playerhandler.PlayerIsAlive()) { SavePlayerToDB();}
             HandelMenuSelection();
+
+
+
+        }
+        private void HandelDownloadMeckanics() {
+
+            if (_input == "0") { 
+                _menu = Menu.MAINMENU;
+
+            }
+            else if (_input == "1") {
+                _updater.Start();
+                _updater.Close();
+            }
 
 
 
         }
 
         private void HandelSettingActivePlayer() {
-            IUserDao userDao = new UserDao();
-            _playerHandler.SetUser(userDao.GetUser(_input));
-            var weapons = WeaponFactory.GenerateOneOfEachWeaponRandom(1);
-            _users = _userDao.GetAllUsers();
-            _vm = new ViewModel(1,_playerHandler, weapons, _allItems,_enemyList, _users);
+           
+            _vm.Playerhandler.SetUser(_userDao.GetUser(_input));
+     
+            var weapons = WeaponFactory.GenerateOneOfEachWeaponRandom((int)_vm.Playerhandler.GetPlayer().GetLevel());
+            _vm.Weapons = weapons;
+            _vm.Users = _userDao.GetAllUsers();
+            
 
 
         }
@@ -214,10 +237,55 @@ namespace SoftwareDesignExam {
                 _menu = Menu.ATTACK;
             }
         }
+        private void HandelWeaponShopMeckanics() {
+            _lastMenu = _menu;
+            int index = int.Parse(_input) - 1;
+
+            if (index < _vm.Weapons.Count && index != -1) {
+                var weapon = _vm.Weapons[index];
+
+
+                if (_vm.Playerhandler.CanAffordIt(weapon.Price)) {
+                    _vm.Playerhandler?.GetPlayer()?.SetWeapon(weapon);
+                    _vm.Playerhandler.Money -= weapon.Price;
+                }
+                else {
+                    _menu = Menu.NOMONEY;
+                }
+            }
+            else if (_input == "0") {
+                _menu = Menu.SHOP;
+            }
+        }
+        private void HandelItemsShopMeckanics() {
+            _lastMenu = _menu;
+            int index = int.Parse(_input) - 1;
+
+            if (index < _vm.Items.Count && index != -1) {
+                var item = _vm.Items[index];
+                if (_vm.Playerhandler.CanAffordIt(item.Price)) {
+                    _vm.Playerhandler.GetInventory().Add(item);
+                    _vm.Playerhandler.Money -= item.Price;
+
+                }
+                else {
+                    _menu = Menu.NOMONEY;
+                }
+
+            }
+            else if (_input == "0") {
+                _menu = Menu.SHOP;
+            }
+            
+        }
+        private void HandelNoMoneyShopMeckanics() {
+
+            _menu = _lastMenu;
+        }
         private void HandelAttackMeckanics() {
             // se om du har valgt å angripe en fiende eller gå til inventory
             _lastMenu = _menu;
-            if (int.Parse(_input) > 0 && int.Parse(_input) <= _enemyList.Count) {
+            if (int.Parse(_input) > 0 && int.Parse(_input) <= _vm.Enemies.Count) {
                 AttackSelectedTarget();
                 HandelEnemiesTurn();
                 //TODO: add leves some how
@@ -230,37 +298,35 @@ namespace SoftwareDesignExam {
             else
                 _menu = Menu.ERROR;
 
-            if (_enemyList.Count == 0) {
-
-                _menu = Menu.NEXTROOM;
-            }
+            
 
 
         }
 
         private void PlayerStatsUpdate() {
-            var user = _playerHandler.GetUser();
-            var lvl = user.Level;
+            var user = _vm.Playerhandler.GetUser();
             user.CurrentScore += 100;
+            _vm.Playerhandler.Money += 100;
             user.Level += 1;
-            _playerHandler.SetUser(user);
+            _vm.Playerhandler.SetUser(user);
+            _vm.Playerhandler.GetPlayer().SetLevel(user.Level);
         }
 
         private void AttackSelectedTarget() {
             var index = int.Parse(_input) - 1;
-            _playerHandler.setTarget(_enemyList[index]);
-            _playerHandler.Attack();
+            _vm.Playerhandler.setTarget(_vm.Enemies[index]);
+            _vm.Playerhandler.Attack();
         }
         private void HandelEnemiesTurn() {
             List<CharacterInfo> remove = new();
-            foreach (var enemy in _enemyList) {
+            foreach (var enemy in _vm.Enemies) {
                 if (enemy.GetHealth() <= 0) {
                     remove.Add(enemy);
 
 
                 }
                 else {
-                    var player = _playerHandler.GetPlayer();
+                    var player = _vm.Playerhandler.GetPlayer();
                     if (player != null) {
                         enemy.Attack(player);
                     }
@@ -269,23 +335,28 @@ namespace SoftwareDesignExam {
 
             }
             foreach (var enemy in remove) {
-                _enemyList.Remove(enemy);
+                _vm.Enemies.Remove(enemy);
                 PlayerStatsUpdate();
             }
         }
 
-        private void HandleHighScoreInput() {
+        private void HandleExstra() {
             if (_input == "3") {
                 _menu = Menu.HIGHSCORE;
+            }
+            if (_input == "4") {
+                _menu = Menu.DOWNLOAD;
             }
 
         }
         private void HandelMenuSelection() {
             _lastMenu = _menu;
-            _users = _userDao.GetAllUsers();
+            _vm.Users = _userDao.GetAllUsers();
             if (_input == "1") {
-                _playerHandler = new PlayerHandler();
-
+                _vm.Playerhandler = new PlayerHandler();
+              
+                _vm.Enemies = EnemySpawner.SpawnEnemies(1, 1);
+                _vm.Playerhandler.GetPlayer().SetWeapon(WeaponFactory.GenerateRandomWeapon(1));
                 _menu = Menu.LOGIN;
 
             }
@@ -297,7 +368,7 @@ namespace SoftwareDesignExam {
         }
 
         private void SavePlayerToDB() {
-            var user = _playerHandler.GetUser();
+            var user = _vm.Playerhandler.GetUser();
             _userDao.UpdateUser(user, user.Name);
         }
 

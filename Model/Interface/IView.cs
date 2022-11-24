@@ -1,8 +1,10 @@
 ﻿
+using Model.Base.ViewModel;
+
 namespace Model.Interface {
     public interface IView {
         void Draw();
-        void AddViewModel( vm);
+        void AddViewModel( ViewModel vm);
        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Model.Base.Player;
+using Model.Base.ViewModel;
 using Model.Interface;
 using Presentation.Utils;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.Views {
     internal class HighScoreView : IView {
-        private readonly List<User> _users;
+      
         private string _header = @"
   _    _ _____ _____ _    _    _____  _____ ____  _____  ______ 
  | |  | |_   _/ ____| |  | |  / ____|/ ____/ __ \|  __ \|  ____|
@@ -20,21 +21,22 @@ namespace Presentation.Views {
                                                                 
                                                                 
 ";
+        private ViewModel _vm;
 
-        public HighScoreView() {
-            _users = new();
+      
+
+        public void AddViewModel(ViewModel vm) {
+            _vm = vm;
         }
-        public HighScoreView(List<User> users ) {
-            this._users = users;
-        }
+
         public void Draw() {
-
+            var users = _vm.Users;
             Writer.ClearScreen();
 
             Writer.PrintLine(_header);
             int index = 1;
-            _users.Sort((i, b) => { return i.Topscore <= b.Topscore ? 1 : -1; });
-            foreach (var user in _users) {
+            users.Sort((i, b) => { return i.Topscore <= b.Topscore ? 1 : -1; });
+            foreach (var user in users) {
                 Writer.PrintLine($"{index}. {user.Name} Score: {user.Topscore}");
                 index++;
             }

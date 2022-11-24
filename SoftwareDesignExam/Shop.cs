@@ -1,9 +1,9 @@
-﻿using Model.Base;
-using Model.Decorator.Abstract;
+﻿using Model.Decorator.Abstract;
 using Model.Factory;
-using Model.Interface;
+using Model.Base.Weapons.Abstract;
 
-namespace SoftwareDesignExam {
+namespace SoftwareDesignExam
+{
     public class Shop {
         
         List<Weapon> weapons = new();

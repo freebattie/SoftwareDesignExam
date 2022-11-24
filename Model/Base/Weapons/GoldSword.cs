@@ -1,18 +1,15 @@
-﻿
-using Model.Base.Weapons.Abstract;
+﻿using Model.Base.Weapons.Abstract;
 using Model.Decorator.Abstract;
+
 
 namespace Model.Base.Weapons
 {
-
-    //TODO: refactor til abstract weapon?
-    public class Sword : Weapon
-    {
+    internal class GoldSword :Weapon {
         private CharacterInfo? _target;
         private Weapon? _enemyWeapon;
         private int _counter = 0;
 
-        public Sword() : base() {
+        public GoldSword() : base() {
             _target = null;
             Description = "You have a 15% chance to disarm a enemy";
         }
@@ -50,5 +47,6 @@ namespace Model.Base.Weapons
         public override void SetTarget(CharacterInfo target) {
             this._target = target;
         }
-    } 
+    }
 }
+

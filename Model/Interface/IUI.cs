@@ -1,5 +1,6 @@
 ﻿using Model.Base.Enums;
 using Model.Base.Player;
+using Model.Base.ViewModel;
 using Model.Decorator.Abstract;
 
 namespace Model.Interface
@@ -8,6 +9,6 @@ namespace Model.Interface
         void Draw(Menu menu);
         
         string HandelPlayerInput(Menu menu);
-        void SetActiveModels(PlayerHandler playerHandler, List<CharacterInfo> enemyList, List<User> users, int roomNr);
+        void SetActiveViewModel(ViewModel vm);
     }
 }

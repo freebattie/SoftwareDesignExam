@@ -1,4 +1,5 @@
-﻿using Model.Interface;
+﻿using Model.Base.ViewModel;
+using Model.Interface;
 using Presentation.Utils;
 using System;
 using System.Collections.Generic;
@@ -8,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace Presentation.Views.ShopView
 {
-    internal class ShopMainMenuView : IView
-    {
+    internal class ShopMainMenuView : IView {
+        private ViewModel _vm;
         public void Draw()
         {
             Writer.ClearScreen();
@@ -20,6 +21,10 @@ namespace Presentation.Views.ShopView
             Writer.PrintLine("1. weapons for sale");
             Writer.PrintLine("2. items for sale");
 
+        }
+
+        public void AddViewModel(ViewModel vm) {
+           _vm = vm;
         }
 
         string building = @" ^             ^               ^!^
@@ -38,5 +43,6 @@ namespace Presentation.Views.ShopView
 ~\=/~~~~~~~~\=/~~~~~~~~~~~\=/~~~~~~~~\=/~
   | -------- | ----------- | -------- |
 ~ |~^ ^~~^ ~~| ~^  ~~ ^~^~ |~ ^~^ ~~^ |^~";
+       
     }
 }

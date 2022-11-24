@@ -12,5 +12,10 @@
             
  INSERT INTO items (name,description, itemlevel, gearspot, price)
             VALUES ("knightgloves","You heal instead of take damage, 3 uses", 1,4, 100);
+
+INSERT INTO items (name,description, itemlevel, gearspot, price)
+            VALUES ("horse","You Ride it", 1,5, 100);
+INSERT INTO items (name,description, itemlevel, gearspot, price)
+            VALUES ("knightchest","you get 100 extra health and add 40% crit chance", 1,5, 400);
             
  

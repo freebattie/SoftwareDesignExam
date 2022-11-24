@@ -1,15 +1,13 @@
-﻿
-
-using Model.Base;
-using Model.Base.Player;
+﻿using Model.Base.Player;
 using Model.Base.Weapons;
 using Model.Decorator.Abstract;
-using Model.Interface;
-
+using Model.Base.Weapons.Abstract;
 namespace Model.Decorator.Original
 {
     public class StartingCharacterInfo : CharacterInfo
     {
+        private double _didDmg;
+
         public int Topscore { get; private set; }
 
         public StartingCharacterInfo() { }
@@ -44,6 +42,7 @@ namespace Model.Decorator.Original
                 double damage = GetDamageInRange(25+(int)Level, (int)GetWeapon().GetDamage() + (int)Level);
                 damage = CheckForCritDamage(damage);
                 person.RemoveHealth(damage);
+                _didDmg = damage;
                 Console.WriteLine(damage);
             }
 
@@ -119,8 +118,12 @@ namespace Model.Decorator.Original
         }
 
         public override int GetMaxDamage() {
-            var maxdmg = (int)GetWeapon().GetDamage() + (int)Level *1.5;
+            var maxdmg = (int)GetWeapon().GetDamage() * 1.5;
             return (int)maxdmg;
+        }
+
+        public override int GetDamageDone() {
+            return (int)_didDmg;
         }
     }
 }

@@ -1,18 +1,14 @@
 using Model.Base.Player;
+using Model.Base.ViewModel;
 using Model.Interface;
 using Presentation.Utils;
 
 namespace Presentation.Views {
     public class GameOverView : IView {
-        private readonly User? user;
+      
 
 
-        public GameOverView() {
-            
-        }
-        public GameOverView(PlayerHandler playerHandler) {
-            this.user = playerHandler.GetUser();
-        }
+      
 
         private string asciGraphic = @"
   /$$$$$$   /$$$$$$  /$$      /$$ /$$$$$$$$        /$$$$$$  /$$    /$$ /$$$$$$$$ /$$$$$$$ 
@@ -24,10 +20,13 @@ namespace Presentation.Views {
 |  $$$$$$/| $$  | $$| $$ \/  | $$| $$$$$$$$      |  $$$$$$/   \  $/   | $$$$$$$$| $$  | $$
  \______/ |__/  |__/|__/     |__/|________/       \______/     \_/    |________/|__/  |__/                                                                                                                                                                   
 ";
+        private ViewModel _vm;
+    
+
         public void GameOverMenu() {
             Writer.ClearScreen();
-            if (user != null) 
-                PrintMenu(user);
+            if (_vm.Playerhandler.GetUser() != null) 
+                PrintMenu(_vm.Playerhandler.GetUser());
         }
 
         private void PrintMenu(User user) {
@@ -44,6 +43,10 @@ namespace Presentation.Views {
 
         public void Draw() {
             GameOverMenu();
+        }
+
+        public void AddViewModel(ViewModel vm) {
+           _vm = vm;
         }
     }
 }

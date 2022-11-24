@@ -12,6 +12,8 @@
         ENEMYTURN,
         HIGHSCORE,
         WEAPONSHOP,
-        ITEMSHOP
+        ITEMSHOP,
+        NOMONEY,
+        DOWNLOAD
     }
 }

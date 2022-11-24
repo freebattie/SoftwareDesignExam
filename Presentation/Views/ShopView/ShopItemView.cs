@@ -1,4 +1,5 @@
 ﻿using Model.Base.Shop;
+using Model.Base.ViewModel;
 using Model.Interface;
 using Presentation.Utils;
 using System;
@@ -9,22 +10,29 @@ using System.Threading.Tasks;
 
 namespace Presentation.Views.ShopView {
     internal class ShopItemView : IView {
-        private readonly List<ShopItem> allItems;
+        private ViewModel _vm;
 
-        public ShopItemView() {
+        public void AddViewModel(ViewModel vm) {
+           _vm = vm;
+        }
 
+        private void ShowPlayerInfo() {
+            var weapon = _vm.Playerhandler.GetPlayer().GetWeapon();
+            Writer.PrintLine($"You have: {_vm.Playerhandler.Money} Money");
+           
         }
-        public ShopItemView(List<ShopItem> allItems) {
-            this.allItems = allItems;
-        }
-      
+
         public void Draw() {
             int index = 1;
             Writer.ClearScreen();
-            Writer.PrintLine("0. to continue");
-            foreach (var item in allItems) {
-                Writer.PrintLine($"{index}. Name: {item.Name}  Gearspot: {item.GearSpot}  Lvl: {item.ItemLevel} Price:{item.Price}" +
-                    $"/nDecription: {item.Description}");
+            ShowPlayerInfo();
+            Writer.PrintLine("0. back to shop");
+            Writer.PrintLine($"[1-{_vm.Items.Count}] to buy");
+            foreach (var item in _vm.Items) {
+                Writer.PrintLine($"############################## ITEM :{index} ##############################");
+                Writer.PrintLine($"#Name: {item.Name}  Gearspot: {item.GearSpot}  Lvl: {item.ItemLevel} Price:{item.Price}" +
+                    $"#\nDecription: {item.Description}");
+                Writer.PrintLine($"#################################################################");
                 Writer.PrintLine("");
                 index++;
             }

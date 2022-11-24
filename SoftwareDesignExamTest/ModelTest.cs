@@ -1,16 +1,13 @@
 ﻿using Model.Base.Weapons;
 using Model.Decorator.Abstract;
-using Model.Decorator.Items;
+using Model.Base.Weapons.Abstract;
+using Model.Decorator.Item;
 using Model.Decorator.Original;
 using Model.Factory;
-using Model.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace SoftwareDesignExamTest {
+
+namespace SoftwareDesignExamTest
+{
     internal class ModelTest {
 
         [Test]

@@ -1,4 +1,5 @@
 ﻿using Model.Base.Player;
+using Model.Base.ViewModel;
 using Model.Decorator.Abstract;
 using Model.Interface;
 using Presentation.Utils;
@@ -12,14 +13,7 @@ namespace Presentation.Views.rooms
 {
     internal class EnemyTurnView : IView
     {
-        private readonly PlayerHandler playerHandler;
-        private readonly List<CharacterInfo> enemies;
-
-        public EnemyTurnView(PlayerHandler playerHandler, List<CharacterInfo> enemies)
-        {
-            this.playerHandler = playerHandler;
-            this.enemies = enemies;
-        }
+       
         string menu = @"
   ______ _   _ ______ __  __ _____ ______  _____   _______ _    _ _____  _   _ 
  |  ____| \ | |  ____|  \/  |_   _|  ____|/ ____| |__   __| |  | |  __ \| \ | |
@@ -30,20 +24,13 @@ namespace Presentation.Views.rooms
                                                                                
                                                                                
 ";
-
-        public EnemyTurnView()
-        {
-            playerHandler = new();
-            enemies = new();
-        }
-
-
+        private ViewModel _vm;
 
         public void EnemyTurn()
         {
             PrintMenuName();
             PlayerAttackingEnemiesInfo();
-            var health = playerHandler.GetPlayer();
+            var health = _vm.Playerhandler.GetPlayer();
             if (health != null)
                 EnemiesAttackingPlayerInfo(health.GetHealth());
 
@@ -61,12 +48,12 @@ namespace Presentation.Views.rooms
         {
 
             int index = 0;
-
+            Writer.PrintLine($"Your damage: {_vm.Playerhandler.GetPlayer().GetDamageDone()}");
             Writer.PrintLine("----------Enemies healt left after your Attack---------");
-            foreach (var enemy in enemies)
+            foreach (var enemy in _vm.Enemies)
             {
 
-                Writer.PrintLine($"{enemy.GetName()} has {enemy.GetHealth()} healt left after your Attack");
+                Writer.PrintLine($"{enemy.GetName()} has {enemy.GetHealth()} healt left");
 
             }
             Writer.PrintLine("-------------------------------------------------------");
@@ -76,6 +63,10 @@ namespace Presentation.Views.rooms
         private void EnemiesAttackingPlayerInfo(double health)
         {
             Writer.PrintLine("-----------------Enemies are attacking-----------------");
+            foreach (var enemy in _vm.Enemies) {
+                Writer.PrintLine($"enemy {enemy.Name} did damage: {enemy.GetDamageDone()}");
+            }
+           
             Writer.PrintLine($"You have {health} Healt left after enemies Attack");
             Writer.PrintLine("-------------------------------------------------------");
             Writer.PrintLine("");
@@ -85,6 +76,10 @@ namespace Presentation.Views.rooms
         public void Draw()
         {
             EnemyTurn();
+        }
+
+        public void AddViewModel(ViewModel vm) {
+            _vm = vm;
         }
     }
 }

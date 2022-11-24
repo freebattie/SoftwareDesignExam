@@ -1,5 +1,6 @@
 
 using Model.Base.Player;
+using Model.Base.ViewModel;
 using Model.Interface;
 using Presentation.Utils;
 
@@ -14,6 +15,8 @@ namespace Presentation.Views {
  | | \ \| |__| | |__| | |__| | |____     | |__| / ____ \| |\  | |__| | |____| | \ \ 
  |_|  \_\\____/ \____/ \_____|______|    |_____/_/    \_\_| \_|\_____|______|_|  \_\
 ";
+        private ViewModel _vm;
+
         public MainMenuView() { }
 
         private void MainMenu() {
@@ -32,11 +35,16 @@ namespace Presentation.Views {
             Writer.PrintLine("PRESS 2 TO QUIT       ");
             Writer.PrintLine("--------------------- ");
             Writer.PrintLine("PRESS 3 for HIGHSCORES");
+            Writer.PrintLine("--------------------- ");
+            Writer.PrintLine("PRESS 4 for DOWNLOAD UPDATES");
         }
 
         public void Draw() {
             MainMenu();
         }
 
+        public void AddViewModel(ViewModel vm) {
+            _vm = vm;
+        }
     }
 }

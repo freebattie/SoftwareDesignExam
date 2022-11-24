@@ -1,16 +1,12 @@
-﻿using Presentation.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Model.Interface;
+using Presentation.Utils;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SoftwareDesignExam {
-    internal class UpdateManagar {
+    internal class UpdateManagar : IUpdateManagar {
         private FileSystemWatcher watcher;
         private string? assamblyDirectory;
-
+        private bool restart = false;
         public FileSystemWatcher Watcher { get => watcher; private set => watcher = value; }
 
         /// <summary>
@@ -28,22 +24,23 @@ namespace SoftwareDesignExam {
                 }
             }
             assamblyDirectory = System.IO.Path.GetDirectoryName(@Assembly.GetExecutingAssembly().Location);
-            if(assamblyDirectory!= null) 
+            if (assamblyDirectory != null)
                 System.IO.Directory.CreateDirectory(assamblyDirectory);
         }
 
         public void Start() {
-            
 
+         
             if (assamblyDirectory != null) {
                 SetupFileWatcher(assamblyDirectory);
+                watcher.Changed += OnChanged;
+                watcher.Created += OnCreated;
                 DownLoadUpdates();
-                
+
                 CleanUpFTPFolder();
 
-                //watcher.Changed += OnChanged;
-                //watcher.Created += OnCreated;
-                //watcher.Error += OnError;
+               
+             
 
             }
         }
@@ -74,11 +71,21 @@ namespace SoftwareDesignExam {
             string sourcePath = Path.Combine(assamblyDirectory, @"FTP");
             if (System.IO.Directory.Exists(sourcePath)) {
                 string[] files = System.IO.Directory.GetFiles(sourcePath);
-
-                if(files.Length > 0)
+                Writer.ClearScreen();
+                if (files.Length > 0) {
+                    restart = true;
                     Writer.PrintLine("Installing new updates");
+                }
+                  
+                else {
+                    Writer.PrintLine("No new updates found");
+                    Console.WriteLine("Press a key to go back");
+                    Reader.ReadString();
+                }
+                   
                 foreach (string file in files) {
                     Writer.PrintLine($"Downloading file {file}");
+                    Thread.Sleep(600);
                     string destFile = CreateFilePathForFileToDownload(file);
                     RenameOldDllFiles(destFile);
                     System.IO.File.Copy(file, destFile, true);
@@ -113,8 +120,14 @@ namespace SoftwareDesignExam {
         }
 
         public void Close() {
-            Console.WriteLine("Innstalation done, please restart");
-            Watcher.Dispose();
+            if (restart) {
+                Console.WriteLine("Innstalation done, please restart");
+                Console.WriteLine("Press a key to quit game");
+                Reader.ReadString();
+                Environment.Exit(0);
+                Watcher.Dispose();
+            }
+           
 
         }
         private static void OnChanged(object sender, FileSystemEventArgs e) {
@@ -122,29 +135,16 @@ namespace SoftwareDesignExam {
                 return;
             }
             Console.WriteLine($"Changed: {e.FullPath}");
+          
+
         }
 
         private static void OnCreated(object sender, FileSystemEventArgs e) {
             string value = $"Created: {e.FullPath}";
             Console.WriteLine(value);
+           
 
         }
-
-
-
-        private static void OnError(object sender, ErrorEventArgs e) =>
-            PrintException(e.GetException());
-
-        private static void PrintException(Exception? ex) {
-            if (ex != null) {
-                Console.WriteLine($"Message: {ex.Message}");
-                Console.WriteLine("Stacktrace:");
-                Console.WriteLine(ex.StackTrace);
-                Console.WriteLine();
-                PrintException(ex.InnerException);
-            }
-        }
-
 
     }
 }

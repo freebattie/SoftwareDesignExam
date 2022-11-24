@@ -1,3 +1,4 @@
+using Model.Base.ViewModel;
 using Model.Interface;
 using Presentation.Utils;
 
@@ -14,6 +15,12 @@ public class ErrorView : IView
  |______|_|  \_\_|  \_\\____/|_|  \_\
                                      
 ";
+    private ViewModel _vm;
+
+    public void AddViewModel(ViewModel vm) {
+       _vm = vm;
+    }
+
     public void Draw()
     {
         Writer.ClearScreen();

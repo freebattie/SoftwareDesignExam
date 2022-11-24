@@ -1,8 +1,5 @@
-﻿using Model.Base;
-using Model.Base.Player;
-using Model.Interface;
-using static System.Net.Mime.MediaTypeNames;
-
+﻿using Model.Base.Player;
+using Model.Base.Weapons.Abstract;
 namespace Model.Decorator.Abstract
 {
 
@@ -18,7 +15,7 @@ namespace Model.Decorator.Abstract
         private double crit =5;
         private double level =1;
         private double health;
-        private const double GAINFACTOR = 0.05;
+        private const double GAINFACTOR = 0.75;
         private double maxHealth;
         protected double MaxHealth { get => maxHealth; set => maxHealth = value; }
         protected double Level { get => level; set => level = value; }
@@ -68,6 +65,7 @@ namespace Model.Decorator.Abstract
         public abstract Weapon GetWeapon();
         public abstract double GetMaxHealth();
         public abstract int GetCrit();
+        public abstract int GetDamageDone();
         public abstract int GetMaxDamage();
 
         public override int GetHashCode() {

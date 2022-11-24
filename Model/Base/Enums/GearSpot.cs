@@ -6,7 +6,8 @@
             TRINCKET = 2,
             SHIELD =3,
             GLOVES =4,
-            SHOES =5
+            MOUNT =5,
+            CHEST =6
 
         }
     }

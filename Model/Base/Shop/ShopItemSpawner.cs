@@ -24,17 +24,18 @@ namespace Model.Base.Shop
         /// <param name="items"></param>
         /// <returns></returns>
         public static Dictionary<GearSpot, ShopItem> GetRandomActiveItems(int items) {
-            
+            items = items > 4 ? 4: items;
             var allspots = Enum.GetNames(typeof(GearSpot));
             items = items <= allspots.Length ? items : allspots.Length;
             Dictionary<GearSpot, ShopItem> invetory = new Dictionary<GearSpot, ShopItem>();
            
             while (items > 0) { 
             
-                Random rand = new Random();
+               
 
                 //Trenger ingen sjekk her siden vi lager Dictionary rett før loopen;
                 if (invetory != null && _invetory != null ) {
+                    Random rand = new Random();
                     var count = _invetory.Count;
                     var index = rand.Next(count);
                     var tmpItem = _invetory?[index];

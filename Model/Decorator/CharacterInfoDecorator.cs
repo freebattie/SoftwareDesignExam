@@ -1,9 +1,6 @@
-﻿
-
-using Model.Base;
-using Model.Base.Player;
+﻿using Model.Base.Player;
 using Model.Decorator.Abstract;
-using Model.Interface;
+using Model.Base.Weapons.Abstract;
 
 namespace Model.Decorator
 {
@@ -84,6 +81,10 @@ namespace Model.Decorator
 
         public override int GetMaxDamage() {
            return original.GetMaxDamage();    
+        }
+
+        public override int GetDamageDone() {
+            return original.GetDamageDone();
         }
     }
 }

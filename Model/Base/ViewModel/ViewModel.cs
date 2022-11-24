@@ -1,21 +1,16 @@
-﻿using Model.Base;
-using Model.Base.Enums;
+﻿
 using Model.Base.Player;
 using Model.Base.Shop;
+using Model.Base.Weapons.Abstract;
 using Model.Decorator.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ShopItem = Model.Base.Shop.ShopItem;
 
-namespace Presentation.ViewModel {
+namespace Model.Base.ViewModel
+{
     public class ViewModel {
         private int room;
         private PlayerHandler playerhandler;
         List<Weapon> weapons;
-        List<ShopItem> Items;
+        List<ShopItem> items;
         List<CharacterInfo> enemies;
         List<User> users;
 
@@ -23,16 +18,24 @@ namespace Presentation.ViewModel {
             this.room = room;
             this.playerhandler = playerhandler;
             this.weapons = weapons;
-            Items = items;
+            this.items = items;
             this.enemies = enemies;
             this.users = users;
+        }
+        public ViewModel() {
+            this.room = 0;
+            this.playerhandler = new ();
+            this.weapons = new();
+            this.items = new();
+            this.enemies = new();
+            this.users = new();
         }
 
         public int Room { get => room; set => room = value; }
         public PlayerHandler Playerhandler { get => playerhandler; set => playerhandler = value; }
         public List<Weapon> Weapons { get => weapons; set => weapons = value; }
         public List<CharacterInfo> Enemies { get => enemies; set => enemies = value; }
-        public List<ShopItem> Items1 { get => Items; set => Items = value; }
+        public List<ShopItem> Items { get => items; set => items = value; }
         public List<User> Users { get => users; set => users = value; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Model.Base.Player;
+using Model.Base.ViewModel;
 using Model.Interface;
 using Presentation.Utils;
 
@@ -12,19 +13,16 @@ namespace Presentation.Views {
  | |___| |__| | |__| |       _| |_| |\  |
  |______\____/ \_____|      |_____|_| \_|                                                                                                                                                                                                                                                                                                                                                                                       
 ";
-        private List<User>? users;
+        private ViewModel _vm;
 
-        public LoginMenuView() {
-            
-        }
-        public LoginMenuView(List<User> users) {
-            this.users = users;
+        public void AddViewModel(ViewModel vm) {
+           _vm = vm;
         }
 
         public void Draw() {
             PrintMenuName();
-            if (users != null)
-                PrintMenu(users);
+            if (_vm.Users != null)
+                PrintMenu(_vm.Users);
 
         }
 

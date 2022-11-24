@@ -2,10 +2,11 @@
 
 using Model.Base.Player;
 using Model.Base.Shop;
+using Model.Base.Weapons.Abstract;
 using Model.Decorator.Abstract;
 using Model.Decorator.Original;
 using Model.Factory;
-using Model.Interface;
+
 
 namespace Model.Base.Enemies
 {

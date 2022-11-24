@@ -1,13 +1,11 @@
-﻿using Model.Base.Enums;
-using Model.Base.Player;
-using Model.Base.Shop;
+﻿using Model.Base.Shop;
+using Model.Base.ViewModel;
 using Model.Interface;
 using Presentation.Utils;
 
 namespace Presentation.Views {
     internal class InventoryView : IView {
-        private List<ShopItem> items;
-        private readonly Dictionary<GearSpot, ShopItem> activeItems;
+       
         private string menu = @"
   _____ _   ___      ________ _   _ _______ ____  _______     __
  |_   _| \ | \ \    / /  ____| \ | |__   __/ __ \|  __ \ \   / /
@@ -32,30 +30,23 @@ namespace Presentation.Views {
  |___/_/ \_\___|_|\_|_|/_/ \_\___|_|\_\
                                        
 ";
-        public InventoryView(PlayerHandler playerhandler) {
+        private ViewModel? _vm;
 
-            this.items = playerhandler.GetInventory();
-            this.activeItems = playerhandler.GetActiveItems();
-        }
-
-        public InventoryView() {
-            items = new();
-            activeItems = new();
-        }
-
+       
+       
         public void DrawInvetory() {
             Writer.ClearScreen();
             Writer.PrintLine(menu,ConsoleColor.DarkCyan);
             int index = 1;
             Writer.PrintLine(backpack, ConsoleColor.Blue);
-            foreach (var item in items) {
+            foreach (var item in _vm.Playerhandler.GetInventory()) {
                 ItemsList(index, item);
                 index++;
             }
             var index2 = 1;
             Writer.PrintLine("");
             Writer.PrintLine(activeGear,ConsoleColor.Green);
-            foreach (var item in activeItems.Values) {
+            foreach (var item in _vm.Playerhandler.GetActiveItems().Values) {
                 ItemsList(index2, item);
                 index2++;
             }
@@ -72,6 +63,11 @@ namespace Presentation.Views {
 
         public void Draw() {
             DrawInvetory();
+        }
+
+        public void AddViewModel(ViewModel vm) {
+            _vm = vm;
+            
         }
     }
 }

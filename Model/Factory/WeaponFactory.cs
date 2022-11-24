@@ -1,7 +1,5 @@
-﻿
-using Model.Base;
-using Model.Base.Weapons;
-using Model.Interface;
+﻿using Model.Base.Weapons;
+using Model.Base.Weapons.Abstract;
 using System.Reflection;
 
 namespace Model.Factory
@@ -15,6 +13,7 @@ namespace Model.Factory
         
         private static string[] itemDescription =  { "Glowing ", "Burning ","Dragon ","Gold "  };
         private static int[] damageRange = { 100, 120, 170, 190, 220,340,440,550,700,1230,2200 };
+        private static int[] priceRange = { 100, 150, 170,400};
         static WeaponFactory() {
             LoadInWeapons();
         }
@@ -74,30 +73,37 @@ namespace Model.Factory
         /// <param name="level"></param>
         /// <returns></returns>
         public static Weapon GenerateRandomWeapon(int level) {
+            level = level < damageRange.Length ? level : damageRange.Length - 1;
             var weaponNames = LoadNameOfAllWeapons();
             Random random = new Random(); 
             var descriptionIndex = random.Next(itemDescription.Length);
             var weaponNameIndex = random.Next(weaponNames.Count);
             var dmg = damageRange[level];
-            return GetWeapon(weaponNames[weaponNameIndex], itemDescription[descriptionIndex], dmg);
+            var priceIndex = random.Next(priceRange.Length);
+            var price = priceRange[priceIndex];
+            var weapon = GetWeapon(weaponNames[weaponNameIndex], itemDescription[descriptionIndex], dmg);
+            weapon.Price = price;
+            return weapon;
 
         }
         public static List<Weapon> GenerateOneOfEachWeaponRandom(int level) {
+            level = level < damageRange.Length ? level : damageRange.Length - 1;
             var weaponNames = LoadNameOfAllWeapons();
             var weapons = new List<Weapon>();
             Random random = new Random();
-            var descriptionIndex = random.Next(itemDescription.Length);
-            var dmg = damageRange[level];
+           
             var index = 0;
             while(index < weaponNames.Count) {
+                var descriptionIndex = random.Next(itemDescription.Length);
+                var priceIndex = random.Next(priceRange.Length);
+                var price = priceRange[priceIndex];
+                var dmg = damageRange[level];
                 var weapon = GetWeapon(weaponNames[index], itemDescription[descriptionIndex], dmg);
+                weapon.Price = price;
                 weapons.Add(weapon);
                 index++;
             }
-           
-           
             return weapons;
-
         }
         /// <summary>
         /// gjør det samme som LoadInWeapons men lagrer kun navne på klassene i en liste slik vi kan 

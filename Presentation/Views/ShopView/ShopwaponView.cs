@@ -1,5 +1,6 @@
 ﻿using Model.Base;
 using Model.Base.Shop;
+using Model.Base.ViewModel;
 using Model.Interface;
 using Presentation.Utils;
 using System;
@@ -12,23 +13,35 @@ namespace Presentation.Views.ShopView
 {
     internal class ShopWeaponView : IView
     {
-        public ShopWeaponView() {
-
-        }
-        public ShopWeaponView(List<Weapon> allWeapons) {
-            this.allWeapons = allWeapons;
-        }
-        int index = 0;
-        private List<Weapon> allWeapons;
+        
+        
+        private ViewModel? _vm;
 
         public void Draw() {
-            foreach (var item in allWeapons) {
-                Writer.PrintLine($"{index}. Name: {item.Name} Lvl: {item.Damage} Price: {item.Price}" +
-                    $"/nDecription: {item.Description}");
-                Writer.PrintLine("");
+            Writer.ClearScreen();
+            int index = 1;
+            ShowPlayerInfo();
+            Writer.PrintLine("write 0 for back");
+            Writer.PrintLine($"[1-{_vm.Weapons.Count}] to buy");
+            Writer.PrintLine("");
+            foreach (var weapon in _vm.Weapons) {
+                Writer.PrintLine($"############################## ITEM :{index} ##############################");
+                Writer.PrintLine($"{index}. Name: {weapon.Name} dmg: {weapon.Damage} Price: {weapon.Price}" +
+                    $"\nDecription: {weapon.Description}");
+                Writer.PrintLine($"#################################################################");
                 index++;
             }
 
+        }
+
+        private void ShowPlayerInfo() {
+            var weapon = _vm.Playerhandler.GetPlayer().GetWeapon();
+            Writer.PrintLine($"You have: {_vm.Playerhandler.Money} Money");
+            Writer.PrintLine($"Your current weapon: {weapon.Name} dmg: {weapon.Damage}");
+        }
+
+        public void AddViewModel(ViewModel vm) {
+          _vm = vm;
         }
     }
 }

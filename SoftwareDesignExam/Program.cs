@@ -1,5 +1,7 @@
 ﻿
+using Model.Interface;
 using Persistence.Db;
+using Presentation;
 using System.Runtime.InteropServices;
 
 namespace SoftwareDesignExam
@@ -30,8 +32,12 @@ namespace SoftwareDesignExam
 
             
             Setup();
+            IUpdateManagar manager = new UpdateManagar();  
+            IUserDao userDao = new UserDao();   
+            IItemDao itemDao= new ItemDao();
 
-            Game game = new();
+            IUI ui = new UI();
+            Game game = new Game(itemDao,userDao,manager, ui);
             game.Update();
 
 
@@ -45,7 +51,9 @@ namespace SoftwareDesignExam
                 Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
                 ShowWindow(ThisConsole, MAXIMIZE);
             }
-            
+            TableMaker.ItemsSchemaAndTableMaker();
+            TableMaker.UsersSchemaAndTableMaker();
+
         }
     }
 }
