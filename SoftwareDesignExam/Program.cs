@@ -29,11 +29,8 @@ namespace SoftwareDesignExam
         }
         #endregion
 
-        #region private static method
-        /// <summary>
-        /// setter opp slik at console appen starter i full skjerm
-        /// </summary>
+       
         
     }
-    #endregion
+    
 }
