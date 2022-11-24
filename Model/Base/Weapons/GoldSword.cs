@@ -20,7 +20,7 @@ namespace Model.Base.Weapons
         }
 
         private void CheckIfYouDisarmEnemy() {
-            if (_target?.GetWeapon()?.Name?.ToLower() != "no weapon") {
+            if (_counter == 0) {
                 Random random = new Random();
                 var chance = random.Next(100);
                 if (chance <= 101) {
@@ -33,6 +33,7 @@ namespace Model.Base.Weapons
                 if (_enemyWeapon != null) {
                     _target?.SetWeapon(_enemyWeapon);
                     _target = null;
+                    _counter = 0;
                 }
             }
             else {

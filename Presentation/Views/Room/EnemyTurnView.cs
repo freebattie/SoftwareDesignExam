@@ -64,7 +64,7 @@ namespace Presentation.Views.rooms
         {
             Writer.PrintLine("-----------------Enemies are attacking-----------------");
             foreach (var enemy in _vm.Enemies) {
-                Writer.PrintLine($"enemy {enemy.Name} did damage: {enemy.GetDamageDone()}");
+                Writer.PrintLine($"enemy {enemy.Name} did damage: {enemy.GetDamageDone()} whit weapon : {enemy.GetWeapon().Name}");
             }
            
             Writer.PrintLine($"You have {health} Healt left after enemies Attack");
