@@ -16,7 +16,7 @@ namespace Persistence.Db
             INSERT INTO users (name, level, topscore)
             VALUES ($name, $level, $topscore);
         ";
-            command.Parameters.AddWithValue("$name", user.Name);
+            command.Parameters.AddWithValue("$name", user.Name.ToLower());
             command.Parameters.AddWithValue("$level", user.Level);
             command.Parameters.AddWithValue("$topscore", user.Topscore);
             
@@ -64,7 +64,7 @@ namespace Persistence.Db
                          WHERE name = $newName;
             VALUES ($name, $level, $topscore, $newName);
         ";
-            command.Parameters.AddWithValue("$name", user.Name);
+            command.Parameters.AddWithValue("$name", user.Name.ToLower());
             command.Parameters.AddWithValue("$level", user.Level);
             command.Parameters.AddWithValue("$topscore", user.Topscore);
            

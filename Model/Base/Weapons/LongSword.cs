@@ -6,7 +6,7 @@ namespace Model.Base.Weapons
 {
 
     //TODO: refactor til abstract weapon?
-    public class GoldSword : Weapon
+    public class LongSword : Weapon
     {
         #region private fileds
         private CharacterInfo? _target;
@@ -15,9 +15,9 @@ namespace Model.Base.Weapons
         #endregion
 
         #region constructor
-        public GoldSword() : base() {
+        public LongSword() : base() {
             _target = null;
-            Description = "You have a 100% chance to disarm a enemy and adds 2000 to base damage";
+            Description = "You have a 100% chance to disarm a enemy";
         }
         #endregion
 
@@ -28,7 +28,7 @@ namespace Model.Base.Weapons
 
             }
 
-            return Damage +2000;
+            return Damage;
         }
        
 
