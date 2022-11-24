@@ -16,6 +16,7 @@ namespace Presentation.Views.ShopView
             Writer.ClearScreen();
             Writer.PrintLine(building);
             Writer.PrintLine("SHOP MENU");
+            Writer.PrintLine($"you have: {_vm.Playerhandler.Money} money");
 
             Writer.PrintLine("0. To continue game");
             Writer.PrintLine("1. weapons for sale");

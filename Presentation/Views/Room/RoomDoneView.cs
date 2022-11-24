@@ -46,6 +46,7 @@ namespace Presentation.Views.rooms
             {
                 Writer.PrintLine($"You beat room {_vm.Room}");
                 Writer.PrintLine($"you are now level: {player.GetLevel()}");
+                Writer.PrintLine($"you have: {_vm.Playerhandler.Money} money");
                 Writer.PrintLine($"your current score is: {playerhandler.GetUser().CurrentScore}");
                 Writer.PrintLine($"your best score is: {playerhandler.GetUser().Topscore}");
                 Writer.PrintLine($"1. To go to next room");

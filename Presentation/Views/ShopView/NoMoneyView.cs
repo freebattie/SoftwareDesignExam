@@ -19,6 +19,7 @@ namespace Presentation.Views.ShopView {
             int index = 1;
             Writer.ClearScreen();
             Writer.PrintLine("You cant afford that");
+            Writer.PrintLine($"you have: {_vm.Playerhandler.Money} money");
             Writer.PrintLine("Press a key to continue");
            
 
