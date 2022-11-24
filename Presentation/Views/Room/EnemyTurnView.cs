@@ -50,10 +50,13 @@ namespace Presentation.Views.rooms
             int index = 0;
             Writer.PrintLine($"Your damage: {_vm.Playerhandler.GetPlayer().GetDamageDone()}");
             Writer.PrintLine("----------Enemies healt left after your Attack---------");
+            if (_vm.Enemies.Count < 1) {
+                Writer.PrintLine("All enemies are Dead");
+            }
             foreach (var enemy in _vm.Enemies)
             {
 
-                Writer.PrintLine($"{enemy.GetName()} has {enemy.GetHealth()} healt left");
+                Writer.PrintLine($"{enemy.GetName()} has {(enemy.GetHealth() > 0 ? enemy.GetHealth() +" healt left": "Dead")} ");
 
             }
             Writer.PrintLine("-------------------------------------------------------");
@@ -62,13 +65,16 @@ namespace Presentation.Views.rooms
 
         private void EnemiesAttackingPlayerInfo(double health)
         {
-            Writer.PrintLine("-----------------Enemies are attacking-----------------");
-            foreach (var enemy in _vm.Enemies) {
-                Writer.PrintLine($"enemy {enemy.Name} did damage: {enemy.GetDamageDone()} whit weapon : {enemy.GetWeapon().Name}");
+            if (_vm.Enemies.Count >= 1) {
+                Writer.PrintLine("-----------------Enemies are attacking-----------------");
+                foreach (var enemy in _vm.Enemies) {
+                    Writer.PrintLine($"enemy {enemy.Name} did damage: {enemy.GetDamageDone()} whit weapon : {enemy.GetWeapon().Name}");
+                }
+
+                Writer.PrintLine($"You have {(health < 0 ? 0 : health)} Healt left after enemies Attack");
+                Writer.PrintLine("-------------------------------------------------------");
             }
-           
-            Writer.PrintLine($"You have {health} Healt left after enemies Attack");
-            Writer.PrintLine("-------------------------------------------------------");
+            
             Writer.PrintLine("");
             Writer.PrintLine("---------------Press eny key to continue---------------");
         }

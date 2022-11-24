@@ -11,7 +11,7 @@ namespace Model.Base.Weapons
 
         public Axe() : base() {
             
-            Description = "Will do a spinning attack on the 3 attack. Hitting all enemies you have hit before with 100 dmg";
+            Description = "Will do a spinning attack on the 3 attack. Hitting all enemies you have hit before with 100 dmg * target level";
      
             _targets = new();
         }
@@ -19,7 +19,7 @@ namespace Model.Base.Weapons
         public override double GetDamage() {
             if (counter == 3) {
                 foreach (var target in _targets) {
-                    target.RemoveHealth(100);
+                    target.RemoveHealth(100 * target.GetLevel());
                    
                 }
                 _targets.Clear();

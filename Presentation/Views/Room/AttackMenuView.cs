@@ -47,7 +47,7 @@ namespace Presentation.Views.rooms
             Writer.PrintLine($"Your health: {player.GetHealth()}");
             Writer.PrintLine($"Your current level: {player.GetLevel()}");
             Writer.PrintLine($"Your Weapon: {player.GetWeapon().Name}");
-            Writer.PrintLine($"Your BaseDamge is: {player.GetLevel()+25}")
+            Writer.PrintLine($"Your BaseDamge is: {player.GetLevel() + 25}");
             Writer.PrintLine($"Max damage if crit: {player.GetMaxDamage()}");
             Writer.PrintLine($"Your Items: {player.GetDescription()}");
         }

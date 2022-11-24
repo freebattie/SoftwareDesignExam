@@ -23,7 +23,7 @@ namespace Model.Base.ViewModel
             this.users = users;
         }
         public ViewModel() {
-            this.room = 0;
+            this.room = 1;
             this.playerhandler = new ();
             this.weapons = new();
             this.items = new();
