@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.Views {
     internal class HighScoreView : IView {
-      
+        #region ascii picture
         private string _header = @"
   _    _ _____ _____ _    _    _____  _____ ____  _____  ______ 
  | |  | |_   _/ ____| |  | |  / ____|/ ____/ __ \|  __ \|  ____|
@@ -21,9 +21,13 @@ namespace Presentation.Views {
                                                                 
                                                                 
 ";
+        #endregion
+
         private ViewModel _vm;
 
-      
+        public HighScoreView() {
+            _vm = new ViewModel();
+        }
 
         public void AddViewModel(ViewModel vm) {
             _vm = vm;

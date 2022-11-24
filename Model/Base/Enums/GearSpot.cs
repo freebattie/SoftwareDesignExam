@@ -1,5 +1,9 @@
 ﻿namespace Model.Base.Enums {
    
+
+    /// <summary>
+    /// used to determin where on the player a item should go
+    /// </summary>
         public enum GearSpot {
             NONE,
             HELMET = 1,

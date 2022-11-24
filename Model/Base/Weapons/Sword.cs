@@ -8,15 +8,20 @@ namespace Model.Base.Weapons
     //TODO: refactor til abstract weapon?
     public class Sword : Weapon
     {
+        #region private fileds
         private CharacterInfo? _target;
         private Weapon? _enemyWeapon;
         private int _counter = 0;
+        #endregion
 
+        #region constructor
         public Sword() : base() {
             _target = null;
             Description = "You have a 15% chance to disarm a enemy";
         }
+        #endregion
 
+        #region overrides
         public override double GetDamage() {
             if (_target == null) {
                 CheckIfYouDisarmEnemy();
@@ -25,7 +30,14 @@ namespace Model.Base.Weapons
 
             return Damage;
         }
+       
 
+        public override void SetTarget(CharacterInfo target) {
+            this._target = target;
+        }
+        #endregion
+
+        #region private methods
         private void CheckIfYouDisarmEnemy() {
             if (_counter == 0) {
                 Random random = new Random();
@@ -47,9 +59,6 @@ namespace Model.Base.Weapons
                 _counter++;
             }
         }
-
-        public override void SetTarget(CharacterInfo target) {
-            this._target = target;
-        }
-    } 
+        #endregion
+    }
 }

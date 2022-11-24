@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Model.Decorator.Item {
+    /// <summary>
+    /// Konkret dekorator
+    /// </summary>
     internal class KnightChest: CharacterInfoDecorator {
         
         public KnightChest(CharacterInfo original) : base(original) {

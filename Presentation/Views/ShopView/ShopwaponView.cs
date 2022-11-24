@@ -26,8 +26,8 @@ namespace Presentation.Views.ShopView
             Writer.PrintLine("");
             foreach (var weapon in _vm.Weapons) {
                 Writer.PrintLine($"############################## ITEM :{index} ##############################");
-                Writer.PrintLine($"{index}. Name: {weapon.Name} dmg: {weapon.Damage} Price: {weapon.Price}" +
-                    $"\nDecription: {weapon.Description}");
+                Writer.PrintLine($"#Name: {weapon.Name} dmg: {weapon.Damage} Price: {weapon.Price}" +
+                    $"#\nDecription: {weapon.Description}");
                 Writer.PrintLine($"#################################################################");
                 index++;
             }

@@ -4,15 +4,16 @@ using System.Reflection;
 
 namespace SoftwareDesignExam {
     internal class UpdateManagar : IUpdateManagar {
-        private FileSystemWatcher watcher;
-        private string? assamblyDirectory;
-        private bool restart = false;
-        public FileSystemWatcher Watcher { get => watcher; private set => watcher = value; }
+        private FileSystemWatcher _watcher;
+        private string? _assamblyDirectory;
+        private bool _restart = false;
+        public FileSystemWatcher Watcher { get => _watcher; private set => _watcher = value; }
 
         /// <summary>
         /// når vi lager instanse så sjekker vi om det finnes gammle filer og sletter de
         /// </summary>
         public UpdateManagar() {
+            _watcher = new();
             string[] files = System.IO.Directory.GetFiles(System.IO.Path.GetDirectoryName(@Assembly.GetExecutingAssembly().Location));
             foreach (string s in files) {
 
@@ -23,18 +24,19 @@ namespace SoftwareDesignExam {
                     System.IO.File.Delete(s);
                 }
             }
-            assamblyDirectory = System.IO.Path.GetDirectoryName(@Assembly.GetExecutingAssembly().Location);
-            if (assamblyDirectory != null)
-                System.IO.Directory.CreateDirectory(assamblyDirectory);
+            _assamblyDirectory = System.IO.Path.GetDirectoryName(@Assembly.GetExecutingAssembly().Location);
+            if (_assamblyDirectory != null)
+                System.IO.Directory.CreateDirectory(_assamblyDirectory);
+
         }
 
         public void Start() {
 
          
-            if (assamblyDirectory != null) {
-                SetupFileWatcher(assamblyDirectory);
-                watcher.Changed += OnChanged;
-                watcher.Created += OnCreated;
+            if (_assamblyDirectory != null) {
+                SetupFileWatcher(_assamblyDirectory);
+                _watcher.Changed += OnChanged;
+                _watcher.Created += OnCreated;
                 DownLoadUpdates();
 
                 CleanUpFTPFolder();
@@ -46,21 +48,25 @@ namespace SoftwareDesignExam {
         }
 
         private void CleanUpFTPFolder() {
-            string sourcePath = Path.Combine(assamblyDirectory, @"FTP");
-            if (sourcePath != null)
-                System.IO.Directory.CreateDirectory(sourcePath);
+            if (_assamblyDirectory != null) {
+                string sourcePath = Path.Combine(_assamblyDirectory, @"FTP");
+                if (sourcePath != null) {
+                    System.IO.Directory.CreateDirectory(sourcePath);
+                    string[] rmFiles = System.IO.Directory.GetFiles(sourcePath);
+                    foreach (string file in rmFiles) {
+                        Writer.PrintLine($"Removing File {file}");
+                        // Use static Path methods to extract only the file name from the path.
+                        File.Delete(file);
 
-
-            string[] rmFiles = System.IO.Directory.GetFiles(sourcePath);
-
-
-
-            foreach (string file in rmFiles) {
-                Writer.PrintLine($"Removing File {file}");
-                // Use static Path methods to extract only the file name from the path.
-                File.Delete(file);
-
+                    }
+                }
+                   
             }
+           
+
+
+
+           
         }
 
         /// <summary>
@@ -68,12 +74,12 @@ namespace SoftwareDesignExam {
         /// med nye dlls
         /// </summary>
         private void DownLoadUpdates() {
-            string sourcePath = Path.Combine(assamblyDirectory, @"FTP");
+            string sourcePath = Path.Combine(_assamblyDirectory, @"FTP");
             if (System.IO.Directory.Exists(sourcePath)) {
                 string[] files = System.IO.Directory.GetFiles(sourcePath);
                 Writer.ClearScreen();
                 if (files.Length > 0) {
-                    restart = true;
+                    _restart = true;
                     Writer.PrintLine("Installing new updates");
                 }
                   
@@ -95,7 +101,7 @@ namespace SoftwareDesignExam {
 
         private string CreateFilePathForFileToDownload(string file) {
             string fileName = System.IO.Path.GetFileName(file);
-            string destFile = System.IO.Path.Combine(assamblyDirectory, fileName);
+            string destFile = System.IO.Path.Combine(_assamblyDirectory, fileName);
             return destFile;
         }
 
@@ -120,7 +126,7 @@ namespace SoftwareDesignExam {
         }
 
         public void Close() {
-            if (restart) {
+            if (_restart) {
                 Console.WriteLine("Innstalation done, please restart");
                 Console.WriteLine("Press a key to quit game");
                 Reader.ReadString();

@@ -4,6 +4,9 @@
 using Model.Decorator.Abstract;
 
 namespace Model.Decorator.Item {
+    /// <summary>
+    /// Konkret dekorator
+    /// </summary>
     public class IronShield : CharacterInfoDecorator {
 
         bool isbroken = false;

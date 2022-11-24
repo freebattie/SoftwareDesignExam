@@ -3,6 +3,9 @@
 using Model.Decorator.Abstract;
 
 namespace Model.Decorator.Item {
+    /// <summary>
+    /// Konkret dekorator
+    /// </summary>
     public class WikingHelmet:CharacterInfoDecorator {
         bool isbroken = false;
         double hitpoints = 22;

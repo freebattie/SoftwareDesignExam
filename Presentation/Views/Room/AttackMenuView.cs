@@ -9,8 +9,8 @@ namespace Presentation.Views.rooms
 {
     public class AttackMenuView : IView
     {
-        
-        private string attackHeader = @"
+        #region ascii picture
+        private string _attackHeader = @"
         _______ _______       _____ _  __
      /\|__   __|__   __|/\   / ____| |/ /
     /  \  | |     | |  /  \ | |    | ' / 
@@ -19,6 +19,8 @@ namespace Presentation.Views.rooms
  /_/    \_\_|     |_/_/    \_\_____|_|\_\
 
 ";
+        #endregion
+
         private ViewModel _vm;
 
         public void Draw()
@@ -40,7 +42,7 @@ namespace Presentation.Views.rooms
         private void PrintMenu(CharacterInfo player)
         {
             Writer.ClearScreen();
-            Writer.PrintLine(attackHeader);
+            Writer.PrintLine(_attackHeader);
             Writer.PrintLine($"You are in room {_vm.Room}");
             Writer.PrintLine($"Hi, {player.GetName()}.");
             Writer.PrintLine("");

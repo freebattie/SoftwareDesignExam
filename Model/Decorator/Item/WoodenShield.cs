@@ -1,6 +1,9 @@
 ﻿using Model.Decorator.Abstract;
 
 namespace Model.Decorator.Item {
+    /// <summary>
+    /// Konkret dekorator
+    /// </summary>
     internal class WoodenShield : CharacterInfoDecorator
     {
         bool isbroken = false;

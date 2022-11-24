@@ -16,7 +16,9 @@ public class ErrorView : IView
                                      
 ";
     private ViewModel _vm;
-
+    public ErrorView() {
+        _vm = new ViewModel();
+    }
     public void AddViewModel(ViewModel vm) {
        _vm = vm;
     }

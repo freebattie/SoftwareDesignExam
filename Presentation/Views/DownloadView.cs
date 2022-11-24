@@ -6,7 +6,7 @@ using Presentation.Utils;
 
 namespace Presentation.Views {
     internal class DownloadView :IView {
-        private ViewModel _vm;
+        #region ascii picture
         private string menu = @"
   _____                      _                 _   _    _           _       _            
  |  __ \                    | |               | | | |  | |         | |     | |           
@@ -17,6 +17,13 @@ namespace Presentation.Views {
                                                          | |                             
                                                          |_|                             
 ";
+        #endregion
+
+        private ViewModel _vm;
+        
+        public DownloadView() {
+            _vm= new ViewModel();
+        }
         public void AddViewModel(ViewModel vm) {
             _vm = vm;
         }

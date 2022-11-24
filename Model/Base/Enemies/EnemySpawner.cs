@@ -12,12 +12,18 @@ namespace Model.Base.Enemies
 {
     public class EnemySpawner
     {
-        
-        
-        private static string[] enemyRace = { "Orc", "Elf", "Giant", "Wearvolf", "RockMonster", "Wampire", };
-        private static string[] enemyTypes = { "Shaman", "Priest", "Knight", "Worrior", "King", "Commander", };
-        
+        #region private static fields 
+        private static string[] _enemyRace = { "Orc", "Elf", "Giant", "Wearvolf", "RockMonster", "Wampire", };
+        private static string[] _enemyTypes = { "Shaman", "Priest", "Knight", "Worrior", "King", "Commander", };
+        #endregion
 
+        #region public static methods
+        /// <summary>
+        /// used to spawn a random set of enemies based on given nr of enemies and  level
+        /// </summary>
+        /// <param name="nrOfEnemies"></param>
+        /// <param name="level"></param>
+        /// <returns></returns>
         public static List<CharacterInfo> SpawnEnemies(int nrOfEnemies, int level)
         {
             List<CharacterInfo> enemies = new ();
@@ -28,10 +34,10 @@ namespace Model.Base.Enemies
             for (int i = 0; i < nrOfEnemies; i++)
             {
                 Random random = new Random();
-                var race = random.Next(enemyTypes.Length);
-                var type = random.Next(enemyTypes.Length);
+                var race = random.Next(_enemyTypes.Length);
+                var type = random.Next(_enemyTypes.Length);
                 User enemyUser = new User();
-                enemyUser.Name = $"{enemyRace[race]} {enemyTypes[type]}";
+                enemyUser.Name = $"{_enemyRace[race]} {_enemyTypes[type]}";
                 enemyUser.Level = level;
                 enemyUser.Topscore = 0;
                 CharacterInfo enemy = new StartingCharacterInfo(enemyUser, PickRandomWeapon(level));
@@ -42,19 +48,19 @@ namespace Model.Base.Enemies
             }
             return enemies;
         }
-      
+        #endregion
+
+        #region private static methods
+
+        /// <summary>
+        /// Gives the enemy a random weapon based on level
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
         private static Weapon PickRandomWeapon(int level)
         {
             return WeaponFactory.GenerateRandomWeapon(level);
         }
-        private static List<Weapon> GetRandomWeaponList(int level,int weapons) {
-            List<Weapon> weaponsList = new List<Weapon>();
-            for (int i = 0; i < weapons; i++) {
-                Weapon weapon = WeaponFactory.GenerateRandomWeapon(level);
-                weaponsList.Add(weapon);
-            }
-            return weaponsList;
-            
-        }
+        #endregion
     }
 }

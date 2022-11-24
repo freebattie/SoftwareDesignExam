@@ -9,6 +9,13 @@ using Model.Interface;
 
 
 namespace SoftwareDesignExam {
+
+    /// <summary>
+    /// main program, this is where game loop is handeled
+    /// draw : draws to the console
+    /// hadelinput : handels palyer input
+    /// HandelGameMecknaics: handels all logic like saving, updating health ect
+    /// </summary>
     public class Game {
 
         #region Private fileds
@@ -17,7 +24,7 @@ namespace SoftwareDesignExam {
         public IUserDao _userDao;
         private IUI _ui;
         private ViewModel _vm;
-        private Dictionary<Menu, Delegate> _gameMeckanics;
+        private Dictionary<Menu, Delegate>? _gameMeckanics;
         private Menu _lastMenu = Menu.MAINMENU;
         private Menu _menu = Menu.MAINMENU;
         private IUpdateManagar _updater;
@@ -31,6 +38,7 @@ namespace SoftwareDesignExam {
             _userDao = userDao;
             _updater = manager;
             _ui = ui;
+            _vm = new ViewModel();  
             GameInit();
               
         }
@@ -44,9 +52,12 @@ namespace SoftwareDesignExam {
             _gameMeckanics = new Dictionary<Menu, Delegate>();
            
             _vm = new ViewModel();
-            var _allItems = _itemDao.GetAllItems();
-            ShopItemSpawner.SetAllShopItems(_allItems);
-            _vm.Items = _allItems;
+            var _allItems = _itemDao?.GetAllItems();
+            if (_allItems != null) {
+                ShopItemSpawner.SetAllShopItems(_allItems);
+                _vm.Items = _allItems;
+            }
+           
             
             _gameMeckanics.Add(Menu.ERROR, HandelErrorMeckanics);
             _gameMeckanics.Add(Menu.LOGIN, HandelLoginMeckanics);
@@ -67,6 +78,10 @@ namespace SoftwareDesignExam {
         #endregion
 
         #region Game flow
+
+        /// <summary>
+        /// game loop
+        /// </summary>
         public void Update() {
             while (_gameIsRunning) {
 
@@ -76,30 +91,48 @@ namespace SoftwareDesignExam {
 
             }
         }
-
+        /// <summary>
+        /// tegner til Console basert på valgt Meny
+        /// </summary>
         private void Draw() {
-            _ui.SetActiveViewModel(_vm);
-            _ui.Draw(_menu);
-        }
-
-        private void HandelInput() {
-            _input = _ui.HandelPlayerInput(_menu);
-            HandelErrorInput();
+            if (_vm != null) {
+                _ui.SetActiveViewModel(_vm);
+                _ui.Draw(_menu);
+            }
+            
         }
         /// <summary>
-        /// for Database hantering og spill relaterte opprasjoner
+        /// ahnterer all input bassert på valgt Meny
+        /// </summary>
+        private void HandelInput() {
+            if (_ui != null) {
+                _input = _ui.HandelPlayerInput(_menu);
+                HandelErrorInput();
+            }
+        }
+        /// <summary>
+        /// håntere all logikk basert på menu valg
         /// </summary>
         public void HandelGameMecknaics() {
             
-           _gameMeckanics[_menu].DynamicInvoke();
+          if(_gameMeckanics != null) {
+                _gameMeckanics[_menu].DynamicInvoke();
+            }
         }
         #endregion
 
         #region Game Meckanics
         private void HandelInventoryMeckanics() {
             _lastMenu = _menu;
+            if (_vm != null) {
+                InventorySelection();
+            }
+
+        }
+
+        private void InventorySelection() {
             if (int.Parse(_input) <= _vm.Playerhandler.GetInventory().Count &&
-                int.Parse(_input) > 0) {
+                           int.Parse(_input) > 0) {
                 SelectActiveItems();
 
             }
@@ -113,11 +146,14 @@ namespace SoftwareDesignExam {
         }
 
         private void SelectActiveItems() {
-            var items = _vm.Playerhandler.GetInventory();
+            if (_vm != null) {
+                var items = _vm.Playerhandler.GetInventory();
 
-            var item = items[int.Parse(_input) - 1];
-            _vm.Playerhandler.removeItem(item);
-            _vm.Playerhandler.SetActiveGearItem(item.GearSpot, item);
+                var item = items[int.Parse(_input) - 1];
+                _vm.Playerhandler.RemoveItem(item);
+                _vm.Playerhandler.SetActiveGearItem(item.GearSpot, item);
+            }
+           
         }
 
         private void HandelMaxScoreMeckanics() {
@@ -150,16 +186,19 @@ namespace SoftwareDesignExam {
         }
 
         private void HandelRoundUpdateMeckanics() {
-            if (!_vm.Playerhandler.PlayerIsAlive()) {
-                SavePlayerToDB();
-                _menu = Menu.GAMEOVER;
-            }
-            else if (_vm.Enemies.Count == 0) {
+            if(_vm != null) {
+                if (!_vm.Playerhandler.PlayerIsAlive()) {
+                    SavePlayerToDB();
+                    _menu = Menu.GAMEOVER;
+                }
+                else if (_vm.Enemies.Count == 0) {
 
-                _menu = Menu.NEXTROOM;
+                    _menu = Menu.NEXTROOM;
+                }
+                else
+                    _menu = Menu.ATTACK;
             }
-            else
-                _menu = Menu.ATTACK;
+            
         }
 
         private void HandelErrorInput() {
@@ -216,10 +255,13 @@ namespace SoftwareDesignExam {
         private void HandelSettingActivePlayer() {
            
             _vm.Playerhandler.SetUser(_userDao.GetUser(_input));
-     
-            var weapons = WeaponFactory.GenerateOneOfEachWeaponRandom((int)_vm.Playerhandler.GetPlayer().GetLevel());
-            _vm.Weapons = weapons;
-            _vm.Users = _userDao.GetAllUsers();
+            var val = _vm.Playerhandler.GetPlayer()?.GetLevel();
+            if (val != null) {
+                var weapons = WeaponFactory.GenerateOneOfEachWeaponRandom((int)val);
+                _vm.Weapons = weapons;
+                _vm.Users = _userDao.GetAllUsers();
+            }
+            
             
 
 
@@ -309,12 +351,12 @@ namespace SoftwareDesignExam {
             _vm.Playerhandler.Money += 100;
             user.Level += 1;
             _vm.Playerhandler.SetUser(user);
-            _vm.Playerhandler.GetPlayer().SetLevel(user.Level);
+            _vm.Playerhandler.GetPlayer()?.SetLevel(user.Level);
         }
 
         private void AttackSelectedTarget() {
             var index = int.Parse(_input) - 1;
-            _vm.Playerhandler.setTarget(_vm.Enemies[index]);
+            _vm.Playerhandler.SetTarget(_vm.Enemies[index]);
             _vm.Playerhandler.Attack();
         }
         private void HandelEnemiesTurn() {
@@ -357,7 +399,7 @@ namespace SoftwareDesignExam {
                 _vm.Playerhandler = new PlayerHandler();
               
                 _vm.Enemies = EnemySpawner.SpawnEnemies(1, 1);
-                _vm.Playerhandler.GetPlayer().SetWeapon(WeaponFactory.GenerateRandomWeapon(1));
+                _vm.Playerhandler.GetPlayer()?.SetWeapon(WeaponFactory.GenerateRandomWeapon(1));
                 _menu = Menu.LOGIN;
 
             }

@@ -11,68 +11,187 @@ using Model.Factory;
 
 namespace Model.Base.Player
 {
+
+    /// <summary>
+    /// handels all player logic
+    /// </summary>
     public class PlayerHandler
     {
+        #region private fields
+        private User? _userInfo;
+        private int _money = 300;
+        private CharacterInfo _original = new StartingCharacterInfo();
+        private CharacterInfo _player = new StartingCharacterInfo();
+        private CharacterInfo _target = new StartingCharacterInfo ();
+        private List<ShopItem> _playerInvetory = new ();
+        private Dictionary<GearSpot, ShopItem> _activeItems = new();
+        #endregion
 
-        private User? userInfo;
-        private int money = 300;
-        private CharacterInfo original = new StartingCharacterInfo();
-        private CharacterInfo player = new StartingCharacterInfo();
-        private CharacterInfo target = new StartingCharacterInfo ();
-        private List<ShopItem> playerInvetory = new ();
-        private Dictionary<GearSpot, ShopItem> activeItems = new();
+        #region Props
+        public int Money { get => _money; set => _money = value; }
+        #endregion
 
-        public int Money { get => money; set => money = value; }
-
+        #region constructor
         public PlayerHandler()
         {
 
             SetupPlayer();
-            if (original == null)
-                original = new StartingCharacterInfo();
+            if (_original == null)
+                _original = new StartingCharacterInfo();
         }
+        #endregion
+
+        #region public methods
         public void Attack()
         {
-            if (target != null) 
-                player?.Attack(target);
+            if (_target != null) 
+                _player?.Attack(_target);
         }
 
         public List<ShopItem> GetInventory()
         {
-            if (playerInvetory != null)
-                return playerInvetory;
+            if (_playerInvetory != null)
+                return _playerInvetory;
             else
                 return
                     new();
         }
-      
+      /// <summary>
+      /// gets all items the player has been decorated with
+      /// </summary>
+      /// <returns></returns>
         public Dictionary<GearSpot, ShopItem> GetActiveItems() {
 
      
-            return activeItems;
+            return _activeItems;
         }
+        /// <summary>
+        /// gets the current deocrated playerInfo
+        /// </summary>
+        /// <returns></returns>
         public CharacterInfo? GetPlayer()
         {
-            return player;
+            return _player;
         }
-
-        public void setTarget(CharacterInfo character)
+        /// <summary>
+        /// sets the target to attak
+        /// </summary>
+        /// <param name="character"></param>
+        public void SetTarget(CharacterInfo character)
         {
-            target = character;
-            GetPlayer().GetWeapon().SetTarget(character);
+            _target = character;
+            GetPlayer()?.GetWeapon().SetTarget(character);
         }
-
+        /// <summary>
+        /// sets user loaded from database
+        /// </summary>
+        /// <param name="user"></param>
         public void SetUser(User user)
         {
-            userInfo = user;
+            _userInfo = user;
             
-            original.SetUser(user);
+            _original.SetUser(user);
         }
+        /// <summary>
+        /// set a new item at given gearspot, throw away the old item
+        /// </summary>
+        /// <param name="spot"></param>
+        /// <param name="item"></param>
         public void SetActiveGearItem(GearSpot spot, ShopItem item) {
             if (item != null) 
                 AddGearToSpot(spot, item);
         }
 
+        
+        /// <summary>
+        /// re decorate original playerinfo whit new items
+        /// this allows us to swap decorated items 
+        /// </summary>
+        public void EquiptAllActiveItems()
+        {
+            if (_original != null) 
+                _player = CharacterInfoDecoratorFactory.GetItems(GetActiveItems().Values.ToList(), _original);
+            
+        }
+        /// <summary>
+        /// setup the basic info for player
+        /// </summary>
+        public void SetupPlayer()
+        {
+            
+            _userInfo = new();
+            _userInfo.Name = "";
+            _userInfo.Level = 1;
+            _userInfo.Topscore = 0;
+            _userInfo.CurrentScore = 0;
+            _playerInvetory = new();
+            _original = new StartingCharacterInfo(_userInfo, new NoWeapon());
+            _player = _original;
+            //EquiptAllActiveItems();
+        }
+
+        /// <summary>
+        /// check if player has money
+        /// </summary>
+        /// <param name="money"></param>
+        /// <returns></returns>
+        public bool CanAffordIt(int money) {
+            if (Money - money >= 0)
+                return true;
+            else
+                return false;
+        }
+        /// <summary>
+        /// gets the user to write it back to database
+        /// </summary>
+        /// <returns></returns>
+        public User GetUser() {
+            if (_userInfo != null) {
+                SetTopScore();
+                return _userInfo;
+            }
+            else
+                return new User();
+            
+        }
+        /// <summary>
+        /// remove item from inventory
+        /// </summary>
+        /// <param name="item"></param>
+        public void RemoveItem(Shop.ShopItem item) {
+            _playerInvetory?.Remove(item);
+        }
+
+        /// <summary>
+        /// used to get string name of all items player has
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetInventoryAsString() {
+            List<string> items = new();
+            foreach (var item in GetInventory()) {
+                items.Add(item.Name);
+            }
+            return items;
+        }
+
+       /// <summary>
+       /// check if game over
+       /// </summary>
+       /// <returns></returns>
+        public bool PlayerIsAlive() {
+            if (_player?.GetHealth() < 0)
+                return false;
+            else
+                return true;
+        }
+        #endregion
+
+        #region private methods
+        /// <summary>
+        /// helper function for setting the gear
+        /// </summary>
+        /// <param name="spot"></param>
+        /// <param name="item"></param>
         private void AddGearToSpot(GearSpot spot, ShopItem item) {
             var items = GetActiveItems();
             if (items.ContainsKey(spot)) {
@@ -82,68 +201,12 @@ namespace Model.Base.Player
                 items.Add(spot, item);
             }
         }
-
-        public void EquiptAllActiveItems()
-        {
-            if (original != null) 
-                player = CharacterInfoDecoratorFactory.GetItems(GetActiveItems().Values.ToList(), original);
-            
-        }
-
-        public void SetupPlayer()
-        {
-            
-            userInfo = new();
-            userInfo.Name = "";
-            userInfo.Level = 1;
-            userInfo.Topscore = 0;
-            userInfo.CurrentScore = 0;
-            playerInvetory = new();
-            original = new StartingCharacterInfo(userInfo, new NoWeapon());
-            player = original;
-            //EquiptAllActiveItems();
-        }
-        public bool CanAffordIt(int money) {
-            if (Money - money >= 0)
-                return true;
-            else
-                return false;
-        }
-        public User GetUser() {
-            if (userInfo != null) {
-                SetTopScore();
-                return userInfo;
-            }
-            else
-                return new User();
-            
-        }
-
         private void SetTopScore() {
-            if (userInfo?.CurrentScore > userInfo?.Topscore) {
-                userInfo.Topscore = userInfo.CurrentScore;
+            if (_userInfo?.CurrentScore > _userInfo?.Topscore) {
+                _userInfo.Topscore = _userInfo.CurrentScore;
             }
         }
+        #endregion
 
-        public void removeItem(Shop.ShopItem item) {
-            playerInvetory?.Remove(item);
-        }
-
-        public List<string> GetInventoryAsString() {
-            List<string> items = new();
-            foreach (var item in GetInventory()) {
-                items.Add(item.Name);
-            }
-            return items;
-        }
-
-       
-        public bool PlayerIsAlive() {
-            if (player?.GetHealth() < 0)
-                return false;
-            else
-                return true;
-        }
-        
     }
 }

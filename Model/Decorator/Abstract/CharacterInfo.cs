@@ -3,37 +3,49 @@ using Model.Base.Weapons.Abstract;
 namespace Model.Decorator.Abstract
 {
 
-    //TODO: Pizza
+    /// <summary>
+    /// abstrakte klassen for decorator pattern
+    /// </summary>
     public abstract class CharacterInfo {
-       
+
+        #region private fileds
         private Weapon? _weapon;
-      
-        private string? dsecription;
-        protected string? Dsecription { get => dsecription; set => dsecription = value; }
-        public string? Name { get; set; }
-       
-        private double crit =5;
-        private double level =1;
-        private double health;
+        private double _crit = 5;
+        private double _level = 1;
+        private double _health;
         private const double GAINFACTOR = 0.75;
-        private double maxHealth;
-        protected double MaxHealth { get => maxHealth; set => maxHealth = value; }
-        protected double Level { get => level; set => level = value; }
-        protected double Crit { get => CalculateNewLevelValue(crit); set => crit = value <= 100 ? value : 100; }
+        private double _maxHealth;
+        private string? _dsecription;
+        #endregion
+
+        #region Props
+        protected string? Dsecription { get => _dsecription; set => _dsecription = value; }
+        public string? Name { get; set; }
+        protected double MaxHealth { get => _maxHealth; set => _maxHealth = value; }
+        protected double Level { get => _level; set => _level = value; }
+        protected double Crit { get => CalculateNewLevelValue(_crit); set => _crit = value <= 100 ? value : 100; }
         protected double ArmorLevel { get; set; }
         protected Weapon? Weapon { get => _weapon; set => _weapon = value; }
         protected double Health {
-            get { return health; }
+            get { return _health; }
             set {
                 if (value <= MaxHealth) {
-                    health = value;
+                    _health = value;
                 }
                 else {
-                    health = MaxHealth;
+                    _health = MaxHealth;
                 }
             }
         }
+        #endregion
 
+        #region Methods
+/// <summary>
+/// regner ut ny helse basert på en base helse å en gainfactor
+/// for å justere vanskligheten så kan man justere end value denne metoden tar inn
+/// </summary>
+/// <param name="value"></param>
+/// <returns></returns>
         protected double CalculateNewLevelValue(double value) {
             return Math.Round((Level * GAINFACTOR * value) + value, 0);
         }
@@ -47,7 +59,9 @@ namespace Model.Decorator.Abstract
                 return (GetName() == charecter.GetName()) && (GetDescription() == charecter.GetDescription());
             }
         }
+        #endregion
 
+        #region abstract methods
         public abstract double CheckForCritDamage(double dmg);
         public abstract void SetWeapon(Weapon weapon);
         public abstract void Attack(CharacterInfo person);
@@ -67,9 +81,12 @@ namespace Model.Decorator.Abstract
         public abstract int GetCrit();
         public abstract int GetDamageDone();
         public abstract int GetMaxDamage();
+        #endregion
 
+        #region ovewrites
         public override int GetHashCode() {
             return HashCode.Combine(GetName(), GetDescription());
         }
+        #endregion
     }
 }

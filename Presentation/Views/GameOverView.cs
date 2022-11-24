@@ -5,10 +5,7 @@ using Presentation.Utils;
 
 namespace Presentation.Views {
     public class GameOverView : IView {
-      
-
-
-      
+        #region ascii picture
 
         private string asciGraphic = @"
   /$$$$$$   /$$$$$$  /$$      /$$ /$$$$$$$$        /$$$$$$  /$$    /$$ /$$$$$$$$ /$$$$$$$ 
@@ -20,9 +17,13 @@ namespace Presentation.Views {
 |  $$$$$$/| $$  | $$| $$ \/  | $$| $$$$$$$$      |  $$$$$$/   \  $/   | $$$$$$$$| $$  | $$
  \______/ |__/  |__/|__/     |__/|________/       \______/     \_/    |________/|__/  |__/                                                                                                                                                                   
 ";
-        private ViewModel _vm;
-    
+        #endregion
 
+        private ViewModel _vm;
+
+        public GameOverView() {
+            _vm = new ViewModel();
+        }
         public void GameOverMenu() {
             Writer.ClearScreen();
             if (_vm.Playerhandler.GetUser() != null) 

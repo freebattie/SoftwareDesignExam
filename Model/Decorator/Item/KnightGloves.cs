@@ -2,6 +2,9 @@
 
 
 namespace Model.Decorator.Item {
+    /// <summary>
+    /// Konkret dekorator
+    /// </summary>
     internal class KnightGloves :CharacterInfoDecorator{
         bool isbroken = false;
         double hitpoints = 3;

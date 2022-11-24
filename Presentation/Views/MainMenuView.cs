@@ -7,7 +7,8 @@ using Presentation.Utils;
 namespace Presentation.Views {
     public class MainMenuView : IView {
 
-        private string asciString = @"
+        #region ascii picture
+        private string _asciString = @"
   _____   ____  _    _  _____ ______      _____          _   _  _____ ______ _____  
  |  __ \ / __ \| |  | |/ ____|  ____|    |  __ \   /\   | \ | |/ ____|  ____|  __ \ 
  | |__) | |  | | |  | | |  __| |__       | |  | | /  \  |  \| | |  __| |__  | |__)|
@@ -15,9 +16,13 @@ namespace Presentation.Views {
  | | \ \| |__| | |__| | |__| | |____     | |__| / ____ \| |\  | |__| | |____| | \ \ 
  |_|  \_\\____/ \____/ \_____|______|    |_____/_/    \_\_| \_|\_____|______|_|  \_\
 ";
+        #endregion
+
         private ViewModel _vm;
 
-        public MainMenuView() { }
+        public MainMenuView() {
+            _vm = new();
+        }
 
         private void MainMenu() {
             PrintGameName();
@@ -26,7 +31,7 @@ namespace Presentation.Views {
 
         private void PrintGameName() {
             Writer.ClearScreen();
-            Writer.PrintLine(asciString);
+            Writer.PrintLine(_asciString);
         }
 
         private static void PrintMenu() {

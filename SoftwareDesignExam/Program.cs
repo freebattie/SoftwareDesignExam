@@ -10,24 +10,20 @@ namespace SoftwareDesignExam
     internal partial class Program {
 
 
+        #region Windows fileds
+        /// <summary>
+        /// brukt får å starte applikasjonen i full skjerm på windows
+        /// </summary>
+        /// <returns></returns>
         [DllImport("kernel32.dll", ExactSpelling = true)]
-
         private static extern IntPtr GetConsoleWindow();
-
         private static IntPtr ThisConsole = GetConsoleWindow();
-
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        private const int HIDE = 0;
-
         private const int MAXIMIZE = 3;
+        #endregion
 
-        private const int MINIMIZE = 6;
-
-        private const int RESTORE = 9;
-
+        #region Main
         static void Main(string[] args) {
 
             
@@ -42,8 +38,14 @@ namespace SoftwareDesignExam
 
 
         }
+        #endregion
 
+        #region private static method
+        /// <summary>
+        /// setter opp slik at console appen starter i full skjerm
+        /// </summary>
         private static void Setup() {
+
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) {
                 Console.SetWindowSize(120, 60);
                 TableMaker.UsersSchemaAndTableMaker();
@@ -56,4 +58,5 @@ namespace SoftwareDesignExam
 
         }
     }
+    #endregion
 }

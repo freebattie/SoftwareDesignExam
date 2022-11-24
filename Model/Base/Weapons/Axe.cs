@@ -4,29 +4,32 @@ namespace Model.Base.Weapons
 {
     public class Axe : Weapon
     {
-      
-        private int counter = 0;
+        #region private fileds
+        private int _counter = 0;
         List<CharacterInfo> _targets;
+        #endregion
 
-
+        #region constructors
         public Axe() : base() {
             
             Description = "Will do a spinning attack on the 3 attack. Hitting all enemies you have hit before with 100 dmg * target level";
      
             _targets = new();
         }
+        #endregion
 
+        #region overrides methods
         public override double GetDamage() {
-            if (counter == 3) {
+            if (_counter == 3) {
                 foreach (var target in _targets) {
                     target.RemoveHealth(100 * target.GetLevel());
                    
                 }
                 _targets.Clear();
-                counter = 0;
+                _counter = 0;
             }
             else {
-                counter++;
+                _counter++;
             }
         
             return Damage;
@@ -36,5 +39,6 @@ namespace Model.Base.Weapons
             
             _targets.Add(target);
         }
+        #endregion
     }
 }

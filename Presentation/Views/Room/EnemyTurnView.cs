@@ -13,8 +13,8 @@ namespace Presentation.Views.rooms
 {
     internal class EnemyTurnView : IView
     {
-       
-        string menu = @"
+        #region ascii picture
+        string _menu = @"
   ______ _   _ ______ __  __ _____ ______  _____   _______ _    _ _____  _   _ 
  |  ____| \ | |  ____|  \/  |_   _|  ____|/ ____| |__   __| |  | |  __ \| \ | |
  | |__  |  \| | |__  | \  / | | | | |__  | (___      | |  | |  | | |__) |  \| |
@@ -24,6 +24,8 @@ namespace Presentation.Views.rooms
                                                                                
                                                                                
 ";
+        #endregion
+
         private ViewModel _vm;
 
         public void EnemyTurn()
@@ -41,7 +43,7 @@ namespace Presentation.Views.rooms
         private void PrintMenuName()
         {
             Writer.ClearScreen();
-            Writer.PrintLine(menu);
+            Writer.PrintLine(_menu);
         }
 
         private void PlayerAttackingEnemiesInfo()

@@ -8,8 +8,8 @@ namespace Presentation.Views.rooms
 {
     internal class RoomDoneView : IView
     {
-    
-        private readonly string menu = @"
+        #region ascii pictruee
+        private readonly string _menu = @"
   _____   ____   ____  __  __    _____ _      ______          _____  ______ _____  
  |  __ \ / __ \ / __ \|  \/  |  / ____| |    |  ____|   /\   |  __ \|  ____|  __ \ 
  | |__) | |  | | |  | | \  / | | |    | |    | |__     /  \  | |__) | |__  | |  | |
@@ -19,6 +19,8 @@ namespace Presentation.Views.rooms
                                                                                    
                                                                                    
 ";
+        #endregion
+
         private ViewModel _vm;
 
        
@@ -35,7 +37,7 @@ namespace Presentation.Views.rooms
         private void PrintMenuName()
         {
             Writer.ClearScreen();
-            Writer.PrintLine(menu);
+            Writer.PrintLine(_menu);
         }
 
         private void PrintMenu(PlayerHandler playerhandler)

@@ -3,7 +3,9 @@ using Model.Base.Weapons;
 using Model.Decorator.Abstract;
 using Model.Base.Weapons.Abstract;
 namespace Model.Decorator.Original
-{
+{/// <summary>
+ /// basen for dekoratoren
+ /// </summary>
     public class StartingCharacterInfo : CharacterInfo
     {
         private double _didDmg;

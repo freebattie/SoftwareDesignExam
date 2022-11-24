@@ -1,7 +1,9 @@
 ﻿using Model.Decorator.Abstract;
 
 namespace Model.Decorator.Item {
-    //TODO: HAM,PEPPERONI ETC
+    /// <summary>
+    /// Konkret dekorator
+    /// </summary>
     public class RabbitsFoot : CharacterInfoDecorator
     {
 

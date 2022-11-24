@@ -5,7 +5,8 @@ using Presentation.Utils;
 
 namespace Presentation.Views {
     internal class LoginMenuView : IView {
-        private string headerLogin = @"
+        #region ascii picture
+        private string _headerLogin = @"
   _      ____   _____        _____ _   _ 
  | |    / __ \ / ____|      |_   _| \ | |
  | |   | |  | | |  __         | | |  \| |
@@ -13,6 +14,7 @@ namespace Presentation.Views {
  | |___| |__| | |__| |       _| |_| |\  |
  |______\____/ \_____|      |_____|_| \_|                                                                                                                                                                                                                                                                                                                                                                                       
 ";
+        #endregion
         private ViewModel _vm;
 
         public void AddViewModel(ViewModel vm) {
@@ -37,7 +39,7 @@ namespace Presentation.Views {
 
         private void PrintMenuName() {
             Writer.ClearScreen();
-            Writer.PrintLine(headerLogin);
+            Writer.PrintLine(_headerLogin);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Model.Base.Weapons
 {
     public class NoWeapon : Weapon
     {
+
         public NoWeapon() :base() {
             Name = "no weapon";
             Damage = 10;

@@ -8,16 +8,24 @@ namespace Model.Factory
     //TODO: create abstract factory
     public static class WeaponFactory
     {
-        private static Dictionary<string, Type> weapons = new();
-
-        
+        #region pivate fildes
+        /// <summary>
+        /// brukt til å lagre alle våpen som finnes i Model Class library
+        /// </summary>
+        private static Dictionary<string, Type> _weapons = new();
         private static string[] itemDescription =  { "Glowing ", "Burning ","Dragon ","Gold "  };
         private static int[] damageRange = { 100, 120, 170, 190, 220,340,440,550,700,1230,2200 };
         private static int[] priceRange = { 100, 150, 170,400};
+        #endregion
+
+        #region constructor
         static WeaponFactory() {
             LoadInWeapons();
         }
 
+        #endregion 
+
+        #region public static methods
         /// <summary>
         /// WeaponName er key verdi for å finne rett type IWeapon i Dictionary 
         /// itemDescription i lag med weaponName blir navne på våpenet døme : Golden axe
@@ -29,8 +37,8 @@ namespace Model.Factory
         /// <returns></returns>
         public static Weapon GetWeapon(string weaponName, string itemDescription, int dmg)
         {
-            if (weapons.ContainsKey(weaponName.ToLower())) {
-                Type weaponType = weapons[weaponName.ToLower()];
+            if (_weapons.ContainsKey(weaponName.ToLower())) {
+                Type weaponType = _weapons[weaponName.ToLower()];
                 var weapon = Activator.CreateInstance(weaponType) as Weapon;
                 if (weapon != null) {
                     weapon.Damage = dmg;
@@ -46,26 +54,6 @@ namespace Model.Factory
           
         }
 
-        /// <summary>
-        /// sjekker gjennom dll filer som er lastet inn i prosjektet og leiter etter Model dll filen,
-        /// så ser vi gjennom alle Types som finnes i denne og legger til alle IWeapon klasser til i en dictionary
-        /// med navn som key og Type som value
-        /// </summary>
-        private static void LoadInWeapons() {
-            Assembly? assembly = Assembly.GetExecutingAssembly();
-            foreach (Assembly currentassembly in AppDomain.CurrentDomain.GetAssemblies()) {
-
-                assembly = CheckForNullName(assembly, currentassembly);
-
-            }
-            foreach (var item in assembly.GetTypes()) {
-                if (item.IsSubclassOf(typeof(Weapon)) && !item.IsAbstract) {
-                    if (item.Name != typeof(NoWeapon).Name) {
-                       weapons.Add(item.Name.ToLower(), item);
-                    }
-                }
-            }
-        }
         /// <summary>
         /// henter et tilfeldig våpen og bygger det ved hjelp av
         /// arrayene itemDescription og damageRange
@@ -127,6 +115,29 @@ namespace Model.Factory
 
             return AllItems;
         }
+        #endregion
+
+        #region private static methods
+        /// <summary>
+        /// sjekker gjennom dll filer som er lastet inn i prosjektet og leiter etter Model dll filen,
+        /// så ser vi gjennom alle Types som finnes i denne og legger til alle IWeapon klasser til i en dictionary
+        /// med navn som key og Type som value
+        /// </summary>
+        private static void LoadInWeapons() {
+            Assembly? assembly = Assembly.GetExecutingAssembly();
+            foreach (Assembly currentassembly in AppDomain.CurrentDomain.GetAssemblies()) {
+
+                assembly = CheckForNullName(assembly, currentassembly);
+
+            }
+            foreach (var item in assembly.GetTypes()) {
+                if (item.IsSubclassOf(typeof(Weapon)) && !item.IsAbstract) {
+                    if (item.Name != typeof(NoWeapon).Name) {
+                        _weapons.Add(item.Name.ToLower(), item);
+                    }
+                }
+            }
+        }
         private static Assembly CheckForNullName(Assembly assembly, Assembly currentassembly) {
             var name = currentassembly.FullName;
             if (name != null) {
@@ -136,5 +147,6 @@ namespace Model.Factory
 
             return assembly;
         }
+        #endregion
     }
 }

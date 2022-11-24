@@ -5,15 +5,22 @@ using Model.Decorator.Original;
 namespace Model.Base.Weapons
 {
     internal class GoldSword :Weapon {
+
+        #region private fileds
         private CharacterInfo? _target;
         private Weapon? _enemyWeapon;
         private int _counter = 0;
+        #endregion
 
+
+        #region constructors
         public GoldSword() : base() {
             _target = new StartingCharacterInfo();
             Description = "You have a 100% chance to disarm a enemy";
         }
+        #endregion
 
+        #region overrides methods
         public override double GetDamage() {
             CheckIfYouDisarmEnemy();
             return Damage;
@@ -44,6 +51,7 @@ namespace Model.Base.Weapons
         public override void SetTarget(CharacterInfo target) {
             this._target = target;
         }
+        #endregion
     }
 }
 

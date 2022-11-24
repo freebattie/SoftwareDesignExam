@@ -10,25 +10,8 @@ using System.Threading.Tasks;
 namespace Presentation.Views.ShopView
 {
     internal class ShopMainMenuView : IView {
-        private ViewModel _vm;
-        public void Draw()
-        {
-            Writer.ClearScreen();
-            Writer.PrintLine(building);
-            Writer.PrintLine("SHOP MENU");
-            Writer.PrintLine($"you have: {_vm.Playerhandler.Money} money");
-
-            Writer.PrintLine("0. To continue game");
-            Writer.PrintLine("1. weapons for sale");
-            Writer.PrintLine("2. items for sale");
-
-        }
-
-        public void AddViewModel(ViewModel vm) {
-           _vm = vm;
-        }
-
-        string building = @" ^             ^               ^!^
+        #region ASCII picture
+        string _building = @" ^             ^               ^!^
    ^ _______________________________
     [=U=U=U=U=U=U=U=U=U=U=U=U=U=U=U=]
     |.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.|
@@ -44,6 +27,28 @@ namespace Presentation.Views.ShopView
 ~\=/~~~~~~~~\=/~~~~~~~~~~~\=/~~~~~~~~\=/~
   | -------- | ----------- | -------- |
 ~ |~^ ^~~^ ~~| ~^  ~~ ^~^~ |~ ^~^ ~~^ |^~";
-       
+        #endregion
+
+        private ViewModel _vm;
+        
+        public void Draw()
+        {
+            Writer.ClearScreen();
+            Writer.PrintLine(_building);
+            Writer.PrintLine("SHOP MENU");
+            Writer.PrintLine($"you have: {_vm.Playerhandler.Money} money");
+
+            Writer.PrintLine("0. To continue game");
+            Writer.PrintLine("1. weapons for sale");
+            Writer.PrintLine("2. items for sale");
+
+        }
+
+        public void AddViewModel(ViewModel vm) {
+           _vm = vm;
+        }
+
+        
+
     }
 }

@@ -1,5 +1,8 @@
 ﻿namespace Model.Base.Enums {
 
+    /// <summary>
+    /// controls the flow of the game 
+    /// </summary>
     public enum Menu {
         ATTACK,
         LOGIN,
