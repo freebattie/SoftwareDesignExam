@@ -59,6 +59,7 @@ namespace Model.Base.Player
         public void setTarget(CharacterInfo character)
         {
             target = character;
+            GetPlayer().GetWeapon().SetTarget(character);
         }
 
         public void SetUser(User user)

@@ -1,6 +1,6 @@
 ﻿using Model.Base.Weapons.Abstract;
 using Model.Decorator.Abstract;
-
+using Model.Decorator.Original;
 
 namespace Model.Base.Weapons
 {
@@ -10,16 +10,12 @@ namespace Model.Base.Weapons
         private int _counter = 0;
 
         public GoldSword() : base() {
-            _target = null;
-            Description = "You have a 15% chance to disarm a enemy";
+            _target = new StartingCharacterInfo();
+            Description = "You have a 100% chance to disarm a enemy";
         }
 
         public override double GetDamage() {
-            if (_target == null) {
-                CheckIfYouDisarmEnemy();
-
-            }
-
+            CheckIfYouDisarmEnemy();
             return Damage;
         }
 
@@ -27,7 +23,7 @@ namespace Model.Base.Weapons
             if (_target?.GetWeapon()?.Name?.ToLower() != "no weapon") {
                 Random random = new Random();
                 var chance = random.Next(100);
-                if (chance <= 15) {
+                if (chance <= 101) {
                     _enemyWeapon = _target?.GetWeapon();
                     _target?.SetWeapon(new NoWeapon());
                 }

@@ -51,7 +51,7 @@ namespace Model.Decorator.Original
         public override int GetDamageInRange(int min, int max)
         {
             Random random = new Random();
-            int value = random.Next(min, max);
+            int value = random.Next(min, max > min? max : min+1);
             return value;
         }
 

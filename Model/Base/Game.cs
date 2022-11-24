@@ -329,6 +329,7 @@ namespace SoftwareDesignExam {
                     var player = _vm.Playerhandler.GetPlayer();
                     if (player != null) {
                         enemy.Attack(player);
+                        enemy.GetWeapon().SetTarget(player);
                     }
                 }
 
