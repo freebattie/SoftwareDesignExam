@@ -281,7 +281,12 @@ namespace SoftwareDesignExam {
         }
         private void HandelWeaponShopMeckanics() {
             _lastMenu = _menu;
-            int index = int.Parse(_input) - 1;
+            var val = _vm.Playerhandler.GetPlayer()?.GetLevel();
+            if (val != null) {
+                var weapons = WeaponFactory.GenerateOneOfEachWeaponRandom((int)val);
+                _vm.Weapons = weapons;
+            }
+                int index = int.Parse(_input) - 1;
 
             if (index < _vm.Weapons.Count && index != -1) {
                 var weapon = _vm.Weapons[index];

@@ -1,36 +1,48 @@
-﻿using Model.Base.Weapons.Abstract;
+﻿
+using Model.Base.Weapons.Abstract;
 using Model.Decorator.Abstract;
-using Model.Decorator.Original;
 
 namespace Model.Base.Weapons
 {
-    internal class GoldSword :Weapon {
 
+    //TODO: refactor til abstract weapon?
+    public class GoldSword : Weapon
+    {
         #region private fileds
         private CharacterInfo? _target;
         private Weapon? _enemyWeapon;
         private int _counter = 0;
         #endregion
 
-
-        #region constructors
+        #region constructor
         public GoldSword() : base() {
-            _target = new StartingCharacterInfo();
-            Description = "You have a 100% chance to disarm a enemy";
+            _target = null;
+            Description = "You have a 100% chance to disarm a enemy and adds 2000 to base damage";
         }
         #endregion
 
-        #region overrides methods
+        #region overrides
         public override double GetDamage() {
-            CheckIfYouDisarmEnemy();
-            return Damage;
-        }
+            if (_target == null) {
+                CheckIfYouDisarmEnemy();
 
+            }
+
+            return Damage +2000;
+        }
+       
+
+        public override void SetTarget(CharacterInfo target) {
+            this._target = target;
+        }
+        #endregion
+
+        #region private methods
         private void CheckIfYouDisarmEnemy() {
             if (_counter == 0) {
                 Random random = new Random();
                 var chance = random.Next(100);
-                if (chance <= 101) {
+                if (chance <= 100) {
                     _enemyWeapon = _target?.GetWeapon();
                     _target?.SetWeapon(new NoWeapon());
                 }
@@ -47,11 +59,6 @@ namespace Model.Base.Weapons
                 _counter++;
             }
         }
-
-        public override void SetTarget(CharacterInfo target) {
-            this._target = target;
-        }
         #endregion
     }
 }
-
