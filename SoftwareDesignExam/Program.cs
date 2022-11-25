@@ -22,8 +22,8 @@ namespace SoftwareDesignExam
             IItemDao itemDao= new ItemDao();
 
             IUI ui = new UI();
-            Game game = new Game(itemDao,userDao,manager, ui);
-            game.Update();
+            GameController gameController = new GameController(itemDao,userDao,manager, ui);
+            gameController.Update();
 
 
         }
