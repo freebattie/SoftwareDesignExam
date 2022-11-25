@@ -16,7 +16,7 @@ namespace SoftwareDesignExam {
     /// hadelinput : handels palyer input
     /// HandelGameMecknaics: handels all logic like saving, updating health ect
     /// </summary>
-    public class Game {
+    public class GameController {
 
         #region Private fileds
         private string _input = "";
@@ -33,7 +33,7 @@ namespace SoftwareDesignExam {
         #endregion
 
         #region Constructor
-        public Game(IItemDao itemDao, IUserDao userDao, IUpdateManagar manager, IUI ui) {
+        public GameController(IItemDao itemDao, IUserDao userDao, IUpdateManagar manager, IUI ui) {
             _itemDao = itemDao;
             _userDao = userDao;
             _updater = manager;

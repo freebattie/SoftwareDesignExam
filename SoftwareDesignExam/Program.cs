@@ -5,7 +5,7 @@ using Presentation;
 using System.Runtime.InteropServices;
 
 namespace SoftwareDesignExam
-{     // kanskje ha med runder med forjskjellige funkjsoner osv, evt. en abstrakt Level/Round også flere leveler osv
+{     
 
     internal partial class Program {
 
