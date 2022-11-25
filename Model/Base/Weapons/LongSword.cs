@@ -2,12 +2,10 @@
 using Model.Base.Weapons.Abstract;
 using Model.Decorator.Abstract;
 
-namespace Model.Base.Weapons
-{
+namespace Model.Base.Weapons {
 
-    //TODO: refactor til abstract weapon?
-    public class LongSword : Weapon
-    {
+  
+    public class LongSword : Weapon {
         #region private fileds
         private CharacterInfo? _target;
         private Weapon? _enemyWeapon;
@@ -30,7 +28,7 @@ namespace Model.Base.Weapons
 
             return Damage;
         }
-       
+
 
         public override void SetTarget(CharacterInfo target) {
             this._target = target;
@@ -62,3 +60,4 @@ namespace Model.Base.Weapons
         #endregion
     }
 }
+

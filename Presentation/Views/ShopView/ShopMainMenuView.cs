@@ -28,7 +28,7 @@ namespace Presentation.Views.ShopView
   | -------- | ----------- | -------- |
 ~ |~^ ^~~^ ~~| ~^  ~~ ^~^~ |~ ^~^ ~~^ |^~";
         #endregion
-
+       
         private ViewModel _vm;
         
         public void Draw()
@@ -41,6 +41,7 @@ namespace Presentation.Views.ShopView
             Writer.PrintLine("0. To continue game");
             Writer.PrintLine("1. weapons for sale");
             Writer.PrintLine("2. items for sale");
+
 
         }
 

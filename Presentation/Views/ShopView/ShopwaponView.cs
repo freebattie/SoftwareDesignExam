@@ -16,7 +16,7 @@ namespace Presentation.Views.ShopView
         
         
         private ViewModel? _vm;
-
+        private bool _boughtweapon;
         public void Draw() {
             Writer.ClearScreen();
             int index = 1;
@@ -31,6 +31,7 @@ namespace Presentation.Views.ShopView
                 Writer.PrintLine($"#################################################################");
                 index++;
             }
+
 
         }
 
