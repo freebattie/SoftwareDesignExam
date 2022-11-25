@@ -231,7 +231,10 @@ namespace SoftwareDesignExam {
 
         }
         private void HandelGameOverMeckanics() {
-            if (_vm.Playerhandler.PlayerIsAlive()) { SavePlayerToDB();}
+            if (!_vm.Playerhandler.PlayerIsAlive()) {
+                SavePlayerToDB();
+                _vm.Room = 1;
+            }
             HandelMenuSelection();
 
 
@@ -271,6 +274,11 @@ namespace SoftwareDesignExam {
            
             if (_input == "1") {
                 _menu = Menu.WEAPONSHOP;
+                var val = _vm.Playerhandler.GetUser().Level;
+                if (val != null) {
+                    var weapons = WeaponFactory.GenerateOneOfEachWeaponRandom((int)val);
+                    _vm.Weapons = weapons;
+                }
             }
             else if (_input == "2") {
                 _menu = Menu.ITEMSHOP;
@@ -281,11 +289,7 @@ namespace SoftwareDesignExam {
         }
         private void HandelWeaponShopMeckanics() {
             _lastMenu = _menu;
-            var val = _vm.Playerhandler.GetPlayer()?.GetLevel();
-            if (val != null) {
-                var weapons = WeaponFactory.GenerateOneOfEachWeaponRandom((int)val);
-                _vm.Weapons = weapons;
-            }
+           
                 int index = int.Parse(_input) - 1;
 
             if (index < _vm.Weapons.Count && index != -1) {
@@ -411,6 +415,11 @@ namespace SoftwareDesignExam {
             else if (_input == "2") {
                 SavePlayerToDB();
                 _gameIsRunning = false;
+            }
+            else if (_input == "3") {
+                SavePlayerToDB();
+                _vm.Room = 1;
+                _menu = Menu.MAINMENU;
             }
 
         }

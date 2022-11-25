@@ -40,6 +40,8 @@ namespace Presentation.Views {
             Writer.PrintLine("----------------------------");
             Writer.PrintLine("PRESS 2 TO QUIT             ");
             Writer.PrintLine("----------------------------");
+            Writer.PrintLine("PRESS 3 FOR MAINMENU          ");
+            Writer.PrintLine("----------------------------");
         }
 
         public void Draw() {
